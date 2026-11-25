@@ -7,30 +7,30 @@ export function EnquirePage() {
   return (
     <PageShell
       eyebrow="Indiranagar, Bengaluru"
-      titlePrefix="Book an"
-      titleAccent="appointment."
-      description="Pick your service, preferred stylist, and a comfortable window—our team confirms every consultation timing individually."
-      surface="peach"
+      titlePrefix="Book your"
+      titleAccent="next visit."
+      description="Choose your service, stylist preference, and ideal window—we match enough quiet chair time so nothing feels rushed."
+      surface="lilac"
     >
-      <section className="py-14 md:py-20 bg-[#FCFAF7]">
+      <section className="py-14 md:py-20 bg-[#FAF8F7]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-7 p-6 md:p-8 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0] shadow-sm">
+          <div className="lg:col-span-7 p-6 md:p-8 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] shadow-sm">
             <EnquiryForm />
           </div>
 
           <aside className="lg:col-span-5 space-y-6">
-            <div className="aspect-[16/10] rounded-sm overflow-hidden border border-[#D4BEB0]">
+            <div className="aspect-[16/10] rounded-sm overflow-hidden border border-[#DCD2D8]">
               <StudioPicture mediaId="booking-station" sizes="480px" className="w-full h-full" />
             </div>
 
-            <div className="p-6 rounded-sm bg-[#F4E5DA] border border-[#D4BEB0] space-y-3 text-xs text-[#493B36]">
-              <h2 className="font-sculpt text-lg font-semibold text-[#2C221E]">
+            <div className="p-6 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] space-y-3 text-xs text-[#493D46]">
+              <h2 className="font-campaign text-lg font-bold text-[#2A2128]">
                 How Bookings Work
               </h2>
               <p className="leading-relaxed">
-                Hair colour and bridal appointments can vary depending on hair length and history. By collecting your preferred service and timing first, our stylist team makes sure enough relaxed time is set aside for your visit.
+                Hair colour, texture shaping, and bridal fittings vary with length and history. Taking your preferred service first allows our reception team to reserve dedicated consultation time.
               </p>
-              <p className="pt-2 border-t border-[#D4BEB0] text-[11px] text-[#2C221E]">
+              <p className="pt-2 border-t border-[#DCD2D8] text-[11px] text-[#2A2128]">
                 <strong>Studio Location:</strong> {studioConfig.locale.neighborhood},{' '}
                 {studioConfig.locale.city} ({studioConfig.locale.currency})
               </p>

@@ -8,40 +8,47 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function EthosSpacer() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
+  const trackTopRef = useRef<HTMLDivElement>(null);
+  const trackBottomRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
 
   useGSAP(
     () => {
-      if (reducedMotion || !containerRef.current || !trackRef.current) return;
+      if (reducedMotion || !containerRef.current) return;
 
-      gsap.fromTo(
-        trackRef.current,
-        { xPercent: 4 },
-        {
-          xPercent: -12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.7,
-          },
-        }
-      );
+      if (trackTopRef.current) {
+        gsap.fromTo(
+          trackTopRef.current,
+          { xPercent: 4 },
+          {
+            xPercent: -14,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.65,
+            },
+          }
+        );
+      }
 
-      gsap.from('[data-ethos-fade]', {
-        opacity: 0,
-        y: 20,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 78%',
-          once: true,
-        },
-      });
+      if (trackBottomRef.current) {
+        gsap.fromTo(
+          trackBottomRef.current,
+          { xPercent: -14 },
+          {
+            xPercent: 4,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.65,
+            },
+          }
+        );
+      }
     },
     { scope: containerRef, dependencies: [reducedMotion] }
   );
@@ -49,39 +56,34 @@ export function EthosSpacer() {
   return (
     <section
       ref={containerRef}
-      aria-label="Our Studio Philosophy"
-      className="py-16 md:py-24 bg-[#F4E5DA] border-y border-[#D4BEB0]/60 overflow-hidden"
+      aria-label="Studio Craft Disciplines"
+      className="py-10 md:py-14 bg-[#E7DFEB]/40 border-y border-[#DCD2D8] overflow-hidden select-none pointer-events-none"
     >
-      {/* Scrubbed Typographic Rhythm Carrying Smoothly Across Viewport (passes WCAG 3:1 large text contrast on #F4E5DA) */}
-      <div className="mb-10 md:mb-14 select-none pointer-events-none" aria-hidden="true">
+      <div className="space-y-3 md:space-y-4">
         <div
-          ref={trackRef}
-          className="flex items-center gap-10 whitespace-nowrap font-editorial text-3xl sm:text-5xl md:text-6xl font-normal text-[#7B665D]"
+          ref={trackTopRef}
+          className="flex items-center gap-8 md:gap-12 whitespace-nowrap font-campaign text-2xl sm:text-4xl md:text-5xl font-bold text-[#493D46]"
         >
           <span>Precision Haircuts</span>
-          <span className="text-[#874030]">·</span>
+          <span className="text-[#844D60]">·</span>
           <span>Daylight Hair Colour</span>
-          <span className="text-[#874030]">·</span>
-          <span>Restorative Skincare</span>
-          <span className="text-[#874030]">·</span>
+          <span className="text-[#844D60]">·</span>
+          <span>Sculpted Radiance Facials</span>
+          <span className="text-[#844D60]">·</span>
           <span>Calm Bridal Mornings</span>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
-        <div data-ethos-fade className="lg:col-span-6 space-y-2">
-          <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#874030]">
-            01 · Our Philosophy
-          </p>
-          <h2 className="font-sculpt text-2xl md:text-4xl font-semibold text-[#2C221E] leading-tight">
-            Designed around unhurried time, clear natural lighting, and wearable beauty.
-          </h2>
-        </div>
-
-        <div data-ethos-fade className="lg:col-span-6 text-sm md:text-base text-[#493B36] leading-relaxed">
-          <p>
-            Instead of harsh overhead spotlights and rushed seat turnovers, every appointment begins with an honest conversation by pure daylight—pairing gentle formulations with cuts and colour crafted to look good months later.
-          </p>
+        <div
+          ref={trackBottomRef}
+          className="flex items-center gap-8 md:gap-12 whitespace-nowrap font-editorial text-sm sm:text-base md:text-lg uppercase tracking-[0.26em] text-[#844D60]"
+        >
+          <span>Indiranagar Bengaluru</span>
+          <span className="text-[#493D46]">·</span>
+          <span>Unhurried Daylight Chairs</span>
+          <span className="text-[#493D46]">·</span>
+          <span>Ammonia-Free Formulations</span>
+          <span className="text-[#493D46]">·</span>
+          <span>Tailored Aftercare</span>
         </div>
       </div>
     </section>

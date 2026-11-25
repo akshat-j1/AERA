@@ -32,95 +32,95 @@ export interface MediaMetadata {
 
 export const mediaMeta: Record<MediaId, MediaMetadata> = {
   'doors-closed': {
-    alt: 'Closed dark walnut and fluted frosted-glass double entrance doors to AERA Beauty Studio framed by warm travertine and olive planters',
+    alt: 'Closed fluted-glass double entrance doors to AERA Beauty Studio',
     objectPosition: '50% 50%',
   },
   'sanctuary-sunlit': {
-    alt: 'Spacious sunlit AERA salon aisle with arched oak mirrors, caramel bouclé styling chairs, and stylists working with clients',
+    alt: 'Sunlit AERA styling corridor with tall oak arched mirrors, warm styling chairs, and stylists working with clients',
     objectPosition: '50% 50%',
   },
   'studio-aisle-daylight': {
-    alt: 'Airy daylight salon walkway showing styling stations, botanical jars, and a stylist consulting beside the mirrors',
+    alt: 'Daylight salon walkway showing tall arched mirrors and stylists at work',
     objectPosition: '50% 50%',
   },
   'hero-craft': {
-    alt: 'Senior stylist gently shaping a client’s soft layered waves beside a tall sunlit linen curtain and terracotta plaster arch',
+    alt: 'Stylist shaping soft layered waves beside a tall sunlit linen curtain and arched wall',
     objectPosition: '52% 28%',
   },
   'mirror-wall': {
-    alt: 'Warm plastered salon wall featuring four sculpted mirrors above a honed travertine styling shelf',
+    alt: 'Calm plastered studio wall featuring four distinct architectural mirrors above a travertine console shelf',
     objectPosition: '50% 50%',
   },
   'stage-consultation': {
-    alt: 'Hairstylist holding a tortoiseshell comb while examining a client’s natural wave pattern beside a mirror in soft daylight',
+    alt: 'Hairstylist holding a tortoiseshell comb while studying natural wave movement beside a salon mirror',
     objectPosition: '50% 24%',
   },
   'stage-colour': {
-    alt: 'Colour specialist in black linen apron hand-painting warm caramel highlights with a brush and ceramic mixing bowl',
+    alt: 'Colour specialist in black linen apron hand-painting dimensional ribbons with brush in daylight',
     objectPosition: '55% 24%',
   },
   'stage-blowout': {
-    alt: 'Finished glossy caramel-espresso layered hair in soft movement beside a styling mirror with a stylist brushing softly in the background',
+    alt: 'Finished dimensional caramel-espresso layered hair in soft movement beside a styling mirror',
     objectPosition: '48% 26%',
   },
   'skincare-facial': {
-    alt: 'Aesthetician performing a serene upward jawline facial massage on a relaxed client in soft ivory linen',
+    alt: 'Aesthetician performing soothing lymphatic jawline massage in clean daylight',
     objectPosition: '50% 42%',
   },
   'bridal-indian': {
-    alt: 'Contemporary Indian bride in ivory handloom silk wearing fresh white jasmine flowers woven into a sculpted braided chignon',
+    alt: 'Contemporary Indian bride in ivory handloom silk wearing fresh jasmine flowers woven into a braided chignon',
     objectPosition: '50% 24%',
   },
   'before-hair': {
-    alt: 'Illustrative Before photo showing dry unshaped shoulder-length hair with flat ends before salon shaping and gloss treatment',
+    alt: 'Single baseline hair profile photograph showing unlayered dry shoulder-length hair before styling',
     objectPosition: '48% 30%',
   },
   'look-chestnut-layers': {
-    alt: 'Three-quarter beauty portrait displaying warm chestnut hair with soft layered movement beside natural window linen',
+    alt: 'Three-quarter beauty study highlighting soft chestnut waves beside natural window drape',
     objectPosition: '50% 24%',
   },
   'portrait-balayage': {
-    alt: 'Back-angle view of dimensional chestnut and caramel balayage waves catching natural studio light',
+    alt: 'Back-angle view of glossy dimensional chestnut and bronze hair ribbons catching daylight',
     objectPosition: '50% 34%',
   },
   'portrait-chignon': {
-    alt: 'Updo styling portrait with face-framing tendrils, natural glow finish, and warm neutral silk drape',
+    alt: 'Relaxed low chignon updo with soft face-framing tendrils and rose-berry lip finish',
     objectPosition: '50% 20%',
   },
   'portrait-natural-profile': {
-    alt: 'Profile view showing soft natural hair movement and warm skin luminosity by a sunlit window',
+    alt: 'Profile hair movement study in quiet studio daylight',
     objectPosition: '50% 22%',
   },
   'portrait-studio-waves': {
-    alt: 'Portrait highlighting relaxed shoulder-length waves with healthy surface sheen against warm neutral walls',
+    alt: 'Shoulder-length sculpted waves with natural sheen in front of plaster wall',
     objectPosition: '50% 22%',
   },
   'stylist-cut': {
-    alt: 'Senior stylist Meera Rao holding a tortoiseshell comb during a hair consultation in the studio',
+    alt: 'Senior stylist Meera Rao holding a tortoiseshell comb during consultation beside arched mirror',
     objectPosition: '58% 22%',
   },
   'stylist-colour': {
-    alt: 'Colour specialist Kavya Nair hand-painting warm caramel ribbons in daylight',
+    alt: 'Colour specialist Kavya Nair hand-painting natural highlights in her apron',
     objectPosition: '54% 24%',
   },
   'stylist-styling': {
-    alt: 'Bridal and finishing specialist Ananya Krishnan gently shaping soft layered waves beside the window',
+    alt: 'Bridal and finishing specialist Ananya Krishnan shaping soft layered waves beside the window',
     objectPosition: '56% 24%',
   },
   'stylist-skin': {
-    alt: 'Skin therapist Rhea Deshmukh performing gentle facial sculpting inside the skincare treatment room',
-    objectPosition: '52% 38%',
+    alt: 'Skin therapist Rhea Deshmukh performing gentle facial sculpting inside the treatment room',
+    objectPosition: '60% 44%',
   },
   'suite-dusk': {
-    alt: 'Quiet private bridal and evening suite with warm softly illuminated arched mirror and cream styling seating',
+    alt: 'Quiet private bridal suite with illuminated arched mirror and cream bouclé chair',
     objectPosition: '50% 50%',
   },
   'studio-courtyard': {
-    alt: 'Calm honed travertine hallway with olive planters and soft natural window illumination',
+    alt: 'Honed stone studio foyer doorway with botanical greenery',
     objectPosition: '50% 50%',
   },
   'booking-station': {
-    alt: 'Quiet sunlit salon station ready for your appointment with warm indirect mirror light and greenery',
+    alt: 'Empty sunlit salon chair and softly backlit arched mirror awaiting your visit',
     objectPosition: '50% 50%',
   },
 };

@@ -12,31 +12,30 @@ export function BridalPage() {
       eyebrow="Bridal & Makeup"
       titlePrefix="Calm wedding mornings"
       titleAccent="in natural daylight."
-      description="Private bridal suites reserved exclusively for your trial and wedding day—combining airy Indian floral hair styling, luminous skin finishes, and thoughtful draping support."
-      surface="peach"
+      description="Private bridal suites reserved exclusively for your trial and ceremony—combining airy jasmine floral hair styling, breathable luminous skin, and thoughtful draping support."
+      surface="lilac"
     >
-      <section className="py-14 md:py-20 bg-[#FCFAF7]">
+      <section className="py-14 md:py-20 bg-[#FAF8F7]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-20">
-          {/* Editorial Bridal Feature */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6 grid grid-cols-12 gap-4 items-end">
-              <div className="col-span-7 aspect-[3/4] rounded-t-[180px] rounded-b-sm overflow-hidden shadow-lg border border-[#D4BEB0]">
+              <div className="col-span-7 aspect-[3/4] rounded-t-[180px] rounded-b-sm overflow-hidden shadow-lg border border-[#DCD2D8]">
                 <StudioPicture mediaId="bridal-indian" sizes="440px" className="w-full h-full" />
               </div>
-              <div className="col-span-5 aspect-[3/4] rounded-sm overflow-hidden shadow-md border border-[#D4BEB0] mb-6">
+              <div className="col-span-5 aspect-[3/4] rounded-sm overflow-hidden shadow-md border border-[#DCD2D8] mb-6">
                 <StudioPicture mediaId="suite-dusk" sizes="320px" className="w-full h-full" />
               </div>
             </div>
 
             <div className="lg:col-span-6 space-y-5">
-              <p className="text-[11px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+              <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
                 The Private Bridal Suite
               </p>
-              <h2 className="font-editorial text-3xl md:text-4xl font-medium text-[#2C221E]">
-                Light, comfortable hair &amp; makeup built to last through every ceremony.
+              <h2 className="font-campaign text-3xl md:text-4xl font-bold text-[#2A2128]">
+                Light, comfortable styling built to last effortlessly.
               </h2>
-              <p className="text-sm text-[#493B36] leading-relaxed">
-                From fresh mogra-wrapped braids and low silk chignons to soft, breathable foundation calibrated against Bengaluru sunlight, we test everything gently with your outfits during a relaxed 2-hour trial beforehand.
+              <p className="text-sm text-[#493D46] leading-relaxed">
+                From fresh mogra-wrapped braids and low silk chignons to soft skin-first makeup calibrated against Bengaluru sunlight, we test everything gently with your jewellery during a 2-hour trial beforehand.
               </p>
               <button
                 type="button"
@@ -47,21 +46,20 @@ export function BridalPage() {
                     sourceLabel: 'Bridal Trial Request',
                   })
                 }
-                className="px-6 py-3.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.15em] hover:bg-[#874030] transition-colors cursor-pointer"
+                className="px-6 py-3.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.15em] hover:bg-[#844D60] transition-colors cursor-pointer"
               >
                 Book Your Bridal Trial →
               </button>
             </div>
           </div>
 
-          {/* Preparation Timeline */}
-          <div className="p-6 md:p-10 rounded-sm bg-[#EFE0D5] border border-[#D4BEB0] space-y-8">
+          <div className="p-6 md:p-10 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] space-y-8">
             <div className="space-y-1.5">
-              <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+              <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
                 Wedding Timeline
               </p>
-              <h2 className="font-editorial text-2xl md:text-3xl font-medium text-[#2C221E]">
-                12 weeks out to wedding morning.
+              <h2 className="font-campaign text-2xl md:text-3xl font-bold text-[#2A2128]">
+                12 weeks out to ceremony morning.
               </h2>
             </div>
 
@@ -69,53 +67,52 @@ export function BridalPage() {
               {bridalTimeline.map((step, i) => (
                 <div
                   key={step.phase}
-                  className="p-5 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0]/80 space-y-2.5"
+                  className="p-5 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] space-y-2.5"
                 >
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-[#874030] font-medium">
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-[#844D60] font-semibold">
                     0{i + 1} · {step.phase}
                   </span>
-                  <h3 className="font-sculpt text-lg font-semibold text-[#2C221E]">{step.title}</h3>
-                  <p className="text-xs text-[#493B36] leading-relaxed">{step.detail}</p>
+                  <h3 className="font-editorial text-lg font-semibold text-[#2A2128]">{step.title}</h3>
+                  <p className="text-xs text-[#493D46] leading-relaxed">{step.detail}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Bridal Packages */}
           <div className="space-y-6">
-            <h2 className="font-editorial text-3xl font-medium text-[#2C221E]">Bridal Suites</h2>
+            <h2 className="font-campaign text-3xl font-bold text-[#2A2128]">Bridal Suites</h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {bridalPackages.map((pkg) => (
                 <article
                   key={pkg.id}
-                  className="p-6 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0] flex flex-col justify-between space-y-6"
+                  className="p-6 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] flex flex-col justify-between space-y-6"
                 >
                   <div className="space-y-3">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#874030] font-medium">
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#844D60] font-semibold">
                       {pkg.durationSummary}
                     </p>
-                    <h3 className="font-sculpt text-2xl font-semibold text-[#2C221E]">{pkg.name}</h3>
-                    <p className="text-xs text-[#493B36] leading-relaxed">{pkg.subtitle}</p>
+                    <h3 className="font-campaign text-2xl font-bold text-[#2A2128]">{pkg.name}</h3>
+                    <p className="text-xs text-[#493D46] leading-relaxed">{pkg.subtitle}</p>
 
-                    <div className="pt-3 border-t border-[#D4BEB0]/60">
-                      <p className="font-sculpt text-xl font-semibold text-[#2C221E] tabular">
+                    <div className="pt-3 border-t border-[#DCD2D8]">
+                      <p className="font-editorial text-xl font-semibold text-[#2A2128] tabular">
                         {pkg.startingInvestmentInr
                           ? `From ${formatCurrency(pkg.startingInvestmentInr)}`
                           : pkg.customQuoteLabel}
                       </p>
                     </div>
 
-                    <ul className="space-y-2 pt-2 text-xs text-[#493B36]">
+                    <ul className="space-y-2 pt-2 text-xs text-[#493D46]">
                       {pkg.includes.map((inc) => (
                         <li key={inc} className="flex items-start gap-2">
-                          <span className="text-[#874030] mt-0.5">•</span>
+                          <span className="text-[#844D60] mt-0.5">•</span>
                           <span>{inc}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="space-y-2 pt-3 border-t border-[#D4BEB0]/60">
+                  <div className="space-y-2 pt-3 border-t border-[#DCD2D8]">
                     <button
                       type="button"
                       onClick={() =>
@@ -126,7 +123,7 @@ export function BridalPage() {
                           sourceLabel: `Bridal Page — ${pkg.name}`,
                         })
                       }
-                      className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.14em] hover:bg-[#874030] transition-colors cursor-pointer"
+                      className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.14em] hover:bg-[#844D60] transition-colors cursor-pointer"
                     >
                       Book Trial &amp; Dates
                     </button>
@@ -139,7 +136,7 @@ export function BridalPage() {
                           artisanName: 'Ananya Krishnan',
                         })
                       }
-                      className="w-full py-2.5 rounded-sm border border-[#D4BEB0] text-xs text-[#2C221E] hover:bg-[#F4E5DA] cursor-pointer"
+                      className="w-full py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>

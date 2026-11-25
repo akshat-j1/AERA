@@ -27,7 +27,7 @@ export function StudioPicture({
 
   return (
     <picture
-      className={`block overflow-hidden bg-[#ECE6E2] ${className}`}
+      className={`block overflow-hidden bg-[#F2EEF1] ${className}`}
       style={{
         backgroundImage: asset.lqip ? `url("${asset.lqip}")` : undefined,
         backgroundSize: 'cover',

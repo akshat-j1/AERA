@@ -44,7 +44,7 @@ export function SilkVeilTransition() {
       aria-hidden="true"
       className={`fixed inset-0 z-50 pointer-events-none ${active ? 'block' : 'hidden'}`}
       style={{
-        background: 'linear-gradient(155deg, #FCFAF7 0%, #F4E5DA 52%, #DEB0A3 100%)',
+        background: 'linear-gradient(155deg, #FAF8F7 0%, #E7DFEB 55%, #D8ADB6 100%)',
       }}
     />
   );

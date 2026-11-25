@@ -90,36 +90,36 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
 
   if (submittedRef) {
     return (
-      <div className="space-y-5 p-6 rounded-sm bg-[#F4E5DA]/70 border border-[#D4BEB0]">
+      <div className="space-y-5 p-6 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8]">
         <div className="flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-[#874030] shrink-0 mt-0.5" />
+          <CheckCircle2 className="w-5 h-5 text-[#844D60] shrink-0 mt-0.5" />
           <div className="space-y-1.5">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-[#874030] font-medium">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-[#844D60] font-semibold">
               Preview Logged Locally · Ref {submittedRef}
             </p>
-            <h3 className="font-editorial text-xl font-medium text-[#2C221E]">
+            <h3 className="font-campaign text-xl font-bold text-[#2A2128]">
               Thank you, {guestName}.
             </h3>
-            <p className="text-xs text-[#493B36] leading-relaxed">
+            <p className="text-xs text-[#493D46] leading-relaxed">
               {studioConfig.brand.submissionNotice}
             </p>
           </div>
         </div>
 
-        <div className="p-4 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0]/60 text-xs space-y-1.5">
+        <div className="p-4 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] text-xs space-y-1.5">
           <p>
-            <span className="text-[#493B36]/80">Service:</span>{' '}
+            <span className="text-[#493D46]/80">Service:</span>{' '}
             <strong>{selectedService.name}</strong>
           </p>
           <p>
-            <span className="text-[#493B36]/80">Length / Focus:</span> {hairLength}
+            <span className="text-[#493D46]/80">Length / Focus:</span> {hairLength}
           </p>
           <p>
-            <span className="text-[#493B36]/80">Stylist:</span>{' '}
+            <span className="text-[#493D46]/80">Stylist:</span>{' '}
             {selectedArtisan ? selectedArtisan.name : 'Any Available Stylist'}
           </p>
           <p>
-            <span className="text-[#493B36]/80">Time Preference:</span> {preferredWindow}
+            <span className="text-[#493D46]/80">Time Preference:</span> {preferredWindow}
             {preferredDate ? ` (${preferredDate})` : ''}
           </p>
         </div>
@@ -138,7 +138,7 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
                 notes,
               })
             }
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs hover:bg-[#874030] cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs hover:bg-[#844D60] cursor-pointer"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             Preview WhatsApp Message
@@ -149,7 +149,7 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
               setSubmittedRef(null);
               setStep(1);
             }}
-            className="px-4 py-2.5 rounded-sm border border-[#493B36]/35 text-xs text-[#2C221E] cursor-pointer"
+            className="px-4 py-2.5 rounded-full border border-[#493D46]/35 text-xs text-[#2A2128] cursor-pointer"
           >
             Start Over
           </button>
@@ -161,11 +161,11 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {selectedLook && (
-        <div className="px-3.5 py-2.5 rounded-sm bg-[#F4E5DA] border border-[#D4BEB0] text-xs flex justify-between items-center">
+        <div className="px-3.5 py-2.5 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8] text-xs flex justify-between items-center">
           <span>
             Selected Look: <strong>{selectedLook.title}</strong>
           </span>
-          <span className="text-[10px] uppercase tracking-[0.14em] text-[#874030]">
+          <span className="text-[10px] uppercase tracking-[0.14em] text-[#844D60] font-semibold">
             Look {selectedLook.indexCode}
           </span>
         </div>
@@ -184,8 +184,8 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             onClick={() => setStep(num as 1 | 2 | 3)}
             className={`py-2 px-2.5 rounded-sm border text-left transition-colors cursor-pointer ${
               step === num
-                ? 'border-[#493B36] bg-[#493B36] text-[#FCFAF7] font-medium'
-                : 'border-[#D4BEB0] bg-[#FCFAF7] text-[#493B36]'
+                ? 'border-[#493D46] bg-[#493D46] text-[#FAF8F7] font-medium'
+                : 'border-[#DCD2D8] bg-[#FAF8F7] text-[#493D46]'
             }`}
           >
             {label}
@@ -197,11 +197,11 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
       {step === 1 && (
         <div className="space-y-4">
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Select Service</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Select Service</span>
             <select
               value={serviceId}
               onChange={(e) => setServiceId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             >
               {salonServices.map((s) => (
                 <option key={s.id} value={s.id}>
@@ -213,11 +213,11 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Hair Length / Focus</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Hair Length / Focus</span>
             <select
               value={hairLength}
               onChange={(e) => setHairLength(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             >
               {HAIR_PROFILES.map((hp) => (
                 <option key={hp} value={hp}>
@@ -227,15 +227,15 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             </select>
           </label>
 
-          <div className="p-3.5 rounded-sm bg-[#F4E5DA]/60 text-xs text-[#493B36] space-y-1">
-            <p className="font-medium text-[#2C221E]">{selectedService.name}</p>
+          <div className="p-3.5 rounded-sm bg-[#F2EEF1] text-xs text-[#493D46] space-y-1">
+            <p className="font-medium text-[#2A2128]">{selectedService.name}</p>
             <p>{selectedService.consultationNote}</p>
           </div>
 
           <button
             type="button"
             onClick={() => setStep(2)}
-            className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] hover:bg-[#874030] cursor-pointer"
+            className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer"
           >
             Continue to Stylist &amp; Time →
           </button>
@@ -246,11 +246,11 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
       {step === 2 && (
         <div className="space-y-4">
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Stylist</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Stylist</span>
             <select
               value={artisanId}
               onChange={(e) => setArtisanId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             >
               <option value="">First Available Stylist</option>
               {artisans.map((a) => (
@@ -262,11 +262,11 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Time Window</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Time Window</span>
             <select
               value={preferredWindow}
               onChange={(e) => setPreferredWindow(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             >
               {WINDOWS.map((w) => (
                 <option key={w} value={w}>
@@ -277,12 +277,12 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Date (Optional)</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Date (Optional)</span>
             <input
               type="date"
               value={preferredDate}
               onChange={(e) => setPreferredDate(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             />
           </label>
 
@@ -290,14 +290,14 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="px-4 py-2.5 rounded-sm border border-[#D4BEB0] text-xs text-[#2C221E] cursor-pointer"
+              className="px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] cursor-pointer"
             >
               ← Back
             </button>
             <button
               type="button"
               onClick={() => setStep(3)}
-              className="flex-1 py-2.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] hover:bg-[#874030] cursor-pointer"
+              className="flex-1 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer"
             >
               Continue to Your Details →
             </button>
@@ -319,31 +319,31 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           />
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Full Name *</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Full Name *</span>
             <input
               type="text"
               required
               placeholder="e.g., Aditi Sharma"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             />
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">Email or Phone Number *</span>
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">Email or Phone Number *</span>
             <input
               type="text"
               required
               placeholder="e.g., aditi@example.com"
               value={contactHandle}
               onChange={(e) => setContactHandle(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             />
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493B36]">
+            <span className="uppercase tracking-[0.14em] text-[#493D46]">
               Notes (Previous Colour, Hair History, Event Dates)
             </span>
             <textarea
@@ -351,17 +351,17 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
               placeholder="Share anything helpful for your stylist ahead of the appointment."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
+              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
             />
           </label>
 
-          <div className="p-3 rounded-sm bg-[#F4E5DA]/60 border border-[#D4BEB0]/60 flex items-start gap-2 text-[11px] text-[#493B36]">
-            <Info className="w-3.5 h-3.5 text-[#874030] shrink-0 mt-0.5" />
+          <div className="p-3 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] flex items-start gap-2 text-[11px] text-[#493D46]">
+            <Info className="w-3.5 h-3.5 text-[#844D60] shrink-0 mt-0.5" />
             <span>{studioConfig.brand.submissionNotice}</span>
           </div>
 
           {errorMsg && (
-            <p role="alert" className="text-xs text-[#7B281E] bg-[#DEB0A3]/35 px-3 py-2 rounded-sm">
+            <p role="alert" className="text-xs text-[#6E1F34] bg-[#D8ADB6]/35 px-3 py-2 rounded-sm">
               {errorMsg}
             </p>
           )}
@@ -370,13 +370,13 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="px-4 py-2.5 rounded-sm border border-[#D4BEB0] text-xs cursor-pointer"
+              className="px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs cursor-pointer"
             >
               ← Back
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#874030] cursor-pointer"
+              className="flex-1 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#844D60] cursor-pointer"
             >
               Submit Appointment Request
             </button>

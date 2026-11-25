@@ -48,9 +48,9 @@ export const studioConfig: StudioConfig = {
     name: 'AERA',
     wordmark: 'A E R A',
     fullName: 'AERA Beauty Studio',
-    tagline: 'Thoughtful hair, luminous skin, and unhurried craft in Indiranagar.',
+    tagline: 'Contemporary hair, luminous skin, and quiet bridal craft in Indiranagar.',
     subline:
-      'A calm daylight salon for precision haircuts, natural hair colour, restorative facials, and effortless Indian bridal styling.',
+      'Precision haircuts shaped by natural daylight, ammonia-free dimensional colour, soothing facial sculpting, and unhurried salon care.',
     footerDisclosure:
       'Portfolio Concept Showcase · Fictional Bengaluru salon data (₹ INR). Submissions preview locally—no live bookings or messages are dispatched.',
     submissionNotice:

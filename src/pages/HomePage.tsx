@@ -6,7 +6,7 @@ import { EthosSpacer } from '../components/sections/EthosSpacer';
 import { LivingMirrorWall } from '../components/sections/LivingMirrorWall';
 import { TransformationSection } from '../components/sections/TransformationSection';
 import { ArtisansPreview } from '../components/sections/ArtisansPreview';
-import { LookbookSection } from '../components/sections/LookbookSection';
+import { InMotionSection } from '../components/sections/InMotionSection';
 import { ChairSanctuarySection } from '../components/sections/ChairSanctuarySection';
 
 export function HomePage() {
@@ -25,7 +25,7 @@ export function HomePage() {
       <LivingMirrorWall />
       <TransformationSection />
       <ArtisansPreview />
-      <LookbookSection />
+      <InMotionSection />
       <ChairSanctuarySection />
     </>
   );

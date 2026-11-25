@@ -37,14 +37,14 @@ export function Header() {
           entranceActive ? 'opacity-0 -translate-y-2 pointer-events-none' : 'opacity-100 translate-y-0'
         } ${
           scrolled
-            ? 'bg-[#FCFAF7]/92 backdrop-blur-md border-b border-[#D4BEB0]/60'
-            : 'bg-[#FCFAF7]/80 backdrop-blur-sm border-b border-[#D4BEB0]/30'
+            ? 'bg-[#FAF8F7]/94 backdrop-blur-md border-b border-[#DCD2D8]'
+            : 'bg-[#FAF8F7]/80 backdrop-blur-sm border-b border-[#DCD2D8]/45'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between gap-4">
           <Link
             to="/"
-            className="font-sculpt text-sm md:text-base font-semibold tracking-[0.34em] text-[#2C221E] hover:text-[#874030] transition-colors"
+            className="font-campaign text-sm md:text-base font-bold tracking-[0.34em] text-[#2A2128] hover:text-[#844D60] transition-colors"
             aria-label="AERA Beauty Studio Home"
           >
             {studioConfig.brand.name}
@@ -58,8 +58,8 @@ export function Header() {
                 className={({ isActive }) =>
                   `text-[11px] uppercase tracking-[0.18em] transition-colors relative py-1 whitespace-nowrap ${
                     isActive
-                      ? 'text-[#874030] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#874030]'
-                      : 'text-[#493B36] hover:text-[#2C221E]'
+                      ? 'text-[#844D60] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#844D60]'
+                      : 'text-[#493D46] hover:text-[#2A2128]'
                   }`
                 }
               >
@@ -69,9 +69,9 @@ export function Header() {
             <button
               type="button"
               onClick={() => openEnquiry({ sourceLabel: 'Header Booking' })}
-              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#493B36] text-[#FCFAF7] hover:bg-[#874030] transition-colors cursor-pointer whitespace-nowrap"
+              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#493D46] text-[#FAF8F7] hover:bg-[#844D60] transition-colors cursor-pointer whitespace-nowrap"
             >
-              Book an Appointment
+              Book a Visit
             </button>
           </nav>
 
@@ -80,7 +80,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => openEnquiry({ sourceLabel: 'Mobile Header' })}
-              className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] rounded-full bg-[#493B36] text-[#FCFAF7] cursor-pointer"
+              className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] rounded-full bg-[#493D46] text-[#FAF8F7] cursor-pointer"
             >
               Book
             </button>
@@ -89,7 +89,7 @@ export function Header() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
-              className="p-2 rounded-sm border border-[#D4BEB0] text-[#2C221E]"
+              className="p-2 rounded-sm border border-[#DCD2D8] text-[#2A2128]"
             >
               <Menu className="w-4 h-4" />
             </button>
@@ -103,17 +103,17 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-50 bg-[#FCFAF7] text-[#2C221E] flex flex-col justify-between p-6"
+          className="fixed inset-0 z-50 bg-[#FAF8F7] text-[#2A2128] flex flex-col justify-between p-6"
         >
-          <div className="flex items-center justify-between border-b border-[#D4BEB0]/60 pb-4">
-            <span className="font-sculpt text-sm font-semibold tracking-[0.28em]">
+          <div className="flex items-center justify-between border-b border-[#DCD2D8] pb-4">
+            <span className="font-campaign text-sm font-bold tracking-[0.28em]">
               {studioConfig.brand.wordmark}
             </span>
             <button
               type="button"
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
-              className="p-2 rounded-sm border border-[#D4BEB0]"
+              className="p-2 rounded-sm border border-[#DCD2D8]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -123,34 +123,34 @@ export function Header() {
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
-              className="font-editorial text-2xl font-medium text-[#2C221E] border-b border-[#D4BEB0]/40 pb-3 flex items-baseline justify-between"
+              className="font-editorial text-2xl text-[#2A2128] border-b border-[#DCD2D8]/60 pb-3 flex items-baseline justify-between"
             >
               <span>Home</span>
-              <span className="text-xs font-sans text-[#874030]">00</span>
+              <span className="text-xs text-[#844D60] font-semibold">00</span>
             </Link>
             {studioConfig.navigation.map((item, idx) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setMenuOpen(false)}
-                className="font-editorial text-2xl font-medium text-[#2C221E] border-b border-[#D4BEB0]/40 pb-3 flex items-baseline justify-between"
+                className="font-editorial text-2xl text-[#2A2128] border-b border-[#DCD2D8]/60 pb-3 flex items-baseline justify-between"
               >
                 <span>{item.label}</span>
-                <span className="text-xs font-sans text-[#874030]">0{idx + 1}</span>
+                <span className="text-xs text-[#844D60] font-semibold">0{idx + 1}</span>
               </Link>
             ))}
           </nav>
 
-          <div className="space-y-3 pt-4 border-t border-[#D4BEB0]/60">
+          <div className="space-y-3 pt-4 border-t border-[#DCD2D8]">
             <button
               type="button"
               onClick={() => {
                 setMenuOpen(false);
                 openEnquiry({ sourceLabel: 'Mobile Menu Drawer' });
               }}
-              className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.18em]"
+              className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.18em]"
             >
-              Book an Appointment
+              Book a Visit
             </button>
           </div>
         </div>

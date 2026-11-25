@@ -17,14 +17,14 @@ export const artisans: ArtisanProfile[] = [
   {
     id: 'meera-rao',
     name: 'Meera Rao',
-    role: 'Founder & Senior Hairstylist',
+    role: 'Founder & Cutting Director',
     pillarId: 'hair-craft',
     experienceYears: 11,
     mediaId: 'stylist-cut',
     imagePosition: '58% 22%',
     quote:
       'A good haircut works with how your hair naturally moves—looking effortless weeks after your visit.',
-    specialties: ['Precision Dry Cuts', 'Soft Layers & Bangs', 'Natural Texture Styling'],
+    specialties: ['Precision Dry Cuts', 'Soft Layers & Bangs', 'Natural Texture Shaping'],
     consultationTierInr: 2800,
   },
   {
@@ -43,27 +43,14 @@ export const artisans: ArtisanProfile[] = [
   {
     id: 'ananya-krishnan',
     name: 'Ananya Krishnan',
-    role: 'Bridal Hair & Makeup Artist',
+    role: 'Bridal & Finishing Director',
     pillarId: 'bridal-suite',
     experienceYears: 10,
     mediaId: 'stylist-styling',
     imagePosition: '56% 24%',
     quote:
-      'Bridal hair and makeup should feel light, radiant, and true to your own personality all day.',
-    specialties: ['Bridal Chignons & Jasmine Pins', 'Soft Dew Makeup', 'Veil & Saree Styling'],
+      'Bridal hair and soft skin care should feel light, radiant, and true to your own personality all day.',
+    specialties: ['Bridal Chignons & Jasmine Pins', 'Soft Dew Makeup', 'Pre-Bridal Facial Prep'],
     consultationTierInr: 9500,
-  },
-  {
-    id: 'rhea-deshmukh',
-    name: 'Rhea Deshmukh',
-    role: 'Lead Skin Therapist',
-    pillarId: 'botanical-skin',
-    experienceYears: 8,
-    mediaId: 'stylist-skin',
-    imagePosition: '52% 38%',
-    quote:
-      'Healthy glow comes from calm hydration and gentle facial sculpting, not heavy cover-up.',
-    specialties: ['Lymphatic Facial Massage', 'Sensitive Skin Recovery', 'Bridal Skin Prep'],
-    consultationTierInr: 3900,
   },
 ];

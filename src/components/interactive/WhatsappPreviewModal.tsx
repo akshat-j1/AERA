@@ -38,19 +38,19 @@ export function WhatsappPreviewModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="wa-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2C221E]/45 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2128]/45 backdrop-blur-xs"
       onClick={closeWhatsappPreview}
     >
       <div
-        className="w-full max-w-lg rounded-sm bg-[#FCFAF7] text-[#2C221E] border border-[#D4BEB0] p-6 space-y-5 shadow-2xl"
+        className="w-full max-w-lg rounded-sm bg-[#FAF8F7] text-[#2A2128] border border-[#DCD2D8] p-6 space-y-5 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between border-b border-[#D4BEB0]/60 pb-3">
+        <div className="flex items-start justify-between border-b border-[#DCD2D8] pb-3">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
               WhatsApp Integration
             </p>
-            <h2 id="wa-modal-title" className="font-editorial text-xl font-medium mt-0.5">
+            <h2 id="wa-modal-title" className="font-campaign text-xl font-bold mt-0.5">
               Pre-Filled Salon Message
             </h2>
           </div>
@@ -58,19 +58,19 @@ export function WhatsappPreviewModal() {
             type="button"
             onClick={closeWhatsappPreview}
             aria-label="Close WhatsApp message preview"
-            className="p-1.5 rounded-sm border border-[#D4BEB0] hover:bg-[#F4E5DA] cursor-pointer"
+            className="p-1.5 rounded-sm border border-[#DCD2D8] hover:bg-[#E7DFEB] cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="text-xs text-[#493B36] leading-relaxed">
+        <p className="text-xs text-[#493D46] leading-relaxed">
           {studioConfig.whatsapp.demoMode
             ? 'In this portfolio showcase, live WhatsApp dialing is paused because no salon phone number is connected. Here is the formatted message sent when configured for a live salon client:'
             : 'Review your pre-filled salon inquiry message below before opening WhatsApp.'}
         </p>
 
-        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F4E5DA]/65 border border-[#D4BEB0] text-[#2C221E] leading-relaxed">
+        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] text-[#2A2128] leading-relaxed">
           {message}
         </pre>
 
@@ -78,9 +78,9 @@ export function WhatsappPreviewModal() {
           <button
             type="button"
             onClick={copyPayload}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-[#493B36]/35 text-xs hover:bg-[#F4E5DA] cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#493D46]/35 text-xs hover:bg-[#E7DFEB] cursor-pointer"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-[#874030]" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#844D60]" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? 'Copied Message' : 'Copy Message'}
           </button>
 
@@ -89,12 +89,12 @@ export function WhatsappPreviewModal() {
               href={liveUri}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs"
             >
               Open in WhatsApp <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
-            <span className="text-[11px] text-[#493B36]/80">
+            <span className="text-[11px] text-[#493D46]/80">
               Live <code>wa.me</code> dialing disabled in showcase mode
             </span>
           )}

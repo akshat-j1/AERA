@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { ArrowDown, RotateCcw } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,15 +11,8 @@ import { StudioPicture } from '../layout/StudioPicture';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const QUICK_DISCIPLINES = [
-  { label: 'Haircuts & Styling', mirror: 'hair-craft' },
-  { label: 'Hair Colour', mirror: 'sculptural-colour' },
-  { label: 'Skincare', mirror: 'botanical-skin' },
-  { label: 'Bridal & Makeup', mirror: 'bridal-suite' },
-] as const;
-
 export function HeroSection() {
-  const { openEnquiry, triggerEntranceReplay } = useStudio();
+  const { openEnquiry, triggerEntranceReplay, entranceActive } = useStudio();
   const reducedMotion = useReducedMotion();
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -26,25 +20,39 @@ export function HeroSection() {
     () => {
       if (reducedMotion || !heroRef.current) return;
 
-      gsap.to('[data-hero-arch]', {
-        y: -28,
+      gsap.to('[data-hero-arches]', {
+        scale: 1.045,
+        y: -22,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.6,
+          scrub: 0.65,
         },
       });
 
-      gsap.to('[data-hero-inset]', {
-        y: -54,
+      gsap.to('[data-hero-left]', {
+        x: -22,
+        y: -52,
         ease: 'none',
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.8,
+          scrub: 0.75,
+        },
+      });
+
+      gsap.to('[data-hero-right]', {
+        x: 22,
+        y: -68,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 0.75,
         },
       });
     },
@@ -60,110 +68,209 @@ export function HeroSection() {
     <section
       ref={heroRef}
       aria-label="AERA Beauty Studio Welcome"
-      className="relative pt-20 pb-14 md:pt-28 md:pb-24 bg-[#FCFAF7] overflow-hidden"
+      className="relative min-h-[min(100vh,880px)] pt-20 pb-14 md:pt-24 md:pb-20 bg-[#FAF8F7] overflow-hidden flex flex-col justify-between"
     >
-      {/* Warm architectural Soft Peach wash on the right studio canvas */}
+      {/* Subtle Ambient Soft Lilac Bloom Behind Twin Arches */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-0 right-0 w-full lg:w-[46%] h-full bg-[#F4E5DA]/75 lg:rounded-bl-[140px]"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 72% 62% at 50% 48%, rgba(231,223,235,0.72), rgba(250,248,247,0) 76%)',
+        }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-5 md:px-10 space-y-6 md:space-y-12">
-        {/* Top editorial studio strip */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#D4BEB0]/55 pb-3.5">
-          <div className="flex items-center gap-2.5 text-[11px] uppercase tracking-[0.18em] text-[#493B36]">
-            <span className="w-2 h-2 rounded-full bg-[#B76E5D]" aria-hidden="true" />
-            <span>
-              {studioConfig.locale.neighborhood}, {studioConfig.locale.city} · Tue – Sun
-            </span>
-          </div>
+      {/* Quiet Top Bar: Location & Replay Control */}
+      <div
+        className={`relative z-20 max-w-7xl w-full mx-auto px-5 md:px-10 transition-all duration-700 ${
+          entranceActive ? 'opacity-0 -translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#DCD2D8]/80 pb-3 text-[11px] uppercase tracking-[0.2em] text-[#493D46]">
+          <span className="inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#B77F91]" aria-hidden="true" />
+            {studioConfig.locale.neighborhood}, {studioConfig.locale.city} · Tue – Sun
+          </span>
 
           <button
             type="button"
             onClick={triggerEntranceReplay}
-            className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-[#493B36] hover:text-[#874030] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-[#493D46] hover:text-[#844D60] transition-colors cursor-pointer"
             title="Replay salon entrance door sequence"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             Replay Entrance
           </button>
         </div>
+      </div>
 
-        {/* Expressive Full-Width Headline Break + Asymmetric Composition Below */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          <div className="lg:col-span-6 space-y-5 md:space-y-7 pt-1 lg:pt-6">
-            <h1 className="font-editorial text-[2.2rem] sm:text-5xl lg:text-[4.15rem] font-medium leading-[1.0] text-[#2C221E]">
-              Thoughtful hair &amp; radiant skin, shaped in natural light.
-            </h1>
-
-            <p className="text-sm md:text-base text-[#493B36] max-w-md leading-relaxed">
-              {studioConfig.brand.subline}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={() => openEnquiry({ sourceLabel: 'Homepage Hero CTA' })}
-                className="px-6 py-3.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.15em] font-medium hover:bg-[#874030] transition-colors cursor-pointer"
-              >
-                Book an Appointment
-              </button>
-              <button
-                type="button"
-                onClick={scrollToMirrors}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-sm border border-[#493B36]/40 bg-[#FCFAF7]/85 text-xs uppercase tracking-[0.14em] text-[#2C221E] hover:bg-[#F4E5DA] transition-colors cursor-pointer"
-              >
-                Explore Services
-                <ArrowDown className="w-3.5 h-3.5 text-[#874030]" />
-              </button>
-            </div>
-
-            {/* Clean inline service jumps (Desktop/Tablet row, tucked cleanly on narrow phones so hero arch stays above fold) */}
-            <div className="hidden sm:grid pt-4 border-t border-[#D4BEB0]/55 grid-cols-4 gap-3 text-xs">
-              {QUICK_DISCIPLINES.map((item, idx) => (
-                <button
-                  key={item.label}
-                  type="button"
-                  onClick={scrollToMirrors}
-                  className="text-left group cursor-pointer space-y-0.5 py-1"
-                >
-                  <span className="block text-[10px] font-medium text-[#874030] tabular">
-                    0{idx + 1}
-                  </span>
-                  <span className="block text-[#2C221E] font-medium group-hover:text-[#874030] transition-colors">
-                    {item.label}
-                  </span>
-                </button>
-              ))}
-            </div>
+      {/* Unified Seamless Centerpiece (Identical Environment Revealed Behind Swinging Doors) */}
+      <div className="relative z-10 max-w-7xl w-full mx-auto px-5 md:px-10 my-auto py-8 md:py-10">
+        <div className="relative flex flex-col items-center justify-center">
+          {/* Left Floating Contemporary Skincare Vignette */}
+          <div
+            data-hero-left
+            className={`hidden xl:block absolute left-2 top-8 w-52 space-y-2 transition-all duration-700 delay-100 ${
+              entranceActive ? 'opacity-0 -translate-x-8 translate-y-4' : 'opacity-100 translate-x-0 translate-y-0'
+            }`}
+          >
+            <Link
+              to="/services?pillar=botanical-skin"
+              className="group block bg-[#F2EEF1] p-2.5 border border-[#DCD2D8] shadow-[0_14px_34px_rgba(42,33,40,0.08)]"
+            >
+              <div className="aspect-[3/4] overflow-hidden">
+                <StudioPicture
+                  mediaId="skincare-facial"
+                  sizes="220px"
+                  className="w-full h-full"
+                  imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="pt-2.5 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-[#493D46]">
+                <span className="text-[#844D60] font-semibold">01 · Skincare</span>
+                <span>→</span>
+              </div>
+            </Link>
           </div>
 
-          {/* Arched Sculptural Hair Craft Composition + Parallax Walk-in Studio Window */}
-          <div className="lg:col-span-6 relative pb-4 lg:pb-10">
-            <div data-hero-arch className="relative max-w-md lg:max-w-lg mx-auto lg:ml-auto">
-              <div className="aspect-[4/5] sm:aspect-[3/4] rounded-t-[200px] sm:rounded-t-[260px] rounded-b-sm overflow-hidden border border-[#D4BEB0]/70 shadow-[0_24px_60px_rgba(44,34,30,0.12)] bg-[#EFE0D5]">
+          {/* Right Floating Dimensional Colour Vignette */}
+          <div
+            data-hero-right
+            className={`hidden xl:block absolute right-2 bottom-2 w-56 space-y-2 transition-all duration-700 delay-150 ${
+              entranceActive ? 'opacity-0 translate-x-8 translate-y-4' : 'opacity-100 translate-x-0 translate-y-0'
+            }`}
+          >
+            <Link
+              to="/services?pillar=sculptural-colour"
+              className="group block bg-[#FAF8F7] p-2.5 border border-[#D8ADB6] shadow-[0_14px_34px_rgba(42,33,40,0.08)]"
+            >
+              <div className="aspect-[3/4] overflow-hidden">
                 <StudioPicture
-                  mediaId="hero-craft"
+                  mediaId="portrait-balayage"
+                  sizes="240px"
+                  className="w-full h-full"
+                  imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </div>
+              <div className="pt-2.5 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-[#493D46]">
+                <span className="text-[#844D60] font-semibold">02 · Hair Colour</span>
+                <span>→</span>
+              </div>
+            </Link>
+          </div>
+
+          {/* TWIN ARCHED SALON SANCTUARY PORTAL + CENTRAL FLOATING TYPOGRAPHY (No heavy box outline!) */}
+          <div
+            className={`relative w-full max-w-[700px] mx-auto transition-transform duration-1000 ${
+              entranceActive ? 'scale-[0.94]' : 'scale-100'
+            }`}
+          >
+            <div
+              data-hero-arches
+              className="relative grid grid-cols-2 gap-3 sm:gap-6 px-4 sm:px-8 pt-7 pb-8 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8] shadow-[0_24px_70px_rgba(42,33,40,0.08)]"
+            >
+              <div className="aspect-[3/4] sm:aspect-[4/5] rounded-t-[170px] rounded-b-sm overflow-hidden bg-[#F2EEF1] relative">
+                <StudioPicture
+                  mediaId="sanctuary-sunlit"
                   priority
-                  sizes="(max-width: 1024px) 92vw, 520px"
-                  className="w-full h-full"
+                  objectPosition="24% 48%"
+                  sizes="(max-width: 768px) 44vw, 330px"
+                  className="w-full h-full opacity-75"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-b from-[#FAF8F7]/20 via-[#E7DFEB]/25 to-[#FAF8F7]/65"
+                />
+              </div>
+              <div className="aspect-[3/4] sm:aspect-[4/5] rounded-t-[170px] rounded-b-sm overflow-hidden bg-[#F2EEF1] relative">
+                <StudioPicture
+                  mediaId="sanctuary-sunlit"
+                  priority
+                  objectPosition="76% 48%"
+                  sizes="(max-width: 768px) 44vw, 330px"
+                  className="w-full h-full opacity-75"
+                />
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 bg-gradient-to-b from-[#FAF8F7]/20 via-[#E7DFEB]/25 to-[#FAF8F7]/65"
                 />
               </div>
 
-              {/* Parallax Studio Corridor Inset Window Echoing Entrance Depth */}
-              <div
-                data-hero-inset
-                className="hidden sm:block absolute -bottom-7 -left-10 w-56 md:w-64 aspect-[16/10] rounded-sm overflow-hidden border-2 border-[#FCFAF7] shadow-xl"
-              >
-                <StudioPicture
-                  mediaId="studio-aisle-daylight"
-                  sizes="280px"
-                  className="w-full h-full"
-                />
+              {/* Seamless Borderless Luminous Radial Halo Behind Centered AERA Wordmark */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pointer-events-none">
+                <div
+                  className="px-6 py-6 sm:px-12 sm:py-8 space-y-3 sm:space-y-4 pointer-events-auto rounded-full"
+                  style={{
+                    background:
+                      'radial-gradient(circle, rgba(250,248,247,0.88) 0%, rgba(250,248,247,0.68) 54%, rgba(250,248,247,0) 78%)',
+                  }}
+                >
+                  <h1 className="font-campaign text-5xl sm:text-7xl md:text-[5.5rem] font-bold leading-none tracking-[0.22em] indent-[0.22em] text-[#2A2128]">
+                    {studioConfig.brand.name}
+                  </h1>
+                  <p className="text-[11px] sm:text-xs uppercase tracking-[0.34em] indent-[0.34em] font-semibold text-[#493D46]">
+                    Hair · Skin · Beauty
+                  </p>
+                  <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => openEnquiry({ sourceLabel: 'Homepage Hero CTA' })}
+                      className="px-7 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-[#844D60] transition-colors cursor-pointer shadow-md"
+                    >
+                      Book a Visit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={scrollToMirrors}
+                      className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full border border-[#493D46]/30 bg-[#FAF8F7]/92 text-[11px] uppercase tracking-[0.16em] text-[#2A2128] hover:bg-[#E7DFEB] transition-colors cursor-pointer"
+                    >
+                      Mirrors
+                      <ArrowDown className="w-3.5 h-3.5 text-[#844D60]" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+
+          <p
+            className={`mt-7 text-center text-xs sm:text-sm text-[#493D46] max-w-xl leading-relaxed transition-all duration-700 delay-200 ${
+              entranceActive ? 'opacity-0 translate-y-3' : 'opacity-100 translate-y-0'
+            }`}
+          >
+            {studioConfig.brand.subline}
+          </p>
         </div>
+      </div>
+
+      {/* Mobile Compact Hair & Skin Teaser Duo */}
+      <div
+        className={`relative z-10 xl:hidden max-w-2xl w-full mx-auto px-5 grid grid-cols-2 gap-3 transition-all duration-700 ${
+          entranceActive ? 'opacity-0 translate-y-3' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <Link
+          to="/services?pillar=botanical-skin"
+          className="flex items-center gap-3 p-2 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8]"
+        >
+          <div className="w-12 h-14 rounded-xs overflow-hidden shrink-0">
+            <StudioPicture mediaId="skincare-facial" sizes="80px" className="w-full h-full" />
+          </div>
+          <span className="text-[11px] font-medium text-[#2A2128] leading-snug">
+            Skin &amp; Dew Facials
+          </span>
+        </Link>
+        <Link
+          to="/services?pillar=sculptural-colour"
+          className="flex items-center gap-3 p-2 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8]"
+        >
+          <div className="w-12 h-14 rounded-xs overflow-hidden shrink-0">
+            <StudioPicture mediaId="portrait-balayage" sizes="80px" className="w-full h-full" />
+          </div>
+          <span className="text-[11px] font-medium text-[#2A2128] leading-snug">
+            Daylight Colour
+          </span>
+        </Link>
       </div>
     </section>
   );

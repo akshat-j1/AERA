@@ -11,12 +11,12 @@ export function TeamPage() {
   return (
     <PageShell
       eyebrow="Meet Our Stylists"
-      titlePrefix="Experienced stylists"
-      titleAccent="and welcoming care."
-      description="Each AERA specialist focuses deeply on their craft—taking time during consultation so you leave confident and comfortable."
-      surface="white"
+      titlePrefix="Experienced hands,"
+      titleAccent="welcoming care."
+      description="Every AERA specialist works unhurriedly by window light—pairing technical precision with thoughtful listening."
+      surface="porcelain"
     >
-      <section className="py-14 md:py-20 bg-[#FCFAF7]">
+      <section className="py-14 md:py-20 bg-[#FAF8F7]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-16">
           {artisans.map((artisan, idx) => {
             const pillar = mirrorPillars.find((m) => m.id === artisan.pillarId);
@@ -24,12 +24,12 @@ export function TeamPage() {
             return (
               <article
                 key={artisan.id}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-14 border-b border-[#D4BEB0]/60 last:border-b-0"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-14 border-b border-[#DCD2D8] last:border-b-0"
               >
                 <div className={`lg:col-span-5 ${reverse ? 'lg:order-2' : ''}`}>
                   <div className="relative max-w-md mx-auto">
                     <div
-                      className={`aspect-[3/4] overflow-hidden border border-[#D4BEB0] shadow-md bg-[#F4E5DA] ${
+                      className={`aspect-[3/4] overflow-hidden border border-[#DCD2D8] shadow-md bg-[#F2EEF1] ${
                         idx % 2 === 0 ? 'rounded-t-[190px] rounded-b-sm' : 'rounded-sm'
                       }`}
                     >
@@ -44,23 +44,23 @@ export function TeamPage() {
                 </div>
 
                 <div className={`lg:col-span-7 space-y-5 ${reverse ? 'lg:order-1' : ''}`}>
-                  <div className="flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-[#874030] font-medium">
+                  <div className="flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-[#844D60] font-semibold">
                     <span>
                       0{idx + 1} · {pillar?.title}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#F4E5DA] text-[#493B36]">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#E7DFEB] text-[#493D46]">
                       {artisan.experienceYears} Years Experience
                     </span>
                   </div>
 
                   <div>
-                    <h2 className="font-editorial text-3xl md:text-4xl font-medium text-[#2C221E]">
+                    <h2 className="font-campaign text-3xl md:text-4xl font-bold text-[#2A2128]">
                       {artisan.name}
                     </h2>
-                    <p className="text-sm font-medium text-[#493B36] mt-1">{artisan.role}</p>
+                    <p className="text-sm font-medium text-[#493D46] mt-1">{artisan.role}</p>
                   </div>
 
-                  <blockquote className="font-whisper text-xl md:text-2xl text-[#2C221E] leading-relaxed border-l-2 border-[#B76E5D] pl-4">
+                  <blockquote className="font-whisper text-xl md:text-2xl text-[#2A2128] leading-relaxed border-l-2 border-[#B77F91] pl-4">
                     “{artisan.quote}”
                   </blockquote>
 
@@ -68,7 +68,7 @@ export function TeamPage() {
                     {artisan.specialties.map((sp) => (
                       <span
                         key={sp}
-                        className="px-3.5 py-1 rounded-full bg-[#EFE0D5] text-xs text-[#2C221E]"
+                        className="px-3.5 py-1 rounded-full bg-[#F2EEF1] text-xs text-[#2A2128]"
                       >
                         {sp}
                       </span>
@@ -84,7 +84,7 @@ export function TeamPage() {
                           sourceLabel: `Stylist Profile — ${artisan.name}`,
                         })
                       }
-                      className="px-6 py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.15em] hover:bg-[#874030] transition-colors cursor-pointer"
+                      className="px-6 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.15em] hover:bg-[#844D60] transition-colors cursor-pointer"
                     >
                       Book with {artisan.name.split(' ')[0]} →
                     </button>
@@ -96,11 +96,11 @@ export function TeamPage() {
                           artisanName: artisan.name,
                         })
                       }
-                      className="px-4 py-3 rounded-sm border border-[#D4BEB0] text-xs text-[#2C221E] hover:bg-[#F4E5DA] cursor-pointer"
+                      className="px-4 py-3 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>
-                    <span className="text-xs text-[#493B36] tabular">
+                    <span className="text-xs text-[#493D46] tabular">
                       Appointments from {formatCurrency(artisan.consultationTierInr)}
                     </span>
                   </div>

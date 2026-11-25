@@ -22,7 +22,7 @@ export function App() {
       <SmoothScrollProvider>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:px-4 focus:py-2 focus:bg-[#504348] focus:text-[#F8F5F1] focus:rounded-sm focus:text-xs"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:px-4 focus:py-2 focus:bg-[#493D46] focus:text-[#FAF8F7] focus:rounded-sm focus:text-xs"
         >
           Skip to main content
         </a>

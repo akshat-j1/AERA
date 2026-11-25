@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mirrorPillars, salonServices } from '../../src/config/services.config';
 import { artisans } from '../../src/config/team.config';
 import { lookbookEntries, transformationStudies } from '../../src/config/lookbook.config';
+import { motionReelsConfig } from '../../src/config/videos.config';
 import { GENERATED_MEDIA } from '../../src/config/media.generated';
 import { formatCurrency, formatDuration } from '../../src/lib/format';
 import { buildWhatsAppMessage, buildWhatsAppUri } from '../../src/lib/whatsapp';
@@ -13,7 +14,11 @@ describe('AERA configuration & helper integrity', () => {
       ...mirrorPillars.map((m) => m.reflectionMediaId),
       ...artisans.map((a) => a.mediaId),
       ...lookbookEntries.map((l) => l.mediaId),
-      ...transformationStudies.flatMap((t) => [t.mediaId, t.beforeMediaId, t.afterMediaId]),
+      ...transformationStudies.flatMap((t) =>
+        [t.mediaId, t.beforeMediaId, t.targetSwatchMediaId, t.afterMediaId].filter(
+          (v): v is string => Boolean(v)
+        )
+      ),
     ];
 
     for (const id of usedIds) {
@@ -30,6 +35,14 @@ describe('AERA configuration & helper integrity', () => {
     for (const look of lookbookEntries) {
       expect(serviceIds.has(look.recommendedServiceId)).toBe(true);
       expect(artisanIds.has(look.recommendedArtisanId)).toBe(true);
+    }
+  });
+
+  it('exposes configured vertical salon video reels with local MP4 and poster paths', () => {
+    expect(motionReelsConfig.reels.length).toBeGreaterThanOrEqual(4);
+    for (const reel of motionReelsConfig.reels) {
+      expect(reel.videoSrc.endsWith('.mp4')).toBe(true);
+      expect(reel.posterSrc.endsWith('.jpg') || reel.posterSrc.endsWith('.webp')).toBe(true);
     }
   });
 

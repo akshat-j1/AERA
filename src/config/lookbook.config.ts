@@ -24,11 +24,15 @@ export interface TransformationStudy {
   subtitle: string;
   mediaId: string;
   beforeMediaId: string;
-  afterMediaId: string;
+  /** Nullable when a verified same-subject edited After photograph awaits AI generation quota */
+  afterMediaId: string | null;
+  targetSwatchMediaId: string;
+  targetSwatchLabel: string;
   beforeCaption: string;
   afterCaption: string;
   beforeNote: string;
   afterNote: string;
+  proposedSteps: string[];
   durationLabel: string;
   recommendedSummary: string;
   serviceId: string;
@@ -46,7 +50,7 @@ export const lookbookEntries: LookbookEntry[] = [
     mediaId: 'bridal-indian',
     imagePosition: '50% 24%',
     summary:
-      'Braided low bun woven with fresh mogra buds paired with dewy sunlit skin and soft terracotta lip colour.',
+      'Braided low bun woven with fresh mogra buds paired with dewy sunlit skin and soft rose-berry lip tone.',
     recommendedServiceId: 'bridal-atelier-trial',
     recommendedArtisanId: 'ananya-krishnan',
     durationMinutes: 120,
@@ -56,7 +60,7 @@ export const lookbookEntries: LookbookEntry[] = [
   {
     id: 'espresso-caramel-balayage',
     indexCode: '02',
-    title: 'Caramel & Espresso Balayage',
+    title: 'Dimensional Brunette Balayage',
     mood: 'Hair Colour',
     pillarId: 'sculptural-colour',
     mediaId: 'portrait-balayage',
@@ -80,7 +84,7 @@ export const lookbookEntries: LookbookEntry[] = [
     summary:
       'Gentle jawline lymphatic sculpting and ceramide serum layering for rested, luminous bare skin.',
     recommendedServiceId: 'barrier-sculpt-facial',
-    recommendedArtisanId: 'rhea-deshmukh',
+    recommendedArtisanId: 'ananya-krishnan',
     durationMinutes: 90,
     startingPriceInr: 4200,
     careNote: 'Custom blended for sensitive or travel-tired skin with zero harsh peels.',
@@ -110,7 +114,7 @@ export const lookbookEntries: LookbookEntry[] = [
     mediaId: 'stage-blowout',
     imagePosition: '48% 26%',
     summary:
-      'Polished movement and warm shine achieved through gentle mist conditioning and round-brush finish.',
+      'Polished movement and healthy shine achieved through gentle mist conditioning and round-brush finish.',
     recommendedServiceId: 'silk-blowout-ritual',
     recommendedArtisanId: 'meera-rao',
     durationMinutes: 60,
@@ -126,7 +130,7 @@ export const lookbookEntries: LookbookEntry[] = [
     mediaId: 'portrait-chignon',
     imagePosition: '50% 20%',
     summary:
-      'Relaxed low twist with soft tendrils around the cheek and luminous rose-terracotta makeup.',
+      'Relaxed low twist with soft tendrils around the cheek and luminous rose-berry glow.',
     recommendedServiceId: 'bridal-atelier-trial',
     recommendedArtisanId: 'ananya-krishnan',
     durationMinutes: 120,
@@ -140,30 +144,46 @@ export const transformationStudies: TransformationStudy[] = [
     id: 'cut-and-gloss-study',
     label: 'Cut & Shine Gloss',
     subtitle:
-      'Illustrative transformation comparing unshaped, dry ends against precision layering and an ammonia-free caramel shine gloss.',
-    mediaId: 'stage-blowout',
+      'Same-subject studio comparison anchored on a single baseline photograph—scroll or drag inside the frame.',
+    mediaId: 'portrait-balayage',
     beforeMediaId: 'before-hair',
-    afterMediaId: 'stage-blowout',
-    beforeCaption: 'Before · Unshaped Dry Ends',
-    afterCaption: 'After · Layered Cut & Gloss Blowout',
-    beforeNote: 'Uneven weight and dehydrated mid-lengths lacking natural light reflection.',
-    afterNote: 'Soft internal layers and bond-care glaze restore swing, bounce, and smooth shine.',
+    afterMediaId: null,
+    targetSwatchMediaId: 'portrait-balayage',
+    targetSwatchLabel: 'Target Gloss Tone Reference',
+    beforeCaption: 'Before · Unshaped Baseline Length',
+    afterCaption: 'Planned Transformation · Soft Internal Layers & Gloss',
+    beforeNote: 'Natural unlayered length with flat silhouette and dry mid-to-end texture.',
+    afterNote:
+      'Proposed dry perimeter balance, face-framing movement, and ammonia-free bond gloss. Matched same-subject AI After render is pending quota reset—no unrelated person portrait was substituted.',
+    proposedSteps: [
+      'Shape soft shoulder-skimming layers in natural fall',
+      'Apply cool-neutral espresso bond gloss for mirror shine',
+      'Finish with diffused silk movement and zero heavy hold',
+    ],
     durationLabel: '2 hrs · Precision Cut & Shine Gloss',
-    recommendedSummary: 'Includes consultation, dry shaping cut, bond wash, and diffused blowout.',
+    recommendedSummary: 'Includes dry consultation, shaping cut, bond wash, and weightless blowout.',
     serviceId: 'sculptural-cut',
   },
   {
     id: 'balayage-colour-study',
     label: 'Hand-Painted Balayage',
     subtitle:
-      'Illustrative transformation moving from flat single-tone brunette to multi-dimensional chestnut and honey ribbons.',
+      'Same-subject consultation overlay mapping placement from single-tone base to sunlit ribbons.',
     mediaId: 'portrait-balayage',
     beforeMediaId: 'before-hair',
-    afterMediaId: 'portrait-balayage',
-    beforeCaption: 'Before · Flat Single-Tone Length',
-    afterCaption: 'After · Dimensional Warm Balayage',
-    beforeNote: 'Single uniform dark tone without light movement around the shoulders.',
-    afterNote: 'Low-ammonia hand-painted ribbons blend softly in natural daylight.',
+    afterMediaId: null,
+    targetSwatchMediaId: 'stage-blowout',
+    targetSwatchLabel: 'Target Dimension Swatch',
+    beforeCaption: 'Before · Uniform Single-Tone Base',
+    afterCaption: 'Planned Transformation · Seam-Free Ribbon Placement',
+    beforeNote: 'Uniform dark base without subtle dimension around the temple and ends.',
+    afterNote:
+      'Fine hand-painted brunette ribbons placed in natural window light for soft grow-out. Matched same-subject AI After render is pending quota reset.',
+    proposedSteps: [
+      'Fine diagonal micro-veils placed below crown for effortless regrowth',
+      'Low-ammonia pearl-bronze toning glaze seals porosity',
+      'Bond-repair mist locks light reflection outdoors',
+    ],
     durationLabel: '3 hrs · Balayage & Bond Treatment',
     recommendedSummary: 'Includes custom tone formulation, allergy patch check, and finishing blowout.',
     serviceId: 'mineral-balayage',

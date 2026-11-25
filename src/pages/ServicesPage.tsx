@@ -21,27 +21,26 @@ export function ServicesPage() {
     <PageShell
       eyebrow="Services & Pricing"
       titlePrefix="Clear pricing"
-      titleAccent="by hair length and time."
-      description="Every appointment includes personal consultation by window daylight, scalp relaxation, and aftercare tips—with transparent ₹ INR pricing."
-      surface="peach"
+      titleAccent="by length & time."
+      description="Every session begins with an unhurried daylight consultation, relaxing scalp care, and transparent ₹ INR pricing."
+      surface="lilac"
       rightSlot={
-        <div className="p-4 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0] text-xs text-[#493B36]">
-          <strong className="block text-[#2C221E] mb-1">Patch Test &amp; Allergy Note</strong>
-          First-time colour clients receive a quick complimentary patch check 48 hours prior to their session.
+        <div className="p-4 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] text-xs text-[#493D46]">
+          <strong className="block text-[#2A2128] mb-1">Patch Check &amp; Consultation</strong>
+          First-time colour appointments include a complimentary 48-hour patch check before pigment mixing.
         </div>
       }
     >
-      <section className="py-14 md:py-20 bg-[#FCFAF7]">
+      <section className="py-14 md:py-20 bg-[#FAF8F7]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-10">
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2 border-b border-[#D4BEB0]/60 pb-6">
+          <div className="flex flex-wrap gap-2 border-b border-[#DCD2D8] pb-6">
             <button
               type="button"
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-full text-xs cursor-pointer transition-colors ${
                 filter === 'all'
-                  ? 'bg-[#493B36] text-[#FCFAF7]'
-                  : 'bg-[#F4E5DA] text-[#2C221E] hover:bg-[#EFE0D5]'
+                  ? 'bg-[#493D46] text-[#FAF8F7]'
+                  : 'bg-[#F2EEF1] text-[#2A2128] hover:bg-[#E7DFEB]'
               }`}
             >
               All Services ({salonServices.length})
@@ -53,8 +52,8 @@ export function ServicesPage() {
                 onClick={() => setFilter(pillar.id)}
                 className={`px-4 py-2 rounded-full text-xs cursor-pointer transition-colors ${
                   filter === pillar.id
-                    ? 'bg-[#493B36] text-[#FCFAF7]'
-                    : 'bg-[#F4E5DA] text-[#2C221E] hover:bg-[#EFE0D5]'
+                    ? 'bg-[#493D46] text-[#FAF8F7]'
+                    : 'bg-[#F2EEF1] text-[#2A2128] hover:bg-[#E7DFEB]'
                 }`}
               >
                 {pillar.mirrorIndex} · {pillar.title}
@@ -62,8 +61,7 @@ export function ServicesPage() {
             ))}
           </div>
 
-          {/* Crisp Hairline Ledger */}
-          <div className="divide-y divide-[#D4BEB0]/60 border-y border-[#D4BEB0]/60">
+          <div className="divide-y divide-[#DCD2D8] border-y border-[#DCD2D8]">
             {filtered.map((svc) => {
               const pillar = mirrorPillars.find((m) => m.id === svc.pillarId);
               return (
@@ -72,33 +70,33 @@ export function ServicesPage() {
                   className="py-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"
                 >
                   <div className="lg:col-span-5 space-y-2">
-                    <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+                    <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
                       {pillar?.title} · {formatDuration(svc.durationMinutes)}
                     </p>
-                    <h2 className="font-sculpt text-2xl font-semibold text-[#2C221E]">{svc.name}</h2>
-                    <p className="text-xs md:text-sm text-[#493B36] leading-relaxed">{svc.summary}</p>
-                    <p className="text-[11px] text-[#493B36]/85 italic pt-1">{svc.consultationNote}</p>
+                    <h2 className="font-campaign text-2xl font-bold text-[#2A2128]">{svc.name}</h2>
+                    <p className="text-xs md:text-sm text-[#493D46] leading-relaxed">{svc.summary}</p>
+                    <p className="text-[11px] text-[#493D46]/85 italic pt-1">{svc.consultationNote}</p>
                   </div>
 
                   <div className="lg:col-span-4 space-y-2">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#493B36]/80">
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#493D46]/80">
                       Pricing (INR)
                     </p>
                     {svc.lengthTiers ? (
-                      <div className="space-y-1.5 bg-[#F4E5DA]/65 p-4 rounded-sm border border-[#D4BEB0]/60">
+                      <div className="space-y-1.5 bg-[#F2EEF1] p-4 rounded-sm border border-[#DCD2D8]">
                         {svc.lengthTiers.map((tier) => (
                           <div key={tier.label} className="flex justify-between text-xs">
-                            <span className="text-[#493B36]">{tier.label}</span>
-                            <span className="font-semibold text-[#2C221E] tabular">
+                            <span className="text-[#493D46]">{tier.label}</span>
+                            <span className="font-semibold text-[#2A2128] tabular">
                               {formatCurrency(tier.priceInr)}
                             </span>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="bg-[#F4E5DA]/65 p-4 rounded-sm border border-[#D4BEB0]/60 flex justify-between text-xs">
-                        <span className="text-[#493B36]">Single Session</span>
-                        <span className="font-semibold text-[#2C221E] tabular">
+                      <div className="bg-[#F2EEF1] p-4 rounded-sm border border-[#DCD2D8] flex justify-between text-xs">
+                        <span className="text-[#493D46]">Single Session</span>
+                        <span className="font-semibold text-[#2A2128] tabular">
                           From {formatCurrency(svc.startingPriceInr)}
                         </span>
                       </div>
@@ -114,7 +112,7 @@ export function ServicesPage() {
                           sourceLabel: `Services Menu — ${svc.name}`,
                         })
                       }
-                      className="w-full lg:w-auto px-5 py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.14em] hover:bg-[#874030] transition-colors cursor-pointer"
+                      className="w-full lg:w-auto px-5 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.14em] hover:bg-[#844D60] transition-colors cursor-pointer"
                     >
                       Book Service →
                     </button>
@@ -126,7 +124,7 @@ export function ServicesPage() {
                           ritualName: svc.name,
                         })
                       }
-                      className="w-full lg:w-auto px-5 py-2.5 rounded-sm border border-[#D4BEB0] text-xs text-[#2C221E] hover:bg-[#F4E5DA] cursor-pointer"
+                      className="w-full lg:w-auto px-5 py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>
@@ -136,27 +134,26 @@ export function ServicesPage() {
             })}
           </div>
 
-          {/* Warm Consultation Callout */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center p-6 md:p-8 rounded-sm bg-[#EFE0D5] border border-[#D4BEB0]">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center p-6 md:p-8 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8]">
             <div className="md:col-span-5 aspect-[16/10] rounded-sm overflow-hidden">
               <StudioPicture mediaId="mirror-wall" sizes="540px" className="w-full h-full" />
             </div>
             <div className="md:col-span-7 space-y-3">
-              <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+              <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
                 Not sure where to begin?
               </p>
-              <h3 className="font-editorial text-2xl md:text-3xl font-medium text-[#2C221E]">
-                Book a 15-minute in-studio consultation first.
+              <h3 className="font-campaign text-2xl md:text-3xl font-bold text-[#2A2128]">
+                Book a 15-minute daylight consultation first.
               </h3>
-              <p className="text-xs md:text-sm text-[#493B36] leading-relaxed">
-                Tell us your hair history, upcoming plans, or skin sensitivity—our stylists recommend the exact time and treatment approach before any service begins.
+              <p className="text-xs md:text-sm text-[#493D46] leading-relaxed">
+                Share your hair history, upcoming events, or skin goals—we tailor timing and formulas before any service begins.
               </p>
               <button
                 type="button"
                 onClick={() => openEnquiry({ sourceLabel: 'Services Consultation' })}
-                className="px-6 py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.15em] hover:bg-[#874030] transition-colors cursor-pointer"
+                className="px-6 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.15em] hover:bg-[#844D60] transition-colors cursor-pointer"
               >
-                Book an Appointment
+                Book a Visit
               </button>
             </div>
           </div>
