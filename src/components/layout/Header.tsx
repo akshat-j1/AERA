@@ -26,7 +26,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 inset-x-0 z-40 transition-all duration-500 ${
+        className={`fixed top-0 inset-x-0 z-40 motion-safe:transition-[transform,opacity] duration-500 ${
           entranceActive ? 'opacity-0 -translate-y-2 pointer-events-none' : 'opacity-100 translate-y-0'
         } ${
           scrolled
@@ -95,7 +95,7 @@ export function Header() {
         <StudioDialog
           label="Mobile Navigation"
           onDismiss={() => setMenuOpen(false)}
-          className="bg-[#FAF8F7] flex flex-col justify-between overflow-y-auto !p-6"
+          className="bg-[#FAF8F7] flex flex-col justify-between overflow-y-auto p-6!"
         >
           <div className="flex items-center justify-between border-b border-[#DCD2D8] pb-4">
             <span className="font-campaign text-sm font-bold tracking-[0.28em]">

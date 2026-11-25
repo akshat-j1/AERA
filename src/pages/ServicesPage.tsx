@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { mirrorPillars, salonServices, type PillarId } from '../config/services.config';
 import { formatCurrency, formatDuration } from '../lib/format';
@@ -6,12 +6,23 @@ import { useStudio } from '../lib/StudioContext';
 import { PageShell } from '../components/layout/PageShell';
 import { StudioPicture } from '../components/layout/StudioPicture';
 
+const subscribe = () => () => {};
+
 export function ServicesPage() {
-  const [searchParams] = useSearchParams();
-  const initialPillar = searchParams.get('pillar') as PillarId | null;
-  const [filter, setFilter] = useState<'all' | PillarId>(
-    initialPillar && mirrorPillars.some((m) => m.id === initialPillar) ? initialPillar : 'all'
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const client = useSyncExternalStore(subscribe, () => true, () => false);
+  const filter = client
+    ? mirrorPillars.find((pillar) => pillar.id === searchParams.get('pillar'))?.id ?? 'all'
+    : 'all';
+
+  function setFilter(pillar: PillarId | 'all') {
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current);
+      if (pillar === 'all') next.delete('pillar');
+      else next.set('pillar', pillar);
+      return next;
+    });
+  }
   const { openEnquiry, openWhatsappPreview } = useStudio();
 
   const filtered =
@@ -36,6 +47,7 @@ export function ServicesPage() {
           <div className="flex flex-wrap gap-2 border-b border-[#DCD2D8] pb-6">
             <button
               type="button"
+              aria-pressed={filter === 'all'}
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-full text-xs cursor-pointer transition-colors ${
                 filter === 'all'
@@ -49,6 +61,7 @@ export function ServicesPage() {
               <button
                 key={pillar.id}
                 type="button"
+                aria-pressed={filter === pillar.id}
                 onClick={() => setFilter(pillar.id)}
                 className={`px-4 py-2 rounded-full text-xs cursor-pointer transition-colors ${
                   filter === pillar.id

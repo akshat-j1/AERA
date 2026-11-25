@@ -35,7 +35,7 @@ export function WhatsappPreviewModal() {
   return (
     <StudioDialog
       labelledBy="wa-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2128]/45 backdrop-blur-xs"
+      className="grid place-items-center p-4! overflow-y-auto bg-[#2A2128]/45 backdrop-blur-xs"
       onDismiss={closeWhatsappPreview}
       dismissOnBackdrop
     >
@@ -65,11 +65,11 @@ export function WhatsappPreviewModal() {
 
         <p className="text-xs text-[#493D46] leading-relaxed">
           {studioConfig.whatsapp.demoMode
-            ? 'In this portfolio showcase, live WhatsApp dialing is paused because no salon phone number is connected. Here is the formatted message sent when configured for a live salon client:'
+            ? 'This portfolio preview composes the message locally. You can review or copy it here.'
             : 'Review your pre-filled salon inquiry message below before opening WhatsApp.'}
         </p>
 
-        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] text-[#2A2128] leading-relaxed">
+        <pre className="whitespace-pre-wrap wrap-anywhere font-sans text-xs p-4 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] text-[#2A2128] leading-relaxed">
           {message}
         </pre>
 

@@ -2,41 +2,45 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-const DIST_DIR = path.resolve('dist');
-const SSR_ENTRY = path.resolve('dist-ssr/entry-server.js');
-const ROUTES = ['/', '/services', '/team', '/bridal', '/gallery', '/about', '/enquire'];
+const dist = path.resolve('dist');
+const entry = path.resolve('dist-ssr/entry-server.js');
+const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+const { renderRoute, prerenderConfig } = await import(pathToFileURL(entry).href);
 
-const template = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf8');
-const { renderRoute } = await import(pathToFileURL(SSR_ENTRY).href);
+for (const route of [...prerenderConfig.routePaths, '/404']) {
+  const { html, headTags, entranceBrand, entranceSubline } = await renderRoute(route);
 
-for (const route of ROUTES) {
-  const { html, headTags } = renderRoute(route);
-
-  // Replace base title/description and embed exact route marker to guarantee clean hydration
-  let pageHtml = template
+  const pageHtml = template
     .replace(/<title>[\s\S]*?<\/title>/, '')
     .replace(/<meta name="description"[\s\S]*?>/, '')
     .replace('<!--app-head-->', () => headTags)
+    .replace(/<!--entrance-brand-->.*?<!--\/entrance-brand-->/, () => entranceBrand)
+    .replace(/<!--entrance-subline-->.*?<!--\/entrance-subline-->/, () => entranceSubline)
     .replace('<div id="root"><!--app-html--></div>', () => `<div id="root" data-ssr-path="${route}">${html}</div>`);
 
-  const outFile =
-    route === '/'
-      ? path.join(DIST_DIR, 'index.html')
-      : path.join(DIST_DIR, route.slice(1), 'index.html');
-
+  const file = route === '/404' ? '404.html' : route === '/' ? 'index.html' : `${route.slice(1)}/index.html`;
+  const outFile = path.join(dist, file);
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
   fs.writeFileSync(outFile, pageHtml, 'utf8');
   console.log(`Prerendered ${route} -> ${path.relative(process.cwd(), outFile)}`);
 }
 
+const xmlEscape = (value) => value.replace(/[<>&'"]/g, (character) => ({
+  '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;',
+})[character]);
+const sitemapUrl = new URL('/sitemap.xml', prerenderConfig.siteUrl);
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${ROUTES.map(
-  (r) =>
-    `  <url><loc>https://aera-beauty-studio.example${r === '/' ? '' : r}</loc><changefreq>monthly</changefreq></url>`
+${prerenderConfig.routePaths.map(
+  (route) => `  <url><loc>${xmlEscape(new URL(route, prerenderConfig.siteUrl).href)}</loc></url>`
 ).join('\n')}
 </urlset>
 `;
 
-fs.writeFileSync(path.join(DIST_DIR, 'sitemap.xml'), sitemap, 'utf8');
-console.log('Generated dist/sitemap.xml');
+const robots = 'User-agent: *\nAllow: /\n';
+if (prerenderConfig.allowIndexing) {
+  fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap, 'utf8');
+}
+fs.writeFileSync(path.join(dist, 'robots.txt'), prerenderConfig.allowIndexing
+  ? `${robots}\nSitemap: ${sitemapUrl.href}\n`
+  : robots, 'utf8');

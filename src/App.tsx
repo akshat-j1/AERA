@@ -1,3 +1,4 @@
+import { Suspense, type ComponentType } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { StudioProvider } from './lib/StudioContext';
 import { SmoothScrollProvider } from './lib/SmoothScrollProvider';
@@ -8,15 +9,20 @@ import { MobileConciergeBar } from './components/layout/MobileConciergeBar';
 import { LookbookDossierDrawer } from './components/interactive/LookbookDossierDrawer';
 import { EnquiryDrawer } from './components/interactive/EnquiryDrawer';
 import { WhatsappPreviewModal } from './components/interactive/WhatsappPreviewModal';
-import { HomePage } from './pages/HomePage';
-import { ServicesPage } from './pages/ServicesPage';
-import { TeamPage } from './pages/TeamPage';
-import { BridalPage } from './pages/BridalPage';
-import { GalleryPage } from './pages/GalleryPage';
-import { AboutPage } from './pages/AboutPage';
-import { EnquirePage } from './pages/EnquirePage';
+import { lazyPages } from './lib/routePages';
+import { routePaths, type RoutePath } from './lib/routePaths';
 
-export function App() {
+interface AppProps {
+  initialRoute: RoutePath;
+  InitialPage: ComponentType;
+}
+
+export function App({ initialRoute, InitialPage }: AppProps) {
+  function pageElement(path: RoutePath) {
+    const Page = path === initialRoute ? InitialPage : lazyPages.get(path)!;
+    return <Page />;
+  }
+
   return (
     <StudioProvider>
       <SmoothScrollProvider>
@@ -31,16 +37,18 @@ export function App() {
         <SilkVeilTransition />
 
         <main id="main-content" tabIndex={-1} className="min-h-screen">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/team" element={<TeamPage />} />
-            <Route path="/bridal" element={<BridalPage />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/enquire" element={<EnquirePage />} />
-            <Route path="*" element={<HomePage />} />
-          </Routes>
+          <Suspense fallback={<p role="status" className="sr-only">Loading page…</p>}>
+            <Routes>
+              {routePaths.flatMap((path) => {
+                const index = `${path === '/' ? '' : path}/index.html`;
+                return [
+                  <Route key={path} caseSensitive path={path} element={pageElement(path)} />,
+                  <Route key={index} caseSensitive path={index} element={pageElement(path)} />,
+                ];
+              })}
+              <Route path="*" element={pageElement('/404')} />
+            </Routes>
+          </Suspense>
         </main>
 
         <Footer />

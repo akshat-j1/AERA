@@ -8,20 +8,36 @@ import '@fontsource-variable/plus-jakarta-sans/wght.css';
 import './styles/index.css';
 import { App } from './App';
 
-const rootEl = document.getElementById('root')!;
-const appTree = (
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </StrictMode>
-);
+import { getRoutePath } from './lib/routePaths';
+import { loadRoutePage } from './lib/routePages';
 
-const ssrPath = rootEl.dataset.ssrPath;
-const currentPath = window.location.pathname.replace(/\/+$/, '') || '/';
+async function start() {
+  const root = document.getElementById('root')!;
+  const route = getRoutePath(location.pathname);
+  const InitialPage = await loadRoutePage(route);
+  document.documentElement.dataset.aeraEnhanced = '';
+  const tree = (
+    <StrictMode>
+      <BrowserRouter>
+        <App initialRoute={route} InitialPage={InitialPage} />
+      </BrowserRouter>
+    </StrictMode>
+  );
 
-if (rootEl.hasChildNodes() && (!ssrPath || ssrPath === currentPath)) {
-  hydrateRoot(rootEl, appTree);
-} else {
-  createRoot(rootEl).render(appTree);
+  if (root.hasChildNodes() && root.dataset.ssrPath === route) {
+    hydrateRoot(root, tree, {
+      onRecoverableError(error) {
+        window.aeraEntrance?.close();
+        console.error(error);
+      },
+    });
+  } else {
+    createRoot(root).render(tree);
+  }
 }
+
+start().catch((error: unknown) => {
+  delete document.documentElement.dataset.aeraEnhanced;
+  window.aeraEntrance?.close();
+  console.error(error);
+});

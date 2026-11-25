@@ -70,6 +70,7 @@ export function AboutPage() {
                 {studioConfig.location.addressLine2} {studioConfig.location.postalCode}
               </p>
               <p className="text-[11px] text-[#493D46]/85">{studioConfig.location.directionsNote}</p>
+              <p className="text-[11px] text-[#493D46]/85">Example address for this fictional studio.</p>
             </div>
 
             <div className="p-6 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] space-y-3">

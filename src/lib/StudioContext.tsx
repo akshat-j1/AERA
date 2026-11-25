@@ -29,6 +29,7 @@ interface StudioContextValue {
 
   entranceActive: boolean;
   triggerEntranceReplay: () => void;
+  enterHome: () => void;
 }
 
 declare global {
@@ -51,7 +52,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const [whatsappPreview, setWhatsappPreview] = useState<WhatsAppEnquiryContext | null>(null);
   const pathname = useLocation().pathname;
   const replayRequested = useRef(false);
-  const [replayRequest, setReplayRequest] = useState(0);
+  const lastPath = useRef(pathname);
   const entranceActive = useSyncExternalStore(
     subscribeEntrance,
     () => window.aeraEntrance?.isOpen() ?? false,
@@ -59,13 +60,18 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (pathname === '/' || pathname === '/index.html') {
-      window.aeraEntrance?.open(replayRequested.current);
-      replayRequested.current = false;
-    } else {
-      window.aeraEntrance?.close();
-    }
-  }, [pathname, replayRequest]);
+    if (lastPath.current === pathname) return;
+    lastPath.current = pathname;
+    setSelectedLook(null);
+    setEnquiryOpen(false);
+    setWhatsappPreview(null);
+    if (pathname !== '/' && pathname !== '/index.html') window.aeraEntrance?.close();
+  }, [pathname]);
+
+  const enterHome = useCallback(() => {
+    window.aeraEntrance?.open(replayRequested.current);
+    replayRequested.current = false;
+  }, []);
 
   const openLookbook = useCallback((look: LookbookEntry) => {
     setSelectedLook(look);
@@ -93,9 +99,12 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const triggerEntranceReplay = useCallback(() => {
-    replayRequested.current = true;
-    setReplayRequest((request) => request + 1);
-  }, []);
+    if ((pathname === '/' || pathname === '/index.html') && document.getElementById('studio-hero')) {
+      window.aeraEntrance?.open(true);
+    } else {
+      replayRequested.current = true;
+    }
+  }, [pathname]);
 
   return (
     <StudioContext.Provider
@@ -112,6 +121,7 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
         closeWhatsappPreview,
         entranceActive,
         triggerEntranceReplay,
+        enterHome,
       }}
     >
       {children}

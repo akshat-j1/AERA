@@ -1,37 +1,52 @@
-import { StrictMode } from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { App } from './App';
 import { getRouteSeo, buildSalonJsonLd } from './lib/seo';
+import { loadRoutePage } from './lib/routePages';
+import { getRoutePath, routePaths } from './lib/routePaths';
 import { studioConfig } from './config/studio.config';
 
-export function renderRoute(url: string) {
+export const prerenderConfig = {
+  routePaths,
+  siteUrl: studioConfig.seo.siteUrl,
+  allowIndexing: studioConfig.seo.allowIndexing && !studioConfig.whatsapp.demoMode,
+};
+
+export async function renderRoute(url: string) {
+  const route = getRoutePath(url);
+  const InitialPage = await loadRoutePage(route);
   const html = renderToString(
-    <StrictMode>
-      <StaticRouter location={url}>
-        <App />
-      </StaticRouter>
-    </StrictMode>
+    <StaticRouter location={url}>
+      <App initialRoute={route} InitialPage={InitialPage} />
+    </StaticRouter>
   );
 
   const seo = getRouteSeo(url);
-  const canonicalUrl = `${studioConfig.seo.siteUrl}${seo.path === '/' ? '' : seo.path}`;
-  const jsonLd = buildSalonJsonLd();
+  const canonical = new URL(seo.path, prerenderConfig.siteUrl).href;
+  const jsonLd = route === '/404' ? null : buildSalonJsonLd();
+  const headTags = renderToStaticMarkup(
+    <>
+      <title>{seo.title}</title>
+      <meta name="description" content={seo.description} />
+      {(!prerenderConfig.allowIndexing || route === '/404') && <meta name="robots" content="noindex, follow" />}
+      {route !== '/404' && <>
+        <link rel="canonical" href={canonical} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:image" content={new URL(seo.ogImage, prerenderConfig.siteUrl).href} />
+        <meta property="og:url" content={canonical} />
+        <meta name="twitter:card" content="summary_large_image" />
+      </>}
+    </>
+  );
 
-  const headTags = [
-    `<title>${seo.title}</title>`,
-    `<meta name="description" content="${seo.description.replace(/"/g, '&quot;')}" />`,
-    `<link rel="canonical" href="${canonicalUrl}" />`,
-    `<meta property="og:type" content="website" />`,
-    `<meta property="og:title" content="${seo.title.replace(/"/g, '&quot;')}" />`,
-    `<meta property="og:description" content="${seo.description.replace(/"/g, '&quot;')}" />`,
-    `<meta property="og:image" content="${studioConfig.seo.siteUrl}${seo.ogImage}" />`,
-    `<meta property="og:url" content="${canonicalUrl}" />`,
-    `<meta name="twitter:card" content="summary_large_image" />`,
-    jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : '',
-  ]
-    .filter(Boolean)
-    .join('\n    ');
-
-  return { html, headTags };
+  return {
+    html,
+    headTags: jsonLd
+      ? headTags + `<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>`
+      : headTags,
+    entranceBrand: renderToStaticMarkup(<>{studioConfig.brand.name}</>),
+    entranceSubline: renderToStaticMarkup(<>{studioConfig.brand.entranceSubline}</>),
+  };
 }

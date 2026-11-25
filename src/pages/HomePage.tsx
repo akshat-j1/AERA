@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useStudio } from '../lib/StudioContext';
 import { getRouteSeo } from '../lib/seo';
 import { HeroSection } from '../components/sections/HeroSection';
 import { EthosSpacer } from '../components/sections/EthosSpacer';
@@ -10,6 +11,9 @@ import { ChairSanctuarySection } from '../components/sections/ChairSanctuarySect
 
 export function HomePage() {
   const seo = getRouteSeo('/');
+  const { enterHome } = useStudio();
+
+  useEffect(enterHome, [enterHome]);
 
   useEffect(() => {
     document.title = seo.title;

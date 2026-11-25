@@ -1,7 +1,8 @@
+import { lazy, Suspense } from 'react';
 import { StudioDialog } from '../layout/StudioDialog';
 import { X } from 'lucide-react';
 import { useStudio } from '../../lib/StudioContext';
-import { EnquiryForm } from './EnquiryForm';
+const EnquiryForm = lazy(() => import('./EnquiryForm').then((module) => ({ default: module.EnquiryForm })));
 
 export function EnquiryDrawer() {
   const { enquiryOpen, enquiryDraft, closeEnquiry } = useStudio();
@@ -40,7 +41,9 @@ export function EnquiryDrawer() {
           </button>
         </div>
 
-        <EnquiryForm draft={enquiryDraft} />
+        <Suspense fallback={<p role="status" className="text-sm">Loading appointment preview…</p>}>
+          <EnquiryForm draft={enquiryDraft} />
+        </Suspense>
       </div>
     </StudioDialog>
   );

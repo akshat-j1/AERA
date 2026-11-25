@@ -18,7 +18,7 @@ export function GalleryPage() {
       eyebrow="Lookbook"
       titlePrefix="Hair, colour, skincare"
       titleAccent="& bridal studies."
-      description="Explore recent looks created across the salon chairs, filter by focus area, and tap any portrait for styling timing and pricing."
+      description="Explore concept looks by focus area, then open a portrait for service timing and pricing."
       surface="alabaster"
     >
       <section className="py-14 md:py-20 bg-[#FAF8F7]">
@@ -28,6 +28,7 @@ export function GalleryPage() {
               <button
                 key={m}
                 type="button"
+                aria-pressed={mood === m}
                 onClick={() => setMood(m)}
                 className={`px-4 py-2 rounded-full text-xs cursor-pointer transition-colors ${
                   mood === m
@@ -46,7 +47,7 @@ export function GalleryPage() {
                 <button
                   type="button"
                   onClick={() => openLookbook(look)}
-                  className="w-full text-left group cursor-pointer focus:outline-none"
+                  className="w-full text-left group cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4"
                 >
                   <div className="relative aspect-[3/4] rounded-sm overflow-hidden bg-[#F2EEF1]">
                     <StudioPicture

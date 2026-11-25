@@ -1,4 +1,5 @@
 import { studioConfig } from '../config/studio.config';
+import { getRoutePath } from './routePaths';
 
 export interface RouteSeoMeta {
   path: string;
@@ -10,7 +11,7 @@ export interface RouteSeoMeta {
 export const routeSeoMap: Record<string, RouteSeoMeta> = {
   '/': {
     path: '/',
-    title: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Salon',
+    title: studioConfig.seo.defaultTitle,
     description:
       'A calm daylight beauty salon in Indiranagar, Bengaluru offering precision haircuts, ammonia-free hair colour, lymphatic facials, and bridal hair & makeup.',
     ogImage: '/media/hero-craft-896.webp',
@@ -26,7 +27,7 @@ export const routeSeoMap: Record<string, RouteSeoMeta> = {
     path: '/team',
     title: 'Meet Our Stylists — AERA Beauty Studio',
     description:
-      'Meet the hairstylists, colour specialists, bridal artists, and skincare therapists at AERA Beauty Studio in Indiranagar.',
+      'Meet the hairstylists, colour specialist and bridal artist at AERA Beauty Studio in Indiranagar.',
     ogImage: '/media/stylist-cut-750.webp',
   },
   '/bridal': {
@@ -38,9 +39,9 @@ export const routeSeoMap: Record<string, RouteSeoMeta> = {
   },
   '/gallery': {
     path: '/gallery',
-    title: 'Lookbook & Before / After — AERA Beauty Studio',
+    title: 'Lookbook & Transformation Studies — AERA Beauty Studio',
     description:
-      'Filter finished salon looks by category, see illustrative before-and-after results, and book matching styles.',
+      'Explore salon look concepts, transformation consultation plans and related services.',
     ogImage: '/media/stage-blowout-896.webp',
   },
   '/about': {
@@ -60,7 +61,14 @@ export const routeSeoMap: Record<string, RouteSeoMeta> = {
 };
 
 export function getRouteSeo(pathname: string): RouteSeoMeta {
-  return routeSeoMap[pathname] ?? routeSeoMap['/']!;
+  const route = getRoutePath(pathname);
+  const meta = routeSeoMap[route] ?? {
+    path: '/404',
+    title: 'Page Not Found — AERA Beauty Studio',
+    description: 'The requested page could not be found.',
+    ogImage: '',
+  };
+  return { ...meta, title: meta.title.replaceAll('AERA Beauty Studio', studioConfig.brand.fullName) };
 }
 
 /**
@@ -68,7 +76,7 @@ export function getRouteSeo(pathname: string): RouteSeoMeta {
  * studioConfig.seo.publishLocalBusinessSchema is enabled with verified business data.
  */
 export function buildSalonJsonLd(): Record<string, unknown> | null {
-  if (!studioConfig.seo.publishLocalBusinessSchema) {
+  if (studioConfig.whatsapp.demoMode || !studioConfig.seo.publishLocalBusinessSchema) {
     return null;
   }
 

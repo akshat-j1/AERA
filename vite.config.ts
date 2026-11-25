@@ -3,22 +3,36 @@ import path from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import { getRoutePath } from './src/lib/routePaths';
 
 function ssgPreviewRoutesPlugin(): Plugin {
   return {
     name: 'aera-ssg-preview-routes',
     configurePreviewServer(server) {
-      server.middlewares.use((req, _res, next) => {
-        const rawUrl = req.url || '/';
-        const [pathname, search] = rawUrl.split('?');
-        const cleanPath = (pathname || '/').replace(/\/+$/, '') || '/';
-        if (cleanPath !== '/' && !path.extname(cleanPath)) {
-          const candidate = path.resolve('dist', cleanPath.slice(1), 'index.html');
-          if (fs.existsSync(candidate)) {
-            req.url = `${cleanPath}/index.html${search ? `?${search}` : ''}`;
-          }
+      const dist = path.resolve(server.config.root, server.config.build.outDir);
+      server.middlewares.use((request, response, next) => {
+        if (request.method !== 'GET' && request.method !== 'HEAD') return next();
+        const url = new URL(request.url ?? '/', 'http://127.0.0.1');
+        const route = getRoutePath(url.pathname);
+        if (route !== '/404') {
+          const index = route === '/' ? '/index.html' : `${route}/index.html`;
+          request.url = index + url.search;
+          return next();
         }
-        next();
+
+        const extension = path.extname(url.pathname);
+        const custom404 = path.join(dist, '404.html');
+        const requestedFile = path.resolve(dist, '.' + url.pathname);
+        const isDocument = !extension || extension === '.html';
+        const exists = requestedFile.startsWith(dist + path.sep) && fs.existsSync(requestedFile);
+        if (!isDocument || (exists && url.pathname !== '/404.html') || !fs.existsSync(custom404)) {
+          return next();
+        }
+
+        response.statusCode = 404;
+        response.setHeader('Content-Type', 'text/html; charset=utf-8');
+        if (request.method === 'HEAD') return void response.end();
+        fs.createReadStream(custom404).pipe(response);
       });
     },
   };

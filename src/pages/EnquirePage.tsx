@@ -9,7 +9,7 @@ export function EnquirePage() {
       eyebrow="Indiranagar, Bengaluru"
       titlePrefix="Book your"
       titleAccent="next visit."
-      description="Choose your service, stylist preference, and ideal window—we match enough quiet chair time so nothing feels rushed."
+      description="Choose a service, stylist preference and time window to preview an appointment request."
       surface="lilac"
     >
       <section className="py-14 md:py-20 bg-[#FAF8F7]">
@@ -28,7 +28,7 @@ export function EnquirePage() {
                 How Bookings Work
               </h2>
               <p className="leading-relaxed">
-                Hair colour, texture shaping, and bridal fittings vary with length and history. Taking your preferred service first allows our reception team to reserve dedicated consultation time.
+                Hair colour, texture shaping and bridal fittings vary by hair length and history. The preview shows the information a studio would use to plan a consultation.
               </p>
               <p className="pt-2 border-t border-[#DCD2D8] text-[11px] text-[#2A2128]">
                 <strong>Studio Location:</strong> {studioConfig.locale.neighborhood},{' '}
