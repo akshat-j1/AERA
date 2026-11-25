@@ -1,12 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import { mirrorPillars, salonServices } from '../../src/config/services.config';
 import { artisans } from '../../src/config/team.config';
-import { lookbookEntries, transformationStudies } from '../../src/config/lookbook.config';
+import { lookbookEntries, transformationStages, transformationStudies } from '../../src/config/lookbook.config';
 import { motionReelsConfig } from '../../src/config/videos.config';
 import { GENERATED_MEDIA } from '../../src/config/media.generated';
 import { formatCurrency, formatDuration } from '../../src/lib/format';
 import { buildWhatsAppMessage, buildWhatsAppUri } from '../../src/lib/whatsapp';
-import { buildSalonJsonLd } from '../../src/lib/seo';
+import { buildSalonJsonLd, getRouteSeo } from '../../src/lib/seo';
+import { bookingErrors, eligibleArtisans, initialBooking, todayAtStudio } from '../../src/lib/booking';
+import { getRoutePath } from '../../src/lib/routePaths';
 
 describe('AERA configuration & helper integrity', () => {
   it('resolves every configured mediaId to a generated optimized media asset', () => {
@@ -14,6 +16,7 @@ describe('AERA configuration & helper integrity', () => {
       ...mirrorPillars.map((m) => m.reflectionMediaId),
       ...artisans.map((a) => a.mediaId),
       ...lookbookEntries.map((l) => l.mediaId),
+      ...transformationStages.map((stage) => stage.mediaId),
       ...transformationStudies.flatMap((t) =>
         [t.mediaId, t.beforeMediaId, t.targetSwatchMediaId, t.afterMediaId].filter(
           (v): v is string => Boolean(v)
@@ -35,6 +38,7 @@ describe('AERA configuration & helper integrity', () => {
     for (const look of lookbookEntries) {
       expect(serviceIds.has(look.recommendedServiceId)).toBe(true);
       expect(artisanIds.has(look.recommendedArtisanId)).toBe(true);
+      expect(eligibleArtisans(look.recommendedServiceId).map((a) => a.id)).toContain(look.recommendedArtisanId);
     }
   });
 
@@ -59,14 +63,41 @@ describe('AERA configuration & helper integrity', () => {
       ritualName: 'Hand-Painted Balayage & Gloss',
       artisanName: 'Kavya Nair',
       preferredWindow: 'Weekday Morning',
+      preferredDate: '2026-12-01',
     });
 
     expect(msg).toContain('Hand-Painted Balayage & Gloss');
     expect(msg).toContain('Kavya Nair');
+    expect(msg).toContain('Preferred Date: 2026-12-01');
     expect(buildWhatsAppUri({ sourceLabel: 'Inquiry' })).toBeNull();
   });
 
   it('does not emit verified LocalBusiness schema in fictional portfolio mode', () => {
     expect(buildSalonJsonLd()).toBeNull();
+  });
+
+  it('validates studio dates in the configured time zone and rejects invalid contact formats', () => {
+    expect(todayAtStudio(new Date('2026-11-25T19:00:00Z'))).toBe('2026-11-26');
+    const booking = { ...initialBooking(), guestName: 'Audit Visitor' };
+    expect(bookingErrors({ ...booking, preferredDate: '2020-01-01', contactHandle: 'xxxxx' }))
+      .toMatchObject({ preferredDate: expect.any(String), contactHandle: expect.any(String) });
+    expect(bookingErrors({ ...booking, preferredDate: todayAtStudio(), contactHandle: '+91 98765 43210' })).toEqual({});
+  });
+
+  it('chooses a compatible default for a stylist and rejects a mismatched explicit service', () => {
+    expect(initialBooking({ artisanId: 'kavya-nair' })).toMatchObject({
+      serviceId: 'mineral-balayage',
+      artisanId: 'kavya-nair',
+    });
+    expect(initialBooking({ serviceId: 'sculptural-cut', artisanId: 'kavya-nair' }).artisanId).toBe('');
+    expect(bookingErrors({ ...initialBooking(), artisanId: 'kavya-nair' }).artisanId)
+      .toBe('Choose a stylist who offers this service.');
+  });
+
+  it('normalizes static index URLs and supplies dedicated unknown-route metadata', () => {
+    expect(getRoutePath('/services/index.html')).toBe('/services');
+    expect(getRoutePath('/gallery/')).toBe('/gallery');
+    expect(getRoutePath('/%zZ')).toBe('/404');
+    expect(getRouteSeo('/shop').title).toContain('Page Not Found');
   });
 });
