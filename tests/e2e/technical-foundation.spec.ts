@@ -255,7 +255,7 @@ test.describe('technical foundation desktop regressions', () => {
       await expect(page.locator('#transformation-section > div').first().locator('> div').first()).toHaveCSS('position', 'static');
     }
     await page.locator('[data-stage-step="2"]').click();
-    await expect(page.locator('#transformation-section')).toContainText('Step 03');
+    await expect(page.getByRole('heading', { name: 'Weightless Gloss Finish' })).toBeVisible();
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
   });
 
@@ -269,9 +269,14 @@ test.describe('technical foundation desktop regressions', () => {
     const seek = (progress: number) => page.evaluate(({ positions, progress }) => {
       scrollTo({ top: positions[0]! + (positions[1]! - positions[0]!) * progress, behavior: 'instant' });
     }, { positions, progress });
-    for (const [progress, step] of [[0.8, '03'], [0.09, '01'], [0.5, '02'], [0.85, '03']] as const) {
+    for (const [progress, heading] of [
+      [0.8, 'Weightless Gloss Finish'],
+      [0.09, 'Quiet Daylight Mapping'],
+      [0.5, 'Hand-Painted Dimension'],
+      [0.85, 'Weightless Gloss Finish'],
+    ] as const) {
       await seek(progress);
-      await expect(panel).toContainText('Step ' + step);
+      await expect(panel.getByRole('heading', { name: heading })).toBeVisible();
     }
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
@@ -279,7 +284,7 @@ test.describe('technical foundation desktop regressions', () => {
     await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Services' }).click();
     await expect(page.locator('feDisplacementMap')).toHaveCount(0);
     await page.getByRole('link', { name: 'AERA Beauty Studio Home' }).click();
-    await expect(panel).toContainText('Step 01');
+    await expect(panel.getByRole('heading', { name: 'Quiet Daylight Mapping' })).toBeVisible();
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
   });
 

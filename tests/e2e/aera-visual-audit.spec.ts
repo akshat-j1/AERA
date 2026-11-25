@@ -9,7 +9,7 @@ test.beforeAll(() => {
   fs.mkdirSync(ARTIFACT_CAPTURES, { recursive: true });
 });
 
-test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & Functional Audit', () => {
+test.describe('AERA Beauty Studio V4 — Visual, Scroll, Video, A11y & Functional Audit', () => {
   test('desktop complete journey, seamless entrance, mirror room, ripple, pinned B/A, stylists, reels, axe & routes', async ({
     page,
   }, testInfo) => {
@@ -105,7 +105,8 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
     await expect(page.locator('#mirror-console-ledger')).toContainText('Hair Colour');
 
     // 3. Pinned Our Process Sequence: Strong Liquid Wave Ripple + Forward/Reverse Scroll
-    const processRect = await page.locator('#transformation-section').evaluate((el) => {
+    const processSection = page.locator('#transformation-section');
+    const processRect = await processSection.evaluate((el) => {
       const host = el.children[1] as HTMLElement;
       const top = host.getBoundingClientRect().top + window.scrollY - 64;
       const range = Math.max(400, host.getBoundingClientRect().height - (window.innerHeight - 64));
@@ -113,22 +114,22 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
     });
     await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.1), processRect);
     await page.waitForTimeout(500);
-    await expect(page.locator('#transformation-section')).toContainText('Step 01');
+    await expect(processSection.getByRole('heading', { name: 'Quiet Daylight Mapping' })).toBeVisible();
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-06a-stage1-pin.png') });
 
     await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.5), processRect);
     await page.waitForTimeout(550);
-    await expect(page.locator('#transformation-section')).toContainText('Step 02');
+    await expect(processSection.getByRole('heading', { name: 'Hand-Painted Dimension' })).toBeVisible();
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-06b-stage2-pin.png') });
 
     await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.88), processRect);
     await page.waitForTimeout(550);
-    await expect(page.locator('#transformation-section')).toContainText('Step 03');
+    await expect(processSection.getByRole('heading', { name: 'Weightless Gloss Finish' })).toBeVisible();
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-06c-stage3-pin.png') });
 
     await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.12), processRect);
     await page.waitForTimeout(550);
-    await expect(page.locator('#transformation-section')).toContainText('Step 01');
+    await expect(processSection.getByRole('heading', { name: 'Quiet Daylight Mapping' })).toBeVisible();
 
     // 4. Pinned Before & After Comparison + Direct Inside-Photo Drag Without Fighting Scroll
     const baHostRect = await page.locator('#transformation-section').evaluate((el) => {

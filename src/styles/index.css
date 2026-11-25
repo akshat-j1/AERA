@@ -518,6 +518,17 @@ html:has(dialog:modal) {
   }
 }
 
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  html:has(#aera-entrance[open]) .aera-hero-room {
+    transform-origin: 50% 57%;
+    animation: aera-arrival-room-mobile 2.44s var(--silk-ease) both;
+  }
+
+  html:has(#aera-entrance[open]) .aera-hero-portrait {
+    animation: aera-arrival-portrait-mobile 400ms 1.52s var(--silk-ease) both;
+  }
+}
+
 @keyframes aera-arrival-copy {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -526,6 +537,16 @@ html:has(dialog:modal) {
 @keyframes aera-arrival-ethos {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+@keyframes aera-arrival-room-mobile {
+  0%, 47% { transform: translateY(clamp(118px, 22vh, 218px)) scale(1.65); }
+  88%, 100% { transform: none; }
+}
+
+@keyframes aera-arrival-portrait-mobile {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .aera-mirror-room {
