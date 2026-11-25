@@ -37,29 +37,32 @@ AERA Beauty Studio was built as a flagship portfolio project demonstrating inter
 
 ## Current Status & Milestone History
 
-- **Current Milestone**: **V4 — Phase 2 (Creative Redesign & Visual Asset Quality)** on `main` and `feat/v4-creative-refinement`.
+- **Current Milestone** — **V4 Phase 3** on `feat/v4-motion-craftsmanship`. [Phase 3 implementation and verification](docs/V4_PHASE3.md).
 - **Milestone Progression Preserved in Git**:
   - **V1 (`v1-initial-baseline`)**: Core multi-route application scaffold, initial closed-door entrance, living mirror room, responsive `sharp` media pipeline, and Vitest/Playwright suite.
   - **V2 (`feat/visual-refinement-v2` / `v2-baseline`)**: Pinned split transformation comparison, extended studio imagery, and subpage editorial polish.
   - **V3 (`feat/visual-refinement-v3` / `v3-audited-baseline`)**: Shift to contemporary `Syne` + `Plus Jakarta Sans` + Porcelain/Lilac palette, vertical reels strip, and independent Codex audit baseline (`6.1/10`).
   - **V4 Phase 1 (`fix/v4-technical-foundation`)**: Codex technical remediation resolving SSR route hydration, `/404` status handling, fail-open `#aera-entrance` resilience, native modal stacking (`StudioDialog`), single-reel playback arbitration, touch-friendly comparison sliders, and Web Vitals / axe baseline.
-  - **V4 Phase 2 (`feat/v4-creative-refinement` → `main`)**: Fluted frosted-glass doors opening directly over an asymmetric sunlit hero, pixel-aligned same-subject Before/After photo pair (`before-hair` → `after-hair-matched`), duplicate asset removal, verified commercial Mixkit video provenance, streamlined homepage scroll pacing, swipeable mobile reels rail, and unified configuration hygiene.
+  - **V4 Phase 2 (`v4-phase2-baseline`)** — Architectural entrance, matched illustrative Before/After pair, shorter homepage, and mobile reels rail.
+  - **V4 Phase 3 (`feat/v4-motion-craftsmanship`)** — Opaque photographic door leaves, a layered daylight hero, tighter scroll choreography, reversible Process refraction, a native stylist rail and default reel cards that link to the source clips.
 
 ---
 
 ## Signature Animations & Interactive Experiences
 
-- **Closed-to-Open Architectural Entrance (`index.html` + `src/styles/index.css`)**: Launches from completely closed fluted frosted-glass and smoked-walnut double doors (`doors-closed`), swings open smoothly over `~2.3s` in 3D perspective (`rotateY`), reveals the live Hero without duplicate background doors, and cleanly removes itself under `prefers-reduced-motion: reduce` or via the keyboard-focused `Skip Entrance →` control. Replayable via session UI triggers.
+- **Closed-to-Open Architectural Entrance** — The prerendered scene crops the façade and both opaque leaves from `doors-closed`. A 3D hinge swing and forward push reveal the live homepage in about 2.44 seconds. The native dialog supports Escape, Skip Entrance, once-per-session playback, explicit replay and reduced-motion bypass.
 - **Interactive Living Mirror Room (`LivingMirrorWall.tsx`)**: Four architectural mirror hotspots embedded across the plastered salon wall (`Haircuts`, `Colour`, `Skincare`, `Bridal`). Selecting or activating a mirror clears its frosted veil to display tailored treatment highlights, duration, and starting `₹ INR` pricing.
-- **Pinned Process & Silk-Refraction Masking (`TransformationSection.tsx`)**: Desktop ScrollTrigger pin (`172vh`) stepping through *01 Quiet Daylight Mapping*, *02 Hand-Painted Dimension*, and *03 Weightless Gloss Finish* with a subtle reduced-motion-gated SVG `<feTurbulence>` / `<feDisplacementMap>` ripple accent.
-- **Same-Subject Before & After Split Divider (`TransformationComparison.tsx`)**: Pinned scroll wipe paired seamlessly with direct pointer drag (`touch-action: pan-y`), keyboard arrow slider controls, manual lock override (`Resume Scroll Wipe`), and aligned studio before/after portraits.
-- **Opposing Kinetic Typography (`EthosSpacer.tsx`)**: Dual-track horizontal motion driven by GSAP/Lenis scroll velocity.
-- **Coordinated Studio Reels (`InMotionSection.tsx`)**: Four local vertical (`9:16`) studio videos backed by exclusive active playback (starting one automatically pauses others), intersection-based offscreen pause, tab-visibility pause, retry controls on failure, and a horizontal swipeable mobile rail.
+- **Pinned Process** — A `160vh` desktop scroll region with a sticky composition links three treatments through an organic wipe and directional SVG refraction. Touch controls step through the treatments on mobile.
+- **Before & After** — The `146vh` desktop scroll wipe traverses the illustrative portrait pair. Pointer drag and keyboard controls hold the chosen position until the visitor resumes the wipe or scrolls away. Vertical swipes retain native scrolling.
+- **Opposing Kinetic Typography** — Scroll position moves the two lines in opposite directions between the hero and mirror room.
+- **Stylist and Reels Rails** — Stylist portraits travel horizontally on desktop and mobile through native overflow. The reels use a swipeable mobile rail. With preview footage enabled, the player loads on demand, pauses offscreen or in a background tab, and allows one active video at a time.
 - **Chair Sanctuary & Native Modal Enquiry (`ChairSanctuarySection.tsx`, `EnquiryDrawer.tsx`, `StudioDialog.tsx`, `WhatsappPreviewModal.tsx`)**: Accessible multi-step appointment preview drawer validated with Zod and Bengaluru (`Asia/Kolkata`) date constraints, plus a live URL-encoded WhatsApp message composition modal with nested focus restoration.
 
 ---
 
 ## Screenshots (V4 Phase 2)
+
+The Phase 3 comparison and recordings are generated locally under `audit-captures/v4-phase3/`. The images below document the Phase 2 checkpoint.
 
 | Entrance (Closed Fluted Glass) | Desktop Hero (`1440×900`) |
 | :---: | :---: |
@@ -108,7 +111,7 @@ All routes are client-hydrated via React Router v7 and pre-rendered at build tim
 
 ```text
 ├── index.html                        # Native prerendered #aera-entrance dialog & bounded fail-open bootstrap
-├── public/media/                     # Compiled AVIF/WebP sets + local fast-start MP4 reels & posters
+├── public/media/                     # Compiled AVIF/WebP sets and ignored local reel inputs
 ├── scripts/
 │   ├── optimize-media.mjs            # Generates responsive AVIF/WebP + LQIP data URIs -> src/config/media.generated.ts
 │   ├── prerender.mjs                 # Prerenders routes -> dist/<route>/index.html, 404.html, robots.txt (+ sitemap.xml if enabled)
@@ -184,13 +187,7 @@ npx playwright install chromium
 CI=1 npm run test:e2e
 ```
 
-**Latest Verified Results (V4 Phase 2 tip, headless Chromium on macOS):**
-- **`npm run typecheck`**: Passed (`0` errors).
-- **`npm test` (`tests/unit/config-and-utils.test.ts`)**: `9 / 9` unit tests passed.
-- **`npm run build`**: Succeeded (prerendered `/`, `/services`, `/team`, `/bridal`, `/gallery`, `/about`, `/enquire`, `/404`).
-- **`CI=1 AERA_PREVIEW_PORT=4195 npm run test:e2e`**: `18` passed, `36` project-filtered skips, `0` failed.
-- **Accessibility (`@axe-core/playwright`)**: `AXE_HOME_VIOLATIONS: []` on home desktop capture; verified keyboard navigation, modal focus restoration, `Escape` closing, and `prefers-reduced-motion: reduce` entrance bypass.
-- **Local Production Preview Telemetry (`1440×900`, headless Chromium)**: `FCP 204ms`, `LCP 3072ms`, `CLS 0.0004`, `domInteractive 205ms`, `0` broken images. *(Measured on local `vite preview`; real-device hardware, assistive speech output, and field CrUX data require live deployment validation.)*
+See the [Phase 3 verification results](docs/V4_PHASE3.md#verification) for the Chromium route audit, regressions and repeatable lab measurements.
 
 ---
 
@@ -210,7 +207,7 @@ Rebranding AERA for a live salon client requires editing config files rather tha
 
 ## Media Licensing & Portfolio Disclosure
 
-- **Commercial Stock Video Reels (`public/media/videos/*`)**: All four H.264 540×960 local clips (`hair-brushing.mp4` Mixkit `#40592`, `scalp-wash.mp4` Mixkit `#52141`, `mirror-makeup.mp4` Mixkit `#40583`, `bridal-brush.mp4` Mixkit `#40560`) and extracted poster frames are tracked with source URLs, IDs, and license details inside `src/config/videos.config.ts` and individually verified under the **[Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree)** (commercial projects permitted; creator credits not listed on Mixkit clip pages).
+- **Studio reel previews** — The default build uses AERA stills and links to four individually sourced Mixkit clips. For an authorized local playback preview, place the named MP4s and optional JPEG posters in the ignored `public/media/local-reels/` directory and build with `AERA_ENABLE_LOCAL_REELS=1 npm run build`. The [Phase 3 reel ledger](docs/V4_PHASE3.md#reel-provenance) records contributors, file names and the unresolved standalone redistribution rights.
 - **Editorial Showcase Photography (`src/assets/media/raw/*`)**: All `23` source showcase photographs (including the matched `before-hair` → `after-hair-matched` comparison pair) were custom-generated for this conceptual portfolio showcase using Google generative imaging tooling rather than third-party scraped stock. Before commercial client launch, replace them with licensed or studio-photographed salon assets.
 - **No Unverified Claims**: Zero fabricated customer reviews, ratings, press badges, live chair availability claims, or verified `HairSalon` JSON-LD emissions appear in the application while `demoMode` is active.
 
@@ -220,10 +217,9 @@ Rebranding AERA for a live salon client requires editing config files rather tha
 
 ### Current Limitations
 - **Specialist Team Photography**: Server image-generation capacity (`HTTP 503 UNAVAILABLE`) prevented adding a distinct fourth portrait for `Rhea Deshmukh`; the verified team currently presents 3 artisans (`Meera Rao`, `Kavya Nair`, `Ananya Krishnan` covering `bridal-suite` and `barrier-sculpt-facial`). Three stylist/stage pairs (`stylist-cut`/`stage-consultation`, `stylist-colour`/`stage-colour`, `stylist-styling`/`hero-craft`) plus unused `stylist-skin`/`skincare-facial` reflect tighter vs. wider crops of shared generative shoots.
-- **Entrance Mid-Swing Crossfade**: Around `~0.75s` mid-swing, the etched `AERA` veil briefly dissolves across the central aperture before settling by `~1.3s`.
-- **Automated vs. Live Device Scope**: Accessibility and Web Vitals were validated in headless Chromium; physical iOS/Android devices and screen-reader speech validation (VoiceOver/NVDA) have not yet been run manually on production infrastructure.
+- **Verification Scope** — Phase 3 measurements come from local Chromium. Physical iOS and Android, assistive speech output, and field Web Vitals remain outside that coverage.
 
 ### Next Roadmap Milestones
-- [ ] **V4 Phase 3 (Independent Review)**: Independent Codex visual/code review against `v4` deliverables.
+- [ ] **Final Independent V4 Audit** — Review the Phase 3 branch against the Phase 2 checkpoint.
 - [ ] **Production Assets & Photography Swap**: Replace AI showcase visuals with verified real client/photographer shoots.
 - [ ] **Live Booking Transport & Security Hardening**: Add authenticated API endpoint or webhook transport for appointments, rate limiting, and host CSP header testing prior to public launch.

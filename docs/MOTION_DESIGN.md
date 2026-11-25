@@ -6,9 +6,11 @@
 - All animations wrap inside `@gsap/react`'s `useGSAP()` scoped per component and clean up cleanly across routes.
 
 ## Signature Motion Primitives
-1. **3D Perspective Door Swing**: `perspective(1400px)` hinged `rotateY` + rotational shadow + scale push; zero layout reflow (`transform`/`opacity` only).
-2. **Organic Liquid Silk Transition**: Shared hidden SVG filter (`#aera-silk-refract` using `feTurbulence` + `feDisplacementMap` animated via GSAP `attr: { scale }` `0 → 38 → 0`) paired with GPU `clip-path: inset()` curves—zero shiny chrome or heavy Three.js overhead.
-3. **Linen Veil Route Transitions**: Translucent `#E6DDEB`/`#F8F5F1` silk sheet glides cleanly during client route navigation and resets scroll to `0`.
+1. **3D door swing** — The aperture and both opaque leaves share one photographic crop. The lintel crest exits before the hinges move, then the façade scales outward. The live hero copy enters late in the push. The native dialog clears at 2.44s and has a 2.54s fail-open timer.
+2. **Hero to mirrors** — The room photo, foreground portrait and vertical rule travel at different rates into two opposing kinetic type tracks. The mirror aperture expands diagonally on the same background and the scene resolves into the service ledger.
+3. **Liquid Process** — The same progress calculation drives forward and reverse. An elliptical wipe opens around the settled stage while `#aera-silk-refract` displaces only the advancing boundary. The three stage layers persist, and a re-render is limited to crossing a stage index. Refraction turns off at rest.
+4. **Before & After** — Desktop sticky framing holds the eye line through the wipe. Pointer and keyboard input take ownership until the frame leaves view or the visitor resumes scroll. The stylist and reels sections use native horizontal overflow, with the third desktop scroll pin removed.
+5. **Linen route veil** — A translucent silk sheet runs on client navigation. Playback of the architectural entrance suppresses that veil while the doors are active.
 
 ## Accessibility & Device Fallbacks
 - `useReducedMotion()` listens to `(prefers-reduced-motion: reduce)`: bypasses entrance animation immediately, disables Lenis inertia, turns off SVG displacement filters, and keeps all scroll elements visible (`opacity: 1`).
