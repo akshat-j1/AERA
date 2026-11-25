@@ -1,13 +1,48 @@
-node_modules
-dist
-dist-ssr
-audit-captures
-.vite
+# Dependencies
+node_modules/
+
+# Build & SSR outputs
+dist/
+dist-ssr/
+coverage/
+.vite/
 *.tsbuildinfo
-test-results
-playwright-report
+
+# Test artifacts, recordings & audit captures
+audit-captures/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+*.webm
+
+# Environment & credentials
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.credentials.json
+
+# Logs, temporary & machine-specific files
+logs/
+*.log
+npm-debug.log*
+tmp/
+temp/
+.tmp/
+*.tmp
 .DS_Store
-src/assets/media/raw/*.DS_Store
+**/.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.gemini/
+.codex/
+.claude/
