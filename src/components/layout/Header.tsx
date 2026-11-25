@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { studioConfig } from '../../config/studio.config';
 import { useStudio } from '../../lib/StudioContext';
+import { StudioDialog } from './StudioDialog';
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -21,14 +22,6 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMenuOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [menuOpen]);
 
   return (
     <>
@@ -99,11 +92,10 @@ export function Header() {
 
       {/* Mobile Full-Height Drawer */}
       {menuOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Mobile Navigation"
-          className="fixed inset-0 z-50 bg-[#FAF8F7] text-[#2A2128] flex flex-col justify-between p-6"
+        <StudioDialog
+          label="Mobile Navigation"
+          onDismiss={() => setMenuOpen(false)}
+          className="bg-[#FAF8F7] flex flex-col justify-between overflow-y-auto !p-6"
         >
           <div className="flex items-center justify-between border-b border-[#DCD2D8] pb-4">
             <span className="font-campaign text-sm font-bold tracking-[0.28em]">
@@ -113,6 +105,7 @@ export function Header() {
               type="button"
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
+              data-dialog-initial-focus
               className="p-2 rounded-sm border border-[#DCD2D8]"
             >
               <X className="w-4 h-4" />
@@ -145,7 +138,6 @@ export function Header() {
             <button
               type="button"
               onClick={() => {
-                setMenuOpen(false);
                 openEnquiry({ sourceLabel: 'Mobile Menu Drawer' });
               }}
               className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.18em]"
@@ -153,7 +145,7 @@ export function Header() {
               Book a Visit
             </button>
           </div>
-        </div>
+        </StudioDialog>
       )}
     </>
   );

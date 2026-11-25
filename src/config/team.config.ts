@@ -5,6 +5,7 @@ export interface ArtisanProfile {
   name: string;
   role: string;
   pillarId: PillarId;
+  additionalServiceIds?: readonly string[];
   experienceYears: number;
   mediaId: string;
   imagePosition?: string;
@@ -45,6 +46,7 @@ export const artisans: ArtisanProfile[] = [
     name: 'Ananya Krishnan',
     role: 'Bridal & Finishing Director',
     pillarId: 'bridal-suite',
+    additionalServiceIds: ['barrier-sculpt-facial'],
     experienceYears: 10,
     mediaId: 'stylist-styling',
     imagePosition: '56% 24%',

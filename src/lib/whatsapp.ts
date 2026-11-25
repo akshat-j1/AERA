@@ -6,6 +6,7 @@ export interface WhatsAppEnquiryContext {
   artisanName?: string;
   hairLength?: string;
   preferredWindow?: string;
+  preferredDate?: string;
   guestName?: string;
   notes?: string;
 }
@@ -20,6 +21,7 @@ export function buildWhatsAppMessage(ctx: WhatsAppEnquiryContext): string {
   if (ctx.hairLength) lines.push(`• Hair Length / Focus: ${ctx.hairLength}`);
   if (ctx.artisanName) lines.push(`• Preferred Stylist: ${ctx.artisanName}`);
   if (ctx.preferredWindow) lines.push(`• Preferred Time: ${ctx.preferredWindow}`);
+  if (ctx.preferredDate) lines.push(`• Preferred Date: ${ctx.preferredDate}`);
   if (ctx.guestName) lines.push(`• Name: ${ctx.guestName}`);
   if (ctx.notes) lines.push(`• Notes: ${ctx.notes}`);
 

@@ -30,7 +30,7 @@ export function App() {
         <Header />
         <SilkVeilTransition />
 
-        <main id="main-content" className="min-h-screen">
+        <main id="main-content" tabIndex={-1} className="min-h-screen">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<ServicesPage />} />

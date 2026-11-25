@@ -44,6 +44,7 @@ export function StudioPicture({
         height={asset.height}
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
+        data-entrance-image={priority ? "" : undefined}
         fetchPriority={priority ? 'high' : 'auto'}
         className={imgClassName}
         style={{ objectPosition: pos }}

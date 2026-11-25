@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { StudioDialog } from '../layout/StudioDialog';
 import { X, Sparkles, Clock, User } from 'lucide-react';
 import { useStudio } from '../../lib/StudioContext';
 import { salonServices } from '../../config/services.config';
@@ -9,14 +9,6 @@ import { StudioPicture } from '../layout/StudioPicture';
 export function LookbookDossierDrawer() {
   const { selectedLook, closeLookbook, openEnquiry, openWhatsappPreview } = useStudio();
 
-  useEffect(() => {
-    if (!selectedLook) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeLookbook();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [selectedLook, closeLookbook]);
 
   if (!selectedLook) return null;
 
@@ -24,12 +16,11 @@ export function LookbookDossierDrawer() {
   const artisan = artisans.find((a) => a.id === selectedLook.recommendedArtisanId);
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="lookbook-dossier-title"
+    <StudioDialog
+      labelledBy="lookbook-dossier-title"
       className="fixed inset-0 z-50 flex justify-end bg-[#2A2128]/45 backdrop-blur-xs"
-      onClick={closeLookbook}
+      onDismiss={closeLookbook}
+      dismissOnBackdrop
     >
       <div
         className="w-full max-w-md h-full bg-[#FAF8F7] text-[#2A2128] border-l border-[#DCD2D8] overflow-y-auto p-6 flex flex-col justify-between shadow-2xl"
@@ -48,6 +39,7 @@ export function LookbookDossierDrawer() {
             <button
               type="button"
               onClick={closeLookbook}
+            data-dialog-initial-focus
               aria-label="Close lookbook details"
               className="p-1.5 rounded-sm border border-[#DCD2D8] hover:bg-[#E7DFEB] cursor-pointer"
             >
@@ -130,7 +122,6 @@ export function LookbookDossierDrawer() {
           <button
             type="button"
             onClick={() => {
-              closeLookbook();
               openWhatsappPreview({
                 sourceLabel: `Lookbook: ${selectedLook.title}`,
                 ritualName: service?.name,
@@ -143,6 +134,6 @@ export function LookbookDossierDrawer() {
           </button>
         </div>
       </div>
-    </div>
+    </StudioDialog>
   );
 }

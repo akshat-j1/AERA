@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { getRouteSeo } from '../lib/seo';
-import { GrandEntranceOverlay } from '../components/sections/GrandEntranceOverlay';
 import { HeroSection } from '../components/sections/HeroSection';
 import { EthosSpacer } from '../components/sections/EthosSpacer';
 import { LivingMirrorWall } from '../components/sections/LivingMirrorWall';
@@ -19,7 +18,6 @@ export function HomePage() {
 
   return (
     <>
-      <GrandEntranceOverlay />
       <HeroSection />
       <EthosSpacer />
       <LivingMirrorWall />

@@ -1,388 +1,276 @@
-import React, { useEffect, useState } from 'react';
-import { z } from 'zod';
-import { CheckCircle2, Info, MessageSquare } from 'lucide-react';
-import { salonServices } from '../../config/services.config';
-import { artisans } from '../../config/team.config';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { Info, MessageSquare } from 'lucide-react';
+import { bookingWindows, hairProfiles } from '../../config/booking.config';
 import { lookbookEntries } from '../../config/lookbook.config';
+import { salonServices } from '../../config/services.config';
 import { studioConfig } from '../../config/studio.config';
+import { bookingErrors, eligibleArtisans, initialBooking, todayAtStudio, type BookingField } from '../../lib/booking';
 import { formatCurrency, formatDuration } from '../../lib/format';
-import { useStudio } from '../../lib/StudioContext';
+import { useStudio, type EnquiryDraft } from '../../lib/StudioContext';
 
-const enquirySchema = z.object({
-  serviceId: z.string().min(1, 'Please choose a service'),
-  artisanId: z.string().optional(),
-  hairLength: z.string().min(1),
-  preferredWindow: z.string().min(1),
-  preferredDate: z.string().optional(),
-  guestName: z.string().trim().min(2, 'Please enter your name'),
-  contactHandle: z.string().trim().min(5, 'Please enter an email or phone number'),
-  notes: z.string().max(400).optional(),
-  companyWebsite: z.string().max(0).optional(),
-});
+const steps = [
+  { label: 'Service', fields: ['serviceId', 'hairLength'] },
+  { label: 'Stylist & Time', fields: ['artisanId', 'preferredWindow', 'preferredDate'] },
+  { label: 'Your Details', fields: ['guestName', 'contactHandle', 'notes', 'companyWebsite'] },
+] as const satisfies ReadonlyArray<{ label: string; fields: readonly BookingField[] }>;
 
-const WINDOWS = [
-  'Weekday Morning (10:30 – 13:30)',
-  'Weekday Afternoon (14:00 – 17:30)',
-  'Weekday Evening (17:30 – 20:00)',
-  'Weekend (Sat / Sun)',
-];
+const inputClass = 'w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128] aria-invalid:border-[#844D60]';
+const nextClass = 'flex-1 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer';
+const backClass = 'px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs cursor-pointer';
 
-const HAIR_PROFILES = [
-  'Short / Cropped',
-  'Shoulder / Medium Length',
-  'Long & Thick',
-  'Skincare / Bridal Trial',
-];
+export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
+  const { openWhatsappPreview } = useStudio();
+  const [booking, setBooking] = useState(() => initialBooking(draft));
+  const [step, setStep] = useState(0);
+  const [errors, setErrors] = useState<ReturnType<typeof bookingErrors>>({});
+  const [preview, setPreview] = useState(false);
+  const focusTarget = useRef<BookingField | 'preview' | null>(null);
+  const region = useRef<HTMLDivElement>(null);
+  const id = useId();
 
-export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
-  const { enquiryDraft, openWhatsappPreview } = useStudio();
-
-  const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [serviceId, setServiceId] = useState(enquiryDraft.serviceId || salonServices[0]!.id);
-  const [artisanId, setArtisanId] = useState(enquiryDraft.artisanId || '');
-  const [hairLength, setHairLength] = useState(enquiryDraft.hairLength || HAIR_PROFILES[1]!);
-  const [preferredWindow, setPreferredWindow] = useState(enquiryDraft.preferredWindow || WINDOWS[0]!);
-  const [preferredDate, setPreferredDate] = useState('');
-  const [guestName, setGuestName] = useState('');
-  const [contactHandle, setContactHandle] = useState('');
-  const [notes, setNotes] = useState(enquiryDraft.notes || '');
-  const [companyWebsite, setCompanyWebsite] = useState('');
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [submittedRef, setSubmittedRef] = useState<string | null>(null);
+  const selectedService = salonServices.find((service) => service.id === booking.serviceId)!;
+  const availableArtisans = eligibleArtisans(booking.serviceId);
+  const selectedArtisan = availableArtisans.find((artisan) => artisan.id === booking.artisanId);
+  const selectedLook = lookbookEntries.find((look) => look.id === draft?.lookId);
 
   useEffect(() => {
-    if (enquiryDraft.serviceId) setServiceId(enquiryDraft.serviceId);
-    if (enquiryDraft.artisanId) setArtisanId(enquiryDraft.artisanId);
-    if (enquiryDraft.hairLength) setHairLength(enquiryDraft.hairLength);
-    if (enquiryDraft.preferredWindow) setPreferredWindow(enquiryDraft.preferredWindow);
-    if (enquiryDraft.notes) setNotes(enquiryDraft.notes);
-  }, [enquiryDraft]);
+    if (!focusTarget.current) return;
+    const target = document.getElementById(`${id}-${focusTarget.current}`);
+    if (target && region.current?.contains(target)) target.focus();
+    focusTarget.current = null;
+  }, [id, errors, preview, step]);
 
-  const selectedService = salonServices.find((s) => s.id === serviceId) ?? salonServices[0]!;
-  const selectedArtisan = artisans.find((a) => a.id === artisanId);
-  const selectedLook = lookbookEntries.find((l) => l.id === enquiryDraft.lookId);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMsg(null);
-
-    const parsed = enquirySchema.safeParse({
-      serviceId,
-      artisanId,
-      hairLength,
-      preferredWindow,
-      preferredDate,
-      guestName,
-      contactHandle,
-      notes,
-      companyWebsite,
-    });
-
-    if (!parsed.success) {
-      setErrorMsg(parsed.error.issues[0]?.message ?? 'Please review your entered details.');
-      return;
-    }
-
-    const demoCode = `AERA-${Math.floor(1000 + Math.random() * 9000)}`;
-    setSubmittedRef(demoCode);
-    onSubmitted?.();
+  const update = (name: BookingField, value: string) => {
+    setBooking((current) => ({
+      ...current,
+      [name]: value,
+      ...(name === 'serviceId' && !eligibleArtisans(value).some((a) => a.id === current.artisanId)
+        ? { artisanId: '' } : {}),
+    }));
+    setErrors((current) => ({ ...current, [name]: undefined }));
   };
 
-  if (submittedRef) {
-    return (
-      <div className="space-y-5 p-6 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8]">
-        <div className="flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-[#844D60] shrink-0 mt-0.5" />
-          <div className="space-y-1.5">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-[#844D60] font-semibold">
-              Preview Logged Locally · Ref {submittedRef}
-            </p>
-            <h3 className="font-campaign text-xl font-bold text-[#2A2128]">
-              Thank you, {guestName}.
-            </h3>
-            <p className="text-xs text-[#493D46] leading-relaxed">
-              {studioConfig.brand.submissionNotice}
-            </p>
-          </div>
-        </div>
+  const field = (name: BookingField) => ({
+    id: `${id}-${name}`,
+    value: booking[name],
+    onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+      update(name, event.target.value),
+    'aria-invalid': !!errors[name],
+    'aria-describedby': errors[name] ? `${id}-${name}-error` : undefined,
+    className: inputClass,
+  });
 
-        <div className="p-4 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] text-xs space-y-1.5">
-          <p>
-            <span className="text-[#493D46]/80">Service:</span>{' '}
-            <strong>{selectedService.name}</strong>
-          </p>
-          <p>
-            <span className="text-[#493D46]/80">Length / Focus:</span> {hairLength}
-          </p>
-          <p>
-            <span className="text-[#493D46]/80">Stylist:</span>{' '}
-            {selectedArtisan ? selectedArtisan.name : 'Any Available Stylist'}
-          </p>
-          <p>
-            <span className="text-[#493D46]/80">Time Preference:</span> {preferredWindow}
-            {preferredDate ? ` (${preferredDate})` : ''}
-          </p>
-        </div>
+  const error = (name: BookingField) => errors[name] && (
+    <span id={`${id}-${name}-error`} className="block text-[#844D60] text-xs" role="alert">
+      {errors[name]}
+    </span>
+  );
 
-        <div className="flex flex-wrap gap-2.5">
-          <button
-            type="button"
-            onClick={() =>
-              openWhatsappPreview({
-                sourceLabel: `Appointment Preview ${submittedRef}`,
-                ritualName: selectedService.name,
-                artisanName: selectedArtisan?.name,
-                hairLength,
-                preferredWindow,
-                guestName,
-                notes,
-              })
-            }
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs hover:bg-[#844D60] cursor-pointer"
-          >
-            <MessageSquare className="w-3.5 h-3.5" />
-            Preview WhatsApp Message
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setSubmittedRef(null);
-              setStep(1);
-            }}
-            className="px-4 py-2.5 rounded-full border border-[#493D46]/35 text-xs text-[#2A2128] cursor-pointer"
-          >
-            Start Over
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const validate = (throughStep: number) => {
+    const found = bookingErrors(booking);
+    for (const [index, item] of steps.entries()) {
+      if (index > throughStep) break;
+      const firstError = item.fields.find((name) => found[name]);
+      if (!firstError) continue;
+
+      const visibleErrors = Object.fromEntries(item.fields.map((name) => [name, found[name]]));
+      focusTarget.current = firstError === 'companyWebsite' ? 'guestName' : firstError;
+      setErrors(visibleErrors);
+      setStep(index);
+      return false;
+    }
+    setErrors({});
+    return true;
+  };
+
+  const goTo = (target: number) => {
+    if (target === step || (target > step && !validate(target - 1))) return;
+    focusTarget.current = steps[target]!.fields[0];
+    setStep(target);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (step < steps.length - 1) {
+      goTo(step + 1);
+    } else if (validate(step)) {
+      focusTarget.current = 'preview';
+      setPreview(true);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      {selectedLook && (
-        <div className="px-3.5 py-2.5 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8] text-xs flex justify-between items-center">
-          <span>
-            Selected Look: <strong>{selectedLook.title}</strong>
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.14em] text-[#844D60] font-semibold">
-            Look {selectedLook.indexCode}
-          </span>
-        </div>
-      )}
-
-      {/* Step Tabs */}
-      <div className="grid grid-cols-3 gap-2 text-[11px]">
-        {[
-          [1, '1 · Service'],
-          [2, '2 · Stylist & Time'],
-          [3, '3 · Your Details'],
-        ].map(([num, label]) => (
-          <button
-            key={num}
-            type="button"
-            onClick={() => setStep(num as 1 | 2 | 3)}
-            className={`py-2 px-2.5 rounded-sm border text-left transition-colors cursor-pointer ${
-              step === num
-                ? 'border-[#493D46] bg-[#493D46] text-[#FAF8F7] font-medium'
-                : 'border-[#DCD2D8] bg-[#FAF8F7] text-[#493D46]'
-            }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      {/* Step 1: Service */}
-      {step === 1 && (
-        <div className="space-y-4">
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Select Service</span>
-            <select
-              value={serviceId}
-              onChange={(e) => setServiceId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            >
-              {salonServices.map((s) => (
-                <option key={s.id} value={s.id}>
-                  {s.name} — From {formatCurrency(s.startingPriceInr)} (
-                  {formatDuration(s.durationMinutes)})
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Hair Length / Focus</span>
-            <select
-              value={hairLength}
-              onChange={(e) => setHairLength(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            >
-              {HAIR_PROFILES.map((hp) => (
-                <option key={hp} value={hp}>
-                  {hp}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <div className="p-3.5 rounded-sm bg-[#F2EEF1] text-xs text-[#493D46] space-y-1">
-            <p className="font-medium text-[#2A2128]">{selectedService.name}</p>
-            <p>{selectedService.consultationNote}</p>
+    <div ref={region}>
+      {preview ? (
+        <div className="space-y-5 p-6 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8]">
+          <div className="space-y-1.5">
+            <h3 id={`${id}-preview`} tabIndex={-1} className="font-campaign text-xl font-bold text-[#2A2128]">
+              Your appointment preview
+            </h3>
+            <p className="text-xs text-[#493D46] leading-relaxed">{studioConfig.brand.submissionNotice}</p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setStep(2)}
-            className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer"
-          >
-            Continue to Stylist &amp; Time →
-          </button>
-        </div>
-      )}
+          <div className="p-4 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] text-xs space-y-1.5">
+            <p><strong>{selectedService.name}</strong></p>
+            <p>Length / Focus: {booking.hairLength}</p>
+            <p>Stylist: {selectedArtisan?.name ?? 'No preference'}</p>
+            <p>Time preference: {booking.preferredWindow}{booking.preferredDate ? ` (${booking.preferredDate})` : ''}</p>
+          </div>
 
-      {/* Step 2: Stylist & Time */}
-      {step === 2 && (
-        <div className="space-y-4">
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Stylist</span>
-            <select
-              value={artisanId}
-              onChange={(e) => setArtisanId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            >
-              <option value="">First Available Stylist</option>
-              {artisans.map((a) => (
-                <option key={a.id} value={a.id}>
-                  {a.name} — {a.role}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Time Window</span>
-            <select
-              value={preferredWindow}
-              onChange={(e) => setPreferredWindow(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            >
-              {WINDOWS.map((w) => (
-                <option key={w} value={w}>
-                  {w}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Date (Optional)</span>
-            <input
-              type="date"
-              value={preferredDate}
-              onChange={(e) => setPreferredDate(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            />
-          </label>
-
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2.5">
             <button
               type="button"
-              onClick={() => setStep(1)}
-              className="px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] cursor-pointer"
+              onClick={() => openWhatsappPreview({
+                sourceLabel: draft?.sourceLabel ?? 'Appointment Preview',
+                ritualName: selectedService.name,
+                artisanName: selectedArtisan?.name,
+                hairLength: booking.hairLength,
+                preferredWindow: booking.preferredWindow,
+                preferredDate: booking.preferredDate,
+                guestName: booking.guestName.trim(),
+                notes: booking.notes,
+              })}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs hover:bg-[#844D60] cursor-pointer"
             >
-              ← Back
+              <MessageSquare className="w-3.5 h-3.5" />
+              Preview WhatsApp Message
             </button>
             <button
               type="button"
-              onClick={() => setStep(3)}
-              className="flex-1 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer"
+              className={backClass}
+              onClick={() => {
+                setBooking(initialBooking(draft));
+                setErrors({});
+                setStep(0);
+                focusTarget.current = 'serviceId';
+                setPreview(false);
+              }}
             >
-              Continue to Your Details →
+              Start Over
             </button>
           </div>
         </div>
-      )}
-
-      {/* Step 3: Contact & Submit */}
-      {step === 3 && (
-        <div className="space-y-4">
-          <input
-            type="text"
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            value={companyWebsite}
-            onChange={(e) => setCompanyWebsite(e.target.value)}
-            className="hidden"
-          />
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Full Name *</span>
-            <input
-              type="text"
-              required
-              placeholder="e.g., Aditi Sharma"
-              value={guestName}
-              onChange={(e) => setGuestName(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            />
-          </label>
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">Email or Phone Number *</span>
-            <input
-              type="text"
-              required
-              placeholder="e.g., aditi@example.com"
-              value={contactHandle}
-              onChange={(e) => setContactHandle(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            />
-          </label>
-
-          <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#493D46]">
-              Notes (Previous Colour, Hair History, Event Dates)
-            </span>
-            <textarea
-              rows={3}
-              placeholder="Share anything helpful for your stylist ahead of the appointment."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
-            />
-          </label>
-
-          <div className="p-3 rounded-sm bg-[#F2EEF1] border border-[#DCD2D8] flex items-start gap-2 text-[11px] text-[#493D46]">
-            <Info className="w-3.5 h-3.5 text-[#844D60] shrink-0 mt-0.5" />
-            <span>{studioConfig.brand.submissionNotice}</span>
-          </div>
-
-          {errorMsg && (
-            <p role="alert" className="text-xs text-[#6E1F34] bg-[#D8ADB6]/35 px-3 py-2 rounded-sm">
-              {errorMsg}
+      ) : (
+        <form onSubmit={handleSubmit} noValidate className="space-y-5">
+          {selectedLook && (
+            <p className="px-3.5 py-2.5 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8] text-xs">
+              Selected look: <strong>{selectedLook.title}</strong>
             </p>
           )}
+          <p className="text-xs text-[#493D46]">{studioConfig.brand.submissionNotice}</p>
 
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button
-              type="button"
-              onClick={() => setStep(2)}
-              className="px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs cursor-pointer"
-            >
-              ← Back
-            </button>
-            <button
-              type="submit"
-              className="flex-1 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#844D60] cursor-pointer"
-            >
-              Submit Appointment Request
-            </button>
+          <div className="grid grid-cols-3 gap-2 text-[11px]">
+            {steps.map(({ label }, index) => (
+              <button
+                key={label}
+                type="button"
+                aria-current={step === index ? 'step' : undefined}
+                onClick={() => goTo(index)}
+                className={`py-2 px-2.5 rounded-sm border text-left transition-colors cursor-pointer ${
+                  step === index
+                    ? 'border-[#493D46] bg-[#493D46] text-[#FAF8F7] font-medium'
+                    : 'border-[#DCD2D8] bg-[#FAF8F7] text-[#493D46]'
+                }`}
+              >
+                {index + 1} · {label}
+              </button>
+            ))}
           </div>
-        </div>
+
+          {step === 0 && (
+            <div className="space-y-4">
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Select Service</span>
+                <select {...field('serviceId')}>
+                  {salonServices.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.name} — From {formatCurrency(service.startingPriceInr)} ({formatDuration(service.durationMinutes)})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {error('serviceId')}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Hair Length / Focus</span>
+                <select {...field('hairLength')}>
+                  {hairProfiles.map((profile) => <option key={profile}>{profile}</option>)}
+                </select>
+              </label>
+              {error('hairLength')}
+              <div className="p-3.5 rounded-sm bg-[#F2EEF1] text-xs text-[#493D46] space-y-1">
+                <p className="font-medium text-[#2A2128]">{selectedService.name}</p>
+                <p>{selectedService.consultationNote}</p>
+              </div>
+              <button type="button" onClick={() => goTo(1)} className={`w-full ${nextClass}`}>
+                Continue to Stylist &amp; Time →
+              </button>
+            </div>
+          )}
+
+          {step === 1 && (
+            <div className="space-y-4">
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Stylist</span>
+                <select {...field('artisanId')}>
+                  <option value="">No preference</option>
+                  {availableArtisans.map((artisan) => (
+                    <option key={artisan.id} value={artisan.id}>{artisan.name} — {artisan.role}</option>
+                  ))}
+                </select>
+              </label>
+              {error('artisanId')}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Time Window</span>
+                <select {...field('preferredWindow')}>
+                  {bookingWindows.map((window) => <option key={window}>{window}</option>)}
+                </select>
+              </label>
+              {error('preferredWindow')}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Date (Optional)</span>
+                <input type="date" min={todayAtStudio()} {...field('preferredDate')} />
+              </label>
+              {error('preferredDate')}
+              <div className="flex gap-2">
+                <button type="button" onClick={() => goTo(0)} className={backClass}>← Back</button>
+                <button type="button" onClick={() => goTo(2)} className={nextClass}>
+                  Continue to Your Details →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="space-y-4">
+              <input type="hidden" {...field('companyWebsite')} />
+              {errors.companyWebsite && <p role="alert" className="text-xs text-[#844D60]">Please review the form.</p>}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Full Name *</span>
+                <input type="text" required autoComplete="name" placeholder="e.g., Aditi Sharma" {...field('guestName')} />
+              </label>
+              {error('guestName')}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Email or Phone Number *</span>
+                <input type="text" required placeholder="e.g., aditi@example.com" {...field('contactHandle')} />
+              </label>
+              {error('contactHandle')}
+              <label className="block space-y-1.5 text-xs">
+                <span className="uppercase tracking-[0.14em] text-[#493D46]">Notes</span>
+                <textarea rows={3} placeholder="Share anything helpful for your stylist." {...field('notes')} />
+              </label>
+              {error('notes')}
+              <p className="flex items-start gap-2 text-xs text-[#493D46]">
+                <Info aria-hidden="true" className="w-3.5 h-3.5 text-[#844D60] shrink-0 mt-0.5" />
+                Use sample contact details for this portfolio preview.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button type="button" onClick={() => goTo(1)} className={backClass}>← Back</button>
+                <button type="submit" className={nextClass}>Preview Appointment Request →</button>
+              </div>
+            </div>
+          )}
+        </form>
       )}
-    </form>
+    </div>
   );
 }

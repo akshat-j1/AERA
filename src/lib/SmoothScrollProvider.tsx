@@ -24,6 +24,8 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
       lerp: themeConfig.motion.lenisLerp,
       smoothWheel: true,
       syncTouch: false,
+      autoRaf: false,
+      prevent: (node) => !!node.closest("dialog"),
     });
     lenisRef.current = lenis;
 

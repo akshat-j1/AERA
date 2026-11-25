@@ -14,6 +14,7 @@ export interface StudioConfig {
     country: string;
     currency: string;
     numberLocale: string;
+    timeZone: string;
   };
   location: {
     addressLine1: string;
@@ -62,6 +63,7 @@ export const studioConfig: StudioConfig = {
     country: 'IN',
     currency: 'INR',
     numberLocale: 'en-IN',
+    timeZone: 'Asia/Kolkata',
   },
   location: {
     addressLine1: '12th Main, HAL 2nd Stage',

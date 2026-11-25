@@ -10,34 +10,83 @@
     />
     <meta name="theme-color" content="#FAF8F7" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script>
-      (function () {
-        try {
-          var isHome = location.pathname === '/' || location.pathname === '/index.html';
-          var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          var seen = sessionStorage.getItem('aera_entrance_seen') === '1';
-          if (isHome && !reduced && !seen) {
-            document.documentElement.setAttribute('data-aera-entrance', 'pending');
-          }
-        } catch (e) {}
-      })();
-    </script>
     <!--app-head-->
   </head>
   <body class="bg-[#FAF8F7] text-[#2A2128] antialiased selection:bg-[#D8ADB6]/45 selection:text-[#2A2128]">
-    <!-- Pre-hydration closed double salon entrance cover (aligned identically to React 3D doors) -->
-    <div id="aera-pre-entrance" aria-hidden="true">
-      <div class="aera-pre-facade">
-        <div class="aera-pre-doors">
-          <div class="aera-pre-leaf"></div>
-          <div class="aera-pre-leaf"></div>
-        </div>
-        <div class="aera-pre-crest">
-          <span>AERA</span>
-          <small>Hair · Skin · Beauty</small>
+    <dialog id="aera-entrance" aria-label="AERA Beauty Studio entrance sequence">
+      <div class="aera-entrance-frame" aria-hidden="true">
+        <div class="aera-entrance-surround"></div>
+        <div class="aera-entrance-leaf"></div>
+        <div class="aera-entrance-leaf"></div>
+        <div class="aera-entrance-crest">
+          <span><!--entrance-brand-->AERA<!--/entrance-brand--></span>
+          <small><!--entrance-subline-->Hair · Skin · Beauty<!--/entrance-subline--></small>
         </div>
       </div>
-    </div>
+      <button type="button" autofocus>Skip Entrance →</button>
+    </dialog>
+    <script>
+      (() => {
+        const door = document.getElementById('aera-entrance');
+        const skip = door.querySelector('button');
+        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+        const key = 'aera_entrance_seen';
+        let seen = false;
+        let deadline;
+        let opener;
+        try { seen = sessionStorage.getItem(key) === '1'; } catch {}
+        const changed = () => window.dispatchEvent(new Event('aera-entrance-change'));
+        function close() {
+          if (!door.open) return;
+          clearTimeout(deadline);
+          door.close();
+          const bounds = opener?.getBoundingClientRect();
+          if (bounds && bounds.bottom > 0 && bounds.top < innerHeight && bounds.width) {
+            opener.focus({ preventScroll: true });
+          } else {
+            document.getElementById('main-content')?.focus({ preventScroll: true });
+          }
+          opener = undefined;
+          changed();
+        }
+        function open(replay = false) {
+          if (door.open || reduced.matches || (!replay && seen)) return;
+          if (getComputedStyle(door).getPropertyValue('--aera-entrance-ready').trim() !== '1') return;
+          if ([...document.querySelectorAll('[data-entrance-image]')].some(img =>
+            img.complete && img.currentSrc && !img.naturalWidth
+          )) return;
+          opener = document.activeElement === document.body ? undefined : document.activeElement;
+          try { door.showModal(); } catch { return; }
+          seen = true;
+          try { sessionStorage.setItem(key, '1'); } catch {}
+          deadline = setTimeout(close, 2200);
+          skip.focus({ preventScroll: true });
+          changed();
+        }
+        skip.addEventListener('click', close);
+        door.addEventListener('cancel', event => {
+          event.preventDefault();
+          close();
+        });
+        door.addEventListener('animationend', event => {
+          if (event.target === door) close();
+        });
+        door.addEventListener('keydown', event => {
+          if (event.key === 'Tab') {
+            event.preventDefault();
+            skip.focus();
+          }
+        });
+        reduced.addEventListener('change', event => { if (event.matches) close(); });
+        window.addEventListener('error', event => {
+          if (event.target instanceof HTMLScriptElement ||
+              event.target instanceof HTMLLinkElement ||
+              event.target?.matches?.('[data-entrance-image]')) close();
+        }, true);
+        window.aeraEntrance = { open, close, isOpen: () => door.open };
+        if (location.pathname === '/' || location.pathname === '/index.html') open();
+      })();
+    </script>
     <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

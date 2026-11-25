@@ -1,29 +1,20 @@
-import { useEffect } from 'react';
+import { StudioDialog } from '../layout/StudioDialog';
 import { X } from 'lucide-react';
 import { useStudio } from '../../lib/StudioContext';
 import { EnquiryForm } from './EnquiryForm';
 
 export function EnquiryDrawer() {
-  const { enquiryOpen, closeEnquiry } = useStudio();
+  const { enquiryOpen, enquiryDraft, closeEnquiry } = useStudio();
 
-  useEffect(() => {
-    if (!enquiryOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeEnquiry();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [enquiryOpen, closeEnquiry]);
 
   if (!enquiryOpen) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="enquiry-drawer-title"
+    <StudioDialog
+      labelledBy="enquiry-drawer-title"
       className="fixed inset-0 z-50 flex justify-end bg-[#2A2128]/45 backdrop-blur-xs"
-      onClick={closeEnquiry}
+      onDismiss={closeEnquiry}
+      dismissOnBackdrop
     >
       <div
         className="w-full max-w-lg h-full bg-[#FAF8F7] text-[#2A2128] border-l border-[#DCD2D8] overflow-y-auto p-6 md:p-8 shadow-2xl space-y-6"
@@ -41,6 +32,7 @@ export function EnquiryDrawer() {
           <button
             type="button"
             onClick={closeEnquiry}
+            data-dialog-initial-focus
             aria-label="Close appointment drawer"
             className="p-1.5 rounded-sm border border-[#DCD2D8] hover:bg-[#E7DFEB] cursor-pointer"
           >
@@ -48,8 +40,8 @@ export function EnquiryDrawer() {
           </button>
         </div>
 
-        <EnquiryForm />
+        <EnquiryForm draft={enquiryDraft} />
       </div>
-    </div>
+    </StudioDialog>
   );
 }

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { StudioDialog } from '../layout/StudioDialog';
+import { useEffect, useRef, useState } from 'react';
 import { X, Copy, Check, ExternalLink } from 'lucide-react';
 import { useStudio } from '../../lib/StudioContext';
 import { buildWhatsAppMessage, buildWhatsAppUri } from '../../lib/whatsapp';
@@ -6,17 +7,14 @@ import { studioConfig } from '../../config/studio.config';
 
 export function WhatsappPreviewModal() {
   const { whatsappPreview, closeWhatsappPreview } = useStudio();
-  const [copied, setCopied] = useState(false);
-
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
+  const copyTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(copyTimer.current), []);
   useEffect(() => {
-    if (!whatsappPreview) return;
-    setCopied(false);
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeWhatsappPreview();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [whatsappPreview, closeWhatsappPreview]);
+    window.clearTimeout(copyTimer.current);
+    setCopyStatus('idle');
+  }, [whatsappPreview]);
+
 
   if (!whatsappPreview) return null;
 
@@ -26,20 +24,20 @@ export function WhatsappPreviewModal() {
   const copyPayload = async () => {
     try {
       await navigator.clipboard.writeText(message);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      setCopyStatus('copied');
+      window.clearTimeout(copyTimer.current);
+      copyTimer.current = window.setTimeout(() => setCopyStatus('idle'), 2000);
     } catch {
       // Clipboard API may fail in non-HTTPS contexts
     }
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="wa-modal-title"
+    <StudioDialog
+      labelledBy="wa-modal-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2A2128]/45 backdrop-blur-xs"
-      onClick={closeWhatsappPreview}
+      onDismiss={closeWhatsappPreview}
+      dismissOnBackdrop
     >
       <div
         className="w-full max-w-lg rounded-sm bg-[#FAF8F7] text-[#2A2128] border border-[#DCD2D8] p-6 space-y-5 shadow-2xl"
@@ -57,6 +55,7 @@ export function WhatsappPreviewModal() {
           <button
             type="button"
             onClick={closeWhatsappPreview}
+            data-dialog-initial-focus
             aria-label="Close WhatsApp message preview"
             className="p-1.5 rounded-sm border border-[#DCD2D8] hover:bg-[#E7DFEB] cursor-pointer"
           >
@@ -74,14 +73,18 @@ export function WhatsappPreviewModal() {
           {message}
         </pre>
 
+        <p role="status" className="text-xs text-[#493D46]">
+          {copyStatus === 'copied' && 'Message copied.'}
+          {copyStatus === 'failed' && 'Could not copy automatically. Select and copy the preview text.'}
+        </p>
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
           <button
             type="button"
             onClick={copyPayload}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#493D46]/35 text-xs hover:bg-[#E7DFEB] cursor-pointer"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-[#844D60]" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? 'Copied Message' : 'Copy Message'}
+            {copyStatus === 'copied' ? <Check className="w-3.5 h-3.5 text-[#844D60]" /> : <Copy className="w-3.5 h-3.5" />}
+            {copyStatus === 'copied' ? 'Copied Message' : 'Copy Message'}
           </button>
 
           {liveUri ? (
@@ -100,6 +103,6 @@ export function WhatsappPreviewModal() {
           )}
         </div>
       </div>
-    </div>
+    </StudioDialog>
   );
 }

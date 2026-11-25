@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useLocation } from 'react-router-dom';
 import type { LookbookEntry } from '../config/lookbook.config';
 import type { WhatsAppEnquiryContext } from './whatsapp';
 
@@ -21,16 +22,24 @@ interface StudioContextValue {
   enquiryDraft: EnquiryDraft;
   openEnquiry: (draft?: EnquiryDraft) => void;
   closeEnquiry: () => void;
-  updateEnquiryDraft: (patch: Partial<EnquiryDraft>) => void;
 
   whatsappPreview: WhatsAppEnquiryContext | null;
   openWhatsappPreview: (ctx: WhatsAppEnquiryContext) => void;
   closeWhatsappPreview: () => void;
 
-  entranceReplayKey: number;
   entranceActive: boolean;
-  setEntranceActive: (active: boolean) => void;
   triggerEntranceReplay: () => void;
+}
+
+declare global {
+  interface Window {
+    aeraEntrance?: { open: (replay?: boolean) => void; close: () => void; isOpen: () => boolean };
+  }
+}
+
+function subscribeEntrance(onChange: () => void) {
+  window.addEventListener('aera-entrance-change', onChange);
+  return () => window.removeEventListener('aera-entrance-change', onChange);
 }
 
 const StudioContext = createContext<StudioContextValue | null>(null);
@@ -40,8 +49,23 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [enquiryDraft, setEnquiryDraft] = useState<EnquiryDraft>({});
   const [whatsappPreview, setWhatsappPreview] = useState<WhatsAppEnquiryContext | null>(null);
-  const [entranceReplayKey, setEntranceReplayKey] = useState(0);
-  const [entranceActive, setEntranceActive] = useState(false);
+  const pathname = useLocation().pathname;
+  const replayRequested = useRef(false);
+  const [replayRequest, setReplayRequest] = useState(0);
+  const entranceActive = useSyncExternalStore(
+    subscribeEntrance,
+    () => window.aeraEntrance?.isOpen() ?? false,
+    () => false
+  );
+
+  useEffect(() => {
+    if (pathname === '/' || pathname === '/index.html') {
+      window.aeraEntrance?.open(replayRequested.current);
+      replayRequested.current = false;
+    } else {
+      window.aeraEntrance?.close();
+    }
+  }, [pathname, replayRequest]);
 
   const openLookbook = useCallback((look: LookbookEntry) => {
     setSelectedLook(look);
@@ -52,19 +76,12 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const openEnquiry = useCallback((draft?: EnquiryDraft) => {
-    if (draft) {
-      setEnquiryDraft((prev) => ({ ...prev, ...draft }));
-    }
-    setSelectedLook(null);
+    setEnquiryDraft(draft ?? {});
     setEnquiryOpen(true);
   }, []);
 
   const closeEnquiry = useCallback(() => {
     setEnquiryOpen(false);
-  }, []);
-
-  const updateEnquiryDraft = useCallback((patch: Partial<EnquiryDraft>) => {
-    setEnquiryDraft((prev) => ({ ...prev, ...patch }));
   }, []);
 
   const openWhatsappPreview = useCallback((ctx: WhatsAppEnquiryContext) => {
@@ -76,13 +93,8 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const triggerEntranceReplay = useCallback(() => {
-    try {
-      sessionStorage.removeItem('aera_entrance_seen');
-    } catch {
-      // Ignore storage access errors
-    }
-    setEntranceActive(true);
-    setEntranceReplayKey((k) => k + 1);
+    replayRequested.current = true;
+    setReplayRequest((request) => request + 1);
   }, []);
 
   return (
@@ -95,13 +107,10 @@ export function StudioProvider({ children }: { children: React.ReactNode }) {
         enquiryDraft,
         openEnquiry,
         closeEnquiry,
-        updateEnquiryDraft,
         whatsappPreview,
         openWhatsappPreview,
         closeWhatsappPreview,
-        entranceReplayKey,
         entranceActive,
-        setEntranceActive,
         triggerEntranceReplay,
       }}
     >
