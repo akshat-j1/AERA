@@ -56,29 +56,27 @@ export function LivingMirrorWall() {
   return (
     <section
       id="living-mirrors"
-      aria-label="Interactive Living Salon Mirrors"
-      className="py-20 md:py-28 bg-[#F3EEF5] scroll-mt-20"
+      aria-label="Interactive Salon Mirrors"
+      className="py-20 md:py-28 bg-[#FCFAF7] scroll-mt-20"
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-8">
-        {/* Section Heading */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-2 max-w-2xl">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-[#504348]">
-              02 · The Living Mirror Room
+      <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-10">
+        {/* Clean Natural Section Intro */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+          <div className="md:col-span-7 space-y-2">
+            <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#874030]">
+              02 · Services Overview
             </p>
-            <h2 className="font-sculpt text-3xl md:text-4xl font-semibold text-[#2D2328] leading-tight">
-              Touch any studio mirror{' '}
-              <span className="font-whisper font-normal text-[#504348]">to preview the ritual inside.</span>
+            <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-medium text-[#2C221E] leading-[1.06]">
+              Look into each studio mirror to explore our services.
             </h2>
           </div>
-          <p className="text-xs text-[#504348] max-w-xs">
-            Built directly into the porcelain plaster wall—select a mirror to clear the silk mist and view starting investments.
+          <p className="md:col-span-5 text-sm text-[#493B36] md:text-right leading-relaxed">
+            Select a mirror on the salon wall to clear the frost and view signature treatments and pricing.
           </p>
         </div>
 
-        {/* Continuous Panoramic Wall Elevation + Travertine Console Shelf */}
-        <div className="rounded-sm overflow-hidden border border-[#C8B49D]/55 shadow-lg bg-[#F8F5F1]">
-          {/* Horizontal Pan Wrapper on narrow screens so all 4 mirrors stay spacious and touchable */}
+        {/* Living Mirror Elevation Wall + Warm Travertine Console */}
+        <div className="rounded-sm overflow-hidden border border-[#D4BEB0] shadow-[0_20px_50px_rgba(44,34,30,0.08)] bg-[#F4E5DA]">
           <div ref={wallScrollRef} className="overflow-x-auto no-scrollbar">
             <div className="relative min-w-[700px] w-full aspect-[16/9]">
               <StudioPicture
@@ -87,7 +85,6 @@ export function LivingMirrorWall() {
                 className="w-full h-full"
               />
 
-              {/* Four Living Mirrors Embedded at Exact Plaster Wall Coordinates */}
               <div role="tablist" aria-label="Salon Service Mirrors">
                 {mirrorPillars.map((mirror, idx) => {
                   const isActive = mirror.id === activePillar;
@@ -107,8 +104,8 @@ export function LivingMirrorWall() {
                       onKeyDown={(e) => handleMirrorKeyDown(e, idx)}
                       className={`group absolute overflow-hidden cursor-pointer focus:outline-none border transition-all duration-500 ${
                         isActive
-                          ? 'mirror-active border-[#504348] ring-1 ring-[#F8F5F1]/75 shadow-[0_0_24px_rgba(200,180,157,0.55)]'
-                          : 'border-transparent hover:border-[#504348]/45'
+                          ? 'mirror-active border-[#874030] ring-2 ring-[#FCFAF7]/90 shadow-[0_0_28px_rgba(183,110,93,0.42)]'
+                          : 'border-transparent hover:border-[#B76E5D]/60'
                       }`}
                       style={{
                         left: mirror.hotspotStyle.left,
@@ -118,25 +115,21 @@ export function LivingMirrorWall() {
                         borderRadius: mirror.hotspotStyle.borderRadius,
                       }}
                     >
-                      {/* Human portrait reflected visibly inside each mirror */}
                       <StudioPicture
                         mediaId={mirror.reflectionMediaId}
                         objectPosition={mirror.reflectionObjectPosition}
-                        sizes="320px"
+                        sizes="360px"
                         className="w-full h-full"
-                        imgClassName={`w-full h-full object-cover transition-transform duration-700 ${
-                          isActive ? 'scale-[1.03]' : 'scale-100 group-hover:scale-[1.02]'
-                        }`}
+                        imgClassName="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-[1.02]"
                       />
-                      {/* Translucent silk mist gently softens non-selected mirrors */}
+
                       <div className="mirror-veil absolute inset-0 pointer-events-none" />
 
-                      {/* Crisp Architectural Mirror Label */}
                       <span
                         className={`absolute bottom-2 inset-x-1.5 py-1 px-1.5 text-[9px] md:text-[10px] uppercase tracking-[0.12em] rounded-xs text-center whitespace-nowrap transition-colors ${
                           isActive
-                            ? 'bg-[#504348] text-[#F8F5F1]'
-                            : 'bg-[#F8F5F1]/92 text-[#2D2328]'
+                            ? 'bg-[#493B36] text-[#FCFAF7] font-medium'
+                            : 'bg-[#FCFAF7]/94 text-[#2C221E]'
                         }`}
                       >
                         {mirror.mirrorIndex} · {mirror.shortLabel}
@@ -148,15 +141,17 @@ export function LivingMirrorWall() {
             </div>
           </div>
 
-          {/* Mobile Quick Mirror Strip (Syncs directly without requiring horizontal wall scroll) */}
-          <div className="flex md:hidden border-t border-[#C8B49D]/40 bg-[#EFE9E4] overflow-x-auto no-scrollbar">
+          {/* Mobile Quick Selector Bar */}
+          <div className="flex md:hidden border-t border-[#D4BEB0]/60 bg-[#EFE0D5] overflow-x-auto no-scrollbar">
             {mirrorPillars.map((m) => (
               <button
                 key={m.id}
                 type="button"
                 onClick={() => setActivePillar(m.id)}
-                className={`px-3.5 py-2.5 text-[11px] whitespace-nowrap border-r border-[#C8B49D]/35 ${
-                  m.id === activePillar ? 'bg-[#504348] text-[#F8F5F1] font-medium' : 'text-[#504348]'
+                className={`px-4 py-3 text-[11px] whitespace-nowrap border-r border-[#D4BEB0]/50 cursor-pointer ${
+                  m.id === activePillar
+                    ? 'bg-[#493B36] text-[#FCFAF7] font-medium'
+                    : 'text-[#493B36]'
                 }`}
               >
                 {m.mirrorIndex} · {m.title}
@@ -164,33 +159,35 @@ export function LivingMirrorWall() {
             ))}
           </div>
 
-          {/* Travertine Console Shelf Ledger (Integrated below the physical shelf edge) */}
+          {/* Integrated Service Ledger Below Wall Shelf */}
           <div
             id="mirror-console-ledger"
             role="tabpanel"
-            className="p-6 md:p-8 bg-[#F8F5F1] border-t border-[#C8B49D]/55 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
+            className="p-6 md:p-8 bg-[#FCFAF7] border-t border-[#D4BEB0]/70 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
           >
             <div className="lg:col-span-5 space-y-2">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#504348]">
+              <p className="text-[11px] uppercase tracking-[0.18em] font-medium text-[#874030]">
                 Mirror {currentMirror.mirrorIndex} · {currentMirror.startingLabel}
               </p>
-              <h3 className="font-sculpt text-2xl font-semibold text-[#2D2328]">
+              <h3 className="font-sculpt text-2xl font-semibold text-[#2C221E]">
                 {currentMirror.title}
               </h3>
-              <p className="text-xs md:text-sm text-[#504348] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#493B36] leading-relaxed">
                 {currentMirror.subtitle}
               </p>
             </div>
 
-            <div className="lg:col-span-4 space-y-2.5 border-y lg:border-y-0 lg:border-x border-[#C8B49D]/40 py-4 lg:py-0 lg:px-6">
+            <div className="lg:col-span-4 space-y-3 border-y lg:border-y-0 lg:border-x border-[#D4BEB0]/55 py-4 lg:py-0 lg:px-6">
               {pillarServices.map((svc) => (
                 <div key={svc.id} className="flex items-baseline justify-between gap-3 text-xs">
                   <div>
-                    <p className="font-medium text-[#2D2328]">{svc.name}</p>
-                    <p className="text-[11px] text-[#504348]/80">{formatDuration(svc.durationMinutes)}</p>
+                    <p className="font-medium text-[#2C221E]">{svc.name}</p>
+                    <p className="text-[11px] text-[#493B36]/80">
+                      {formatDuration(svc.durationMinutes)}
+                    </p>
                   </div>
-                  <span className="font-semibold text-[#2D2328] tabular shrink-0">
-                    {formatCurrency(svc.startingPriceInr)}
+                  <span className="font-semibold text-[#2C221E] tabular shrink-0">
+                    From {formatCurrency(svc.startingPriceInr)}
                   </span>
                 </div>
               ))}
@@ -202,18 +199,18 @@ export function LivingMirrorWall() {
                 onClick={() =>
                   openEnquiry({
                     serviceId: pillarServices[0]?.id,
-                    sourceLabel: `Living Mirror ${currentMirror.mirrorIndex} — ${currentMirror.title}`,
+                    sourceLabel: `${currentMirror.title} Inquiry`,
                   })
                 }
-                className="flex-1 py-3 px-4 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.14em] hover:bg-[#3A2E33] transition-colors cursor-pointer text-center"
+                className="flex-1 py-3 px-4 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.14em] hover:bg-[#874030] transition-colors cursor-pointer text-center"
               >
-                Request Ritual
+                Book This Service
               </button>
               <Link
                 to={`/services?pillar=${currentMirror.id}`}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-sm border border-[#504348]/35 text-xs text-[#2D2328] hover:bg-[#E6DDEB]/45 transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-sm border border-[#493B36]/35 text-xs text-[#2C221E] hover:bg-[#F4E5DA] transition-colors"
               >
-                Full Ritual Menu <ArrowRight className="w-3.5 h-3.5" />
+                Full Service Menu <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>

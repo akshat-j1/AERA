@@ -37,37 +37,29 @@ export function Header() {
           entranceActive ? 'opacity-0 -translate-y-2 pointer-events-none' : 'opacity-100 translate-y-0'
         } ${
           scrolled
-            ? 'bg-[#F8F5F1]/90 backdrop-blur-md border-b border-[#C8B49D]/40'
-            : 'bg-[#F8F5F1]/75 backdrop-blur-sm border-b border-[#C8B49D]/20'
+            ? 'bg-[#FCFAF7]/92 backdrop-blur-md border-b border-[#D4BEB0]/60'
+            : 'bg-[#FCFAF7]/80 backdrop-blur-sm border-b border-[#D4BEB0]/30'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between gap-4">
-          {/* Left Asymmetric Wordmark + Coordinates (Never Shree Ji's centered serif header) */}
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="font-sculpt text-sm md:text-base font-semibold tracking-[0.28em] text-[#2D2328] hover:text-[#504348] transition-colors"
-              aria-label="AERA Beauty Studio Home"
-            >
-              {studioConfig.brand.wordmark}
-            </Link>
-            <span className="hidden lg:inline-block h-3.5 w-px bg-[#C8B49D]/60" aria-hidden="true" />
-            <span className="hidden lg:inline-block text-[10px] uppercase tracking-[0.2em] text-[#504348]/75">
-              {studioConfig.locale.coordinatesLabel}
-            </span>
-          </div>
+          <Link
+            to="/"
+            className="font-sculpt text-sm md:text-base font-semibold tracking-[0.34em] text-[#2C221E] hover:text-[#874030] transition-colors"
+            aria-label="AERA Beauty Studio Home"
+          >
+            {studioConfig.brand.name}
+          </Link>
 
-          {/* Right Primary Nav + Hairline CTA Pill */}
-          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-7">
+          <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-7 whitespace-nowrap">
             {studioConfig.navigation.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `text-[11px] uppercase tracking-[0.18em] transition-colors relative py-1 ${
+                  `text-[11px] uppercase tracking-[0.18em] transition-colors relative py-1 whitespace-nowrap ${
                     isActive
-                      ? 'text-[#2D2328] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#504348]'
-                      : 'text-[#504348]/85 hover:text-[#2D2328]'
+                      ? 'text-[#874030] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#874030]'
+                      : 'text-[#493B36] hover:text-[#2C221E]'
                   }`
                 }
               >
@@ -76,28 +68,28 @@ export function Header() {
             ))}
             <button
               type="button"
-              onClick={() => openEnquiry({ sourceLabel: 'Header Concierge' })}
-              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#504348] text-[#F8F5F1] hover:bg-[#3A2E33] transition-colors cursor-pointer"
+              onClick={() => openEnquiry({ sourceLabel: 'Header Booking' })}
+              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#493B36] text-[#FCFAF7] hover:bg-[#874030] transition-colors cursor-pointer whitespace-nowrap"
             >
-              Request Chair
+              Book an Appointment
             </button>
           </nav>
 
-          {/* Mobile Controls */}
-          <div className="flex md:hidden items-center gap-2.5">
+          {/* Mobile & Tablet Controls */}
+          <div className="flex lg:hidden items-center gap-2.5">
             <button
               type="button"
-              onClick={() => openEnquiry({ sourceLabel: 'Mobile Header CTA' })}
-              className="px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] rounded-full bg-[#504348] text-[#F8F5F1]"
+              onClick={() => openEnquiry({ sourceLabel: 'Mobile Header' })}
+              className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] rounded-full bg-[#493B36] text-[#FCFAF7] cursor-pointer"
             >
-              Request
+              Book
             </button>
             <button
               type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
-              className="p-2 rounded-sm border border-[#C8B49D]/50 text-[#2D2328]"
+              className="p-2 rounded-sm border border-[#D4BEB0] text-[#2C221E]"
             >
               <Menu className="w-4 h-4" />
             </button>
@@ -105,15 +97,15 @@ export function Header() {
         </div>
       </header>
 
-      {/* Full-Height Mobile Drawer */}
+      {/* Mobile Full-Height Drawer */}
       {menuOpen && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label="Mobile Navigation"
-          className="fixed inset-0 z-50 bg-[#F8F5F1] text-[#2D2328] flex flex-col justify-between p-6"
+          className="fixed inset-0 z-50 bg-[#FCFAF7] text-[#2C221E] flex flex-col justify-between p-6"
         >
-          <div className="flex items-center justify-between border-b border-[#C8B49D]/40 pb-4">
+          <div className="flex items-center justify-between border-b border-[#D4BEB0]/60 pb-4">
             <span className="font-sculpt text-sm font-semibold tracking-[0.28em]">
               {studioConfig.brand.wordmark}
             </span>
@@ -121,7 +113,7 @@ export function Header() {
               type="button"
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
-              className="p-2 rounded-sm border border-[#C8B49D]/50"
+              className="p-2 rounded-sm border border-[#D4BEB0]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -131,35 +123,34 @@ export function Header() {
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
-              className="font-sculpt text-2xl font-medium tracking-tight text-[#2D2328] border-b border-[#C8B49D]/25 pb-3 flex items-baseline justify-between"
+              className="font-editorial text-2xl font-medium text-[#2C221E] border-b border-[#D4BEB0]/40 pb-3 flex items-baseline justify-between"
             >
-              <span>Home Sanctuary</span>
-              <span className="text-xs font-normal text-[#504348]">00</span>
+              <span>Home</span>
+              <span className="text-xs font-sans text-[#874030]">00</span>
             </Link>
             {studioConfig.navigation.map((item, idx) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setMenuOpen(false)}
-                className="font-sculpt text-2xl font-medium tracking-tight text-[#2D2328] border-b border-[#C8B49D]/25 pb-3 flex items-baseline justify-between"
+                className="font-editorial text-2xl font-medium text-[#2C221E] border-b border-[#D4BEB0]/40 pb-3 flex items-baseline justify-between"
               >
                 <span>{item.label}</span>
-                <span className="text-xs font-normal text-[#504348]">0{idx + 1}</span>
+                <span className="text-xs font-sans text-[#874030]">0{idx + 1}</span>
               </Link>
             ))}
           </nav>
 
-          <div className="space-y-3 pt-4 border-t border-[#C8B49D]/40">
-            <p className="text-[11px] text-[#504348]/85">{studioConfig.brand.demoNotice}</p>
+          <div className="space-y-3 pt-4 border-t border-[#D4BEB0]/60">
             <button
               type="button"
               onClick={() => {
                 setMenuOpen(false);
                 openEnquiry({ sourceLabel: 'Mobile Menu Drawer' });
               }}
-              className="w-full py-3 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.18em]"
+              className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.18em]"
             >
-              Request Demo Appointment
+              Book an Appointment
             </button>
           </div>
         </div>

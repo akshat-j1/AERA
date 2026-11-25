@@ -1,5 +1,4 @@
 import { studioConfig } from '../config/studio.config';
-import { salonServices } from '../config/services.config';
 
 export interface RouteSeoMeta {
   path: string;
@@ -11,51 +10,51 @@ export interface RouteSeoMeta {
 export const routeSeoMap: Record<string, RouteSeoMeta> = {
   '/': {
     path: '/',
-    title: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Sanctuary',
+    title: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Salon',
     description:
-      'Step inside AERA Beauty Studio: an interactive soft-luxury beauty sanctuary in Bengaluru showcasing architectural cutting, mineral colour, botanical skin care, and bridal styling.',
-    ogImage: '/media/portrait-silk-waves-960.webp',
+      'A calm daylight beauty salon in Indiranagar, Bengaluru offering precision haircuts, ammonia-free hair colour, lymphatic facials, and bridal hair & makeup.',
+    ogImage: '/media/hero-craft-896.webp',
   },
   '/services': {
     path: '/services',
-    title: 'Rituals & Investment — AERA Beauty Studio',
+    title: 'Services & Pricing — AERA Beauty Studio',
     description:
-      'Explore hair architecture, ammonia-free mineral balayage, rose-quartz barrier facials, and transparent ₹ INR consultation pricing.',
+      'Browse haircuts, hand-painted balayage, restorative facials, and bridal trials with transparent ₹ INR pricing by hair length.',
     ogImage: '/media/mirror-wall-960.webp',
   },
   '/team': {
     path: '/team',
-    title: 'Artisans & Specialists — AERA Beauty Studio',
+    title: 'Meet Our Stylists — AERA Beauty Studio',
     description:
-      'Meet AERA’s creative director, mineral colourist, bridal sculpt lead, and botanical skin specialist.',
-    ogImage: '/media/portrait-natural-profile-960.webp',
+      'Meet the hairstylists, colour specialists, bridal artists, and skincare therapists at AERA Beauty Studio in Indiranagar.',
+    ogImage: '/media/stylist-cut-750.webp',
   },
   '/bridal': {
     path: '/bridal',
-    title: 'Bridal & Private Sanctuary — AERA Beauty Studio',
+    title: 'Bridal & Makeup — AERA Beauty Studio',
     description:
-      'Bespoke bridal trials, 12-week hair and skin preparation timelines, and serene wedding-morning studio suites.',
-    ogImage: '/media/portrait-chignon-960.webp',
+      'Private bridal suites, wedding-day hair & skin timelines, jasmine chignons, and unhurried morning styling in Bengaluru.',
+    ogImage: '/media/bridal-indian-896.webp',
   },
   '/gallery': {
     path: '/gallery',
-    title: 'Lookbook & Transformations — AERA Beauty Studio',
+    title: 'Lookbook & Before / After — AERA Beauty Studio',
     description:
-      'Mood-filtered editorial beauty looks, daylight before-and-after studies, and contextual ritual dossiers.',
-    ogImage: '/media/portrait-balayage-960.webp',
+      'Filter finished salon looks by category, see illustrative before-and-after results, and book matching styles.',
+    ogImage: '/media/stage-blowout-896.webp',
   },
   '/about': {
     path: '/about',
-    title: 'The Studio & Ethos — AERA Beauty Studio',
+    title: 'Our Studio — AERA Beauty Studio',
     description:
-      'Discover AERA’s north-daylight colour philosophy, calm botanical formulations, and Indiranagar showcase coordinates.',
+      'Inside AERA Beauty Studio: natural daylight philosophy, hours, and salon location in Indiranagar, Bengaluru.',
     ogImage: '/media/sanctuary-sunlit-960.webp',
   },
   '/enquire': {
     path: '/enquire',
-    title: 'Demo Appointment Request — AERA Beauty Studio',
+    title: 'Book an Appointment — AERA Beauty Studio',
     description:
-      'Preview AERA’s consultative 3-step appointment request flow and WhatsApp concierge payload generator.',
+      'Request an appointment by selecting your service, preferred stylist, and convenient time window at AERA Beauty Studio.',
     ogImage: '/media/sanctuary-sunlit-960.webp',
   },
 };
@@ -65,9 +64,8 @@ export function getRouteSeo(pathname: string): RouteSeoMeta {
 }
 
 /**
- * Generates Schema.org HairSalon/BeautySalon JSON-LD ONLY when
- * studioConfig.seo.publishLocalBusinessSchema is explicitly enabled
- * with verified real-world business NAP details.
+ * Generates Schema.org HairSalon/BeautySalon JSON-LD only when
+ * studioConfig.seo.publishLocalBusinessSchema is enabled with verified business data.
  */
 export function buildSalonJsonLd(): Record<string, unknown> | null {
   if (!studioConfig.seo.publishLocalBusinessSchema) {
@@ -84,6 +82,7 @@ export function buildSalonJsonLd(): Record<string, unknown> | null {
       '@type': 'PostalAddress',
       streetAddress: studioConfig.location.addressLine1,
       addressLocality: studioConfig.locale.city,
+      addressRegion: 'Karnataka',
       postalCode: studioConfig.location.postalCode,
       addressCountry: studioConfig.locale.country,
     },
@@ -91,20 +90,6 @@ export function buildSalonJsonLd(): Record<string, unknown> | null {
       '@type': 'GeoCoordinates',
       latitude: studioConfig.location.latitude,
       longitude: studioConfig.location.longitude,
-    },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Studio Rituals',
-      itemListElement: salonServices.map((s) => ({
-        '@type': 'Offer',
-        priceCurrency: studioConfig.locale.currency,
-        price: s.startingPriceInr,
-        itemOffered: {
-          '@type': 'Service',
-          name: s.name,
-          description: s.summary,
-        },
-      })),
     },
   };
 }

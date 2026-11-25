@@ -24,8 +24,8 @@ export function SilkVeilTransition() {
 
     tl.fromTo(
       el,
-      { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0.92 },
-      { clipPath: 'inset(0% 0% 0% 0%)', opacity: 0.96, duration: 0.24, ease: 'power2.out' }
+      { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0.94 },
+      { clipPath: 'inset(0% 0% 0% 0%)', opacity: 0.98, duration: 0.24, ease: 'power2.out' }
     ).to(el, {
       clipPath: 'inset(0% 0% 100% 0%)',
       opacity: 0,
@@ -44,7 +44,7 @@ export function SilkVeilTransition() {
       aria-hidden="true"
       className={`fixed inset-0 z-50 pointer-events-none ${active ? 'block' : 'hidden'}`}
       style={{
-        background: 'linear-gradient(160deg, #F8F5F1 0%, #E6DDEB 55%, #F3E6DF 100%)',
+        background: 'linear-gradient(155deg, #FCFAF7 0%, #F4E5DA 52%, #DEB0A3 100%)',
       }}
     />
   );

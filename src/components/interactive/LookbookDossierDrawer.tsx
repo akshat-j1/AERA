@@ -28,34 +28,34 @@ export function LookbookDossierDrawer() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="lookbook-dossier-title"
-      className="fixed inset-0 z-50 flex justify-end bg-[#2D2328]/40 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex justify-end bg-[#2C221E]/45 backdrop-blur-xs"
       onClick={closeLookbook}
     >
       <div
-        className="w-full max-w-md h-full bg-[#F8F5F1] text-[#2D2328] border-l border-[#C8B49D]/60 overflow-y-auto p-6 flex flex-col justify-between shadow-2xl"
+        className="w-full max-w-md h-full bg-[#FCFAF7] text-[#2C221E] border-l border-[#D4BEB0] overflow-y-auto p-6 flex flex-col justify-between shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="space-y-5">
-          <div className="flex items-center justify-between border-b border-[#C8B49D]/40 pb-3">
+          <div className="flex items-center justify-between border-b border-[#D4BEB0]/60 pb-3">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#504348]">
-                {selectedLook.indexCode}
+              <span className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+                Look {selectedLook.indexCode}
               </span>
-              <span className="px-2 py-0.5 text-[10px] rounded bg-[#E6DDEB] text-[#504348]">
+              <span className="px-2.5 py-0.5 text-[10px] rounded-full bg-[#F4E5DA] text-[#493B36]">
                 {selectedLook.mood}
               </span>
             </div>
             <button
               type="button"
               onClick={closeLookbook}
-              aria-label="Close lookbook dossier"
-              className="p-1.5 rounded-sm border border-[#C8B49D]/60 hover:bg-[#E6DDEB]/40 cursor-pointer"
+              aria-label="Close lookbook details"
+              className="p-1.5 rounded-sm border border-[#D4BEB0] hover:bg-[#F4E5DA] cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="aspect-[3/4] max-h-72 w-full rounded-sm overflow-hidden border border-[#C8B49D]/40">
+          <div className="aspect-[3/4] max-h-72 w-full rounded-sm overflow-hidden border border-[#D4BEB0]/60">
             <StudioPicture
               mediaId={selectedLook.mediaId}
               objectPosition={selectedLook.imagePosition}
@@ -65,46 +65,53 @@ export function LookbookDossierDrawer() {
           </div>
 
           <div className="space-y-2">
-            <h2 id="lookbook-dossier-title" className="font-sculpt text-2xl font-semibold">
+            <h2 id="lookbook-dossier-title" className="font-editorial text-2xl font-medium">
               {selectedLook.title}
             </h2>
-            <p className="text-xs text-[#504348] leading-relaxed">{selectedLook.summary}</p>
+            <p className="text-xs text-[#493B36] leading-relaxed">{selectedLook.summary}</p>
           </div>
 
-          <div className="p-4 rounded-sm bg-[#F3EEF5] border border-[#C8B49D]/45 space-y-2.5 text-xs">
+          <div className="p-4 rounded-sm bg-[#F4E5DA]/75 border border-[#D4BEB0]/60 space-y-3 text-xs">
             <div className="flex items-start gap-2.5">
-              <Sparkles className="w-4 h-4 text-[#504348] shrink-0 mt-0.5" />
+              <Sparkles className="w-4 h-4 text-[#874030] shrink-0 mt-0.5" />
               <div>
-                <p className="text-[10px] uppercase tracking-[0.14em] text-[#504348]/75">Recommended Ritual</p>
-                <p className="font-medium text-[#2D2328]">{service?.name ?? selectedLook.title}</p>
+                <p className="text-[10px] uppercase tracking-[0.14em] text-[#493B36]/80">
+                  Recommended Service
+                </p>
+                <p className="font-medium text-[#2C221E]">{service?.name ?? selectedLook.title}</p>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
-              <User className="w-4 h-4 text-[#504348] shrink-0 mt-0.5" />
+              <User className="w-4 h-4 text-[#874030] shrink-0 mt-0.5" />
               <div>
-                <p className="text-[10px] uppercase tracking-[0.14em] text-[#504348]/75">Specialist Match</p>
-                <p className="font-medium text-[#2D2328]">
-                  {artisan ? `${artisan.name} · ${artisan.role}` : 'Lead Studio Specialist'}
+                <p className="text-[10px] uppercase tracking-[0.14em] text-[#493B36]/80">
+                  Stylist
+                </p>
+                <p className="font-medium text-[#2C221E]">
+                  {artisan ? `${artisan.name} · ${artisan.role}` : 'Senior Salon Stylist'}
                 </p>
               </div>
             </div>
             <div className="flex items-start gap-2.5">
-              <Clock className="w-4 h-4 text-[#504348] shrink-0 mt-0.5" />
+              <Clock className="w-4 h-4 text-[#874030] shrink-0 mt-0.5" />
               <div>
-                <p className="text-[10px] uppercase tracking-[0.14em] text-[#504348]/75">Chair Time &amp; Starting Investment</p>
-                <p className="font-medium text-[#2D2328] tabular">
-                  {formatDuration(selectedLook.durationMinutes)} · From {formatCurrency(selectedLook.startingPriceInr)}
+                <p className="text-[10px] uppercase tracking-[0.14em] text-[#493B36]/80">
+                  Estimated Time &amp; Price
+                </p>
+                <p className="font-medium text-[#2C221E] tabular">
+                  {formatDuration(selectedLook.durationMinutes)} · From{' '}
+                  {formatCurrency(selectedLook.startingPriceInr)}
                 </p>
               </div>
             </div>
           </div>
 
-          <p className="text-[11px] text-[#504348]/90 italic border-l-2 border-[#D5B4B8] pl-3">
+          <p className="text-[11px] text-[#493B36] border-l-2 border-[#B76E5D] pl-3 leading-relaxed">
             {selectedLook.careNote}
           </p>
         </div>
 
-        <div className="pt-6 space-y-2.5 border-t border-[#C8B49D]/40 mt-6">
+        <div className="pt-6 space-y-2.5 border-t border-[#D4BEB0]/60 mt-6">
           <button
             type="button"
             onClick={() =>
@@ -115,23 +122,24 @@ export function LookbookDossierDrawer() {
                 sourceLabel: `Lookbook — ${selectedLook.title}`,
               })
             }
-            className="w-full py-3 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#3A2E33] transition-colors cursor-pointer"
+            className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#874030] transition-colors cursor-pointer"
           >
-            Pre-fill Demo Request →
+            Book This Look →
           </button>
+
           <button
             type="button"
             onClick={() => {
               closeLookbook();
               openWhatsappPreview({
-                sourceLabel: `Lookbook (${selectedLook.indexCode})`,
-                ritualName: `${selectedLook.title} — ${service?.name ?? ''}`,
+                sourceLabel: `Lookbook: ${selectedLook.title}`,
+                ritualName: service?.name,
                 artisanName: artisan?.name,
               });
             }}
-            className="w-full py-2.5 rounded-sm border border-[#504348]/35 text-[#2D2328] text-xs hover:bg-[#E6DDEB]/45 transition-colors cursor-pointer"
+            className="w-full py-2.5 rounded-sm border border-[#493B36]/35 text-xs text-[#2C221E] hover:bg-[#F4E5DA] transition-colors cursor-pointer"
           >
-            Preview WhatsApp Concierge Message
+            Message on WhatsApp
           </button>
         </div>
       </div>

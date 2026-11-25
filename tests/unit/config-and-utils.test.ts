@@ -13,7 +13,7 @@ describe('AERA configuration & helper integrity', () => {
       ...mirrorPillars.map((m) => m.reflectionMediaId),
       ...artisans.map((a) => a.mediaId),
       ...lookbookEntries.map((l) => l.mediaId),
-      ...transformationStudies.map((t) => t.mediaId),
+      ...transformationStudies.flatMap((t) => [t.mediaId, t.beforeMediaId, t.afterMediaId]),
     ];
 
     for (const id of usedIds) {
@@ -40,20 +40,20 @@ describe('AERA configuration & helper integrity', () => {
     expect(formatDuration(120)).toBe('2 hr');
   });
 
-  it('composes WhatsApp payload while strictly disabling live wa.me dialing in demoMode', () => {
+  it('composes WhatsApp inquiry while strictly disabling live wa.me dialing in demoMode', () => {
     const msg = buildWhatsAppMessage({
       sourceLabel: 'Lookbook',
-      ritualName: 'Mineral Dimensional Balayage',
+      ritualName: 'Hand-Painted Balayage & Gloss',
       artisanName: 'Kavya Nair',
       preferredWindow: 'Weekday Morning',
     });
 
-    expect(msg).toContain('Mineral Dimensional Balayage');
+    expect(msg).toContain('Hand-Painted Balayage & Gloss');
     expect(msg).toContain('Kavya Nair');
-    expect(buildWhatsAppUri({ sourceLabel: 'Demo' })).toBeNull();
+    expect(buildWhatsAppUri({ sourceLabel: 'Inquiry' })).toBeNull();
   });
 
-  it('does not emit verified LocalBusiness schema in fictional demo mode', () => {
+  it('does not emit verified LocalBusiness schema in fictional portfolio mode', () => {
     expect(buildSalonJsonLd()).toBeNull();
   });
 });

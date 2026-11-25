@@ -13,17 +13,17 @@ export interface WhatsAppEnquiryContext {
 export function buildWhatsAppMessage(ctx: WhatsAppEnquiryContext): string {
   const lines: string[] = [
     `Hello ${studioConfig.brand.fullName} (${studioConfig.locale.neighborhood}, ${studioConfig.locale.city}),`,
-    `I would like to request an appointment enquiry (${ctx.sourceLabel}).`,
+    `I would like to book an appointment (${ctx.sourceLabel}).`,
   ];
 
-  if (ctx.ritualName) lines.push(`• Ritual / Look: ${ctx.ritualName}`);
-  if (ctx.hairLength) lines.push(`• Hair Length / Profile: ${ctx.hairLength}`);
-  if (ctx.artisanName) lines.push(`• Preferred Specialist: ${ctx.artisanName}`);
-  if (ctx.preferredWindow) lines.push(`• Preferred Window: ${ctx.preferredWindow}`);
+  if (ctx.ritualName) lines.push(`• Service: ${ctx.ritualName}`);
+  if (ctx.hairLength) lines.push(`• Hair Length / Focus: ${ctx.hairLength}`);
+  if (ctx.artisanName) lines.push(`• Preferred Stylist: ${ctx.artisanName}`);
+  if (ctx.preferredWindow) lines.push(`• Preferred Time: ${ctx.preferredWindow}`);
   if (ctx.guestName) lines.push(`• Name: ${ctx.guestName}`);
   if (ctx.notes) lines.push(`• Notes: ${ctx.notes}`);
 
-  lines.push('Could you kindly share upcoming availability and consultation details?');
+  lines.push('Please let me know your upcoming availability.');
   return lines.join('\n');
 }
 

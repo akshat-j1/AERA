@@ -1,6 +1,6 @@
 import type { PillarId } from './services.config';
 
-export type LookbookMood = 'All' | 'Bridal Calm' | 'Mineral Colour' | 'Silk Volume' | 'Botanical Skin';
+export type LookbookMood = 'All' | 'Haircuts' | 'Hair Colour' | 'Skincare' | 'Bridal';
 
 export interface LookbookEntry {
   id: string;
@@ -23,125 +23,149 @@ export interface TransformationStudy {
   label: string;
   subtitle: string;
   mediaId: string;
+  beforeMediaId: string;
+  afterMediaId: string;
   beforeCaption: string;
   afterCaption: string;
   beforeNote: string;
   afterNote: string;
+  durationLabel: string;
+  recommendedSummary: string;
   serviceId: string;
 }
 
-export const lookbookMoods: LookbookMood[] = [
-  'All',
-  'Bridal Calm',
-  'Mineral Colour',
-  'Silk Volume',
-  'Botanical Skin',
-];
+export const lookbookMoods: LookbookMood[] = ['All', 'Haircuts', 'Hair Colour', 'Skincare', 'Bridal'];
 
 export const lookbookEntries: LookbookEntry[] = [
   {
-    id: 'sculpted-low-chignon',
-    indexCode: 'LOOK 01',
-    title: 'Sculpted Low Chignon & Veil Skin',
-    mood: 'Bridal Calm',
+    id: 'jasmine-bridal-chignon',
+    indexCode: '01',
+    title: 'Jasmine & Silk Chignon',
+    mood: 'Bridal',
     pillarId: 'bridal-suite',
-    mediaId: 'portrait-chignon',
-    imagePosition: '50% 18%',
+    mediaId: 'bridal-indian',
+    imagePosition: '50% 24%',
     summary:
-      'Architectural nape knot with delicate face-framing tendrils paired with luminous hydrated skin and muted rose tint.',
+      'Braided low bun woven with fresh mogra buds paired with dewy sunlit skin and soft terracotta lip colour.',
     recommendedServiceId: 'bridal-atelier-trial',
     recommendedArtisanId: 'ananya-krishnan',
     durationMinutes: 120,
     startingPriceInr: 9500,
-    careNote: 'Prepared with weightless botanical texture cream so pins stay comfortable for 12 hours.',
+    careNote: 'Pinned weightlessly without stiff spray so you stay relaxed all ceremony.',
   },
   {
-    id: 'espresso-champagne-silk',
-    indexCode: 'LOOK 02',
-    title: 'Espresso & Champagne Mineral Silk',
-    mood: 'Mineral Colour',
+    id: 'espresso-caramel-balayage',
+    indexCode: '02',
+    title: 'Caramel & Espresso Balayage',
+    mood: 'Hair Colour',
     pillarId: 'sculptural-colour',
     mediaId: 'portrait-balayage',
-    imagePosition: '50% 25%',
+    imagePosition: '50% 34%',
     summary:
-      'Micro-painted muted champagne ribbons woven softly through deep warm espresso waves without harsh bleaching.',
+      'Fine hand-painted honeyed bronze ribbons melted naturally into deep brunette waves for sun-washed dimension.',
     recommendedServiceId: 'mineral-balayage',
     recommendedArtisanId: 'kavya-nair',
     durationMinutes: 180,
     startingPriceInr: 8500,
-    careNote: 'Sealed with acidic amino-bond glaze for zero brassy grow-out over 4 months.',
+    careNote: 'Sealed with bond care so roots blend smoothly as hair grows.',
   },
   {
-    id: 'silk-dew-waves',
-    indexCode: 'LOOK 03',
-    title: 'Northlight Dew & Weightless Waves',
-    mood: 'Botanical Skin',
+    id: 'lymphatic-glow-facial',
+    indexCode: '03',
+    title: 'Sculpted Radiance Facial',
+    mood: 'Skincare',
     pillarId: 'botanical-skin',
-    mediaId: 'portrait-silk-waves',
-    imagePosition: '50% 16%',
+    mediaId: 'skincare-facial',
+    imagePosition: '50% 42%',
     summary:
-      'Barrier-plumped skin glow paired with soft air-diffused length movement calibrated beside sheer dusty-rose light.',
+      'Gentle jawline lymphatic sculpting and ceramide serum layering for rested, luminous bare skin.',
     recommendedServiceId: 'barrier-sculpt-facial',
     recommendedArtisanId: 'rhea-deshmukh',
     durationMinutes: 90,
     startingPriceInr: 4200,
-    careNote: 'Ideal duo before portraits—combines lymphatic drainage with silk steam finish.',
+    careNote: 'Custom blended for sensitive or travel-tired skin with zero harsh peels.',
   },
   {
-    id: 'architectural-soft-wave',
-    indexCode: 'LOOK 04',
-    title: 'Warm Chestnut Architectural Shape',
-    mood: 'Silk Volume',
+    id: 'warm-chestnut-layers',
+    indexCode: '04',
+    title: 'Layered Chestnut Cut',
+    mood: 'Haircuts',
     pillarId: 'hair-craft',
-    mediaId: 'portrait-studio-waves',
-    imagePosition: '50% 20%',
+    mediaId: 'look-chestnut-layers',
+    imagePosition: '50% 22%',
     summary:
-      'Internal dry layering sculpted to create effortless cheek-grazing bounce without heavy styling tools.',
+      'Face-framing internal layers tailored to hold effortless bounce even after a simple air dry.',
     recommendedServiceId: 'sculptural-cut',
     recommendedArtisanId: 'meera-rao',
     durationMinutes: 75,
     startingPriceInr: 2800,
-    careNote: 'Designed for graceful self-styling in Bengaluru humidity.',
+    careNote: 'Shaped around your natural wave pattern for easy morning styling.',
   },
   {
-    id: 'soft-profile-movement',
-    indexCode: 'LOOK 05',
-    title: 'Sunlit Chestnut & Rosemary Polish',
-    mood: 'Silk Volume',
+    id: 'weightless-gloss-waves',
+    indexCode: '05',
+    title: 'Soft Caramel Blowout',
+    mood: 'Haircuts',
     pillarId: 'hair-craft',
-    mediaId: 'portrait-natural-profile',
-    imagePosition: '50% 20%',
+    mediaId: 'stage-blowout',
+    imagePosition: '48% 26%',
     summary:
-      'Natural shoulder-length layering paired with warm botanical oil gloss for calm, touchable fluidity.',
+      'Polished movement and warm shine achieved through gentle mist conditioning and round-brush finish.',
     recommendedServiceId: 'silk-blowout-ritual',
     recommendedArtisanId: 'meera-rao',
     durationMinutes: 60,
     startingPriceInr: 2400,
-    careNote: 'Silicone-free lightweight finish that leaves hair supple rather than stiff.',
+    careNote: 'Weightless botanical mist keeps waves touchably soft without sticky spray.',
+  },
+  {
+    id: 'soft-evening-updo',
+    indexCode: '06',
+    title: 'Evening Low Updo & Glow',
+    mood: 'Bridal',
+    pillarId: 'bridal-suite',
+    mediaId: 'portrait-chignon',
+    imagePosition: '50% 20%',
+    summary:
+      'Relaxed low twist with soft tendrils around the cheek and luminous rose-terracotta makeup.',
+    recommendedServiceId: 'bridal-atelier-trial',
+    recommendedArtisanId: 'ananya-krishnan',
+    durationMinutes: 120,
+    startingPriceInr: 9500,
+    careNote: 'Designed for Sangeet evenings or intimate reception dinners.',
   },
 ];
 
 export const transformationStudies: TransformationStudy[] = [
   {
-    id: 'mineral-gloss-study',
-    label: '01 · Mineral Silk Glaze',
-    subtitle: 'Visual study demonstrating tonal contrast between unglazed matte cuticle and northlight amino mineral gloss.',
-    mediaId: 'portrait-balayage',
-    beforeCaption: 'Before · Dry Unglazed Cuticle (Demo Simulation)',
-    afterCaption: 'After · Champagne-Espresso Mineral Glaze',
-    beforeNote: 'Porous mid-lengths lacking light reflection and dimensional softness.',
-    afterNote: 'Ammonia-free mineral tone + amino bond seal creates subtle daylight luster.',
-    serviceId: 'mineral-balayage',
+    id: 'cut-and-gloss-study',
+    label: 'Cut & Shine Gloss',
+    subtitle:
+      'Illustrative transformation comparing unshaped, dry ends against precision layering and an ammonia-free caramel shine gloss.',
+    mediaId: 'stage-blowout',
+    beforeMediaId: 'before-hair',
+    afterMediaId: 'stage-blowout',
+    beforeCaption: 'Before · Unshaped Dry Ends',
+    afterCaption: 'After · Layered Cut & Gloss Blowout',
+    beforeNote: 'Uneven weight and dehydrated mid-lengths lacking natural light reflection.',
+    afterNote: 'Soft internal layers and bond-care glaze restore swing, bounce, and smooth shine.',
+    durationLabel: '2 hrs · Precision Cut & Shine Gloss',
+    recommendedSummary: 'Includes consultation, dry shaping cut, bond wash, and diffused blowout.',
+    serviceId: 'sculptural-cut',
   },
   {
-    id: 'barrier-luminosity-study',
-    label: '02 · Barrier & Wave Harmony',
-    subtitle: 'Visual study contrasting fatigued skin texture with calm lymphatic barrier restoration and steam-set movement.',
-    mediaId: 'portrait-silk-waves',
-    beforeCaption: 'Before · Fatigued Barrier & Flat Texture (Demo Simulation)',
-    afterCaption: 'After · Lymphatic Dew & Soft Silk Finish',
-    beforeNote: 'Dehydrated surface tone and weighed-down mid-length movement.',
-    afterNote: 'Rose-quartz drainage + botanical mist finish restores soft ambient glow.',
-    serviceId: 'barrier-sculpt-facial',
+    id: 'balayage-colour-study',
+    label: 'Hand-Painted Balayage',
+    subtitle:
+      'Illustrative transformation moving from flat single-tone brunette to multi-dimensional chestnut and honey ribbons.',
+    mediaId: 'portrait-balayage',
+    beforeMediaId: 'before-hair',
+    afterMediaId: 'portrait-balayage',
+    beforeCaption: 'Before · Flat Single-Tone Length',
+    afterCaption: 'After · Dimensional Warm Balayage',
+    beforeNote: 'Single uniform dark tone without light movement around the shoulders.',
+    afterNote: 'Low-ammonia hand-painted ribbons blend softly in natural daylight.',
+    durationLabel: '3 hrs · Balayage & Bond Treatment',
+    recommendedSummary: 'Includes custom tone formulation, allergy patch check, and finishing blowout.',
+    serviceId: 'mineral-balayage',
   },
 ];

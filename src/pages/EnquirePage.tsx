@@ -6,32 +6,33 @@ import { StudioPicture } from '../components/layout/StudioPicture';
 export function EnquirePage() {
   return (
     <PageShell
-      eyebrow="Consultative Appointment Flow"
-      titlePrefix="Request a"
-      titleItalic="demo chair."
-      description="Experience AERA’s unhurried 3-step request journey. Submitting previews local confirmation and lets you inspect the exact WhatsApp concierge payload."
-      surface="lilac"
+      eyebrow="Indiranagar, Bengaluru"
+      titlePrefix="Book an"
+      titleAccent="appointment."
+      description="Pick your service, preferred stylist, and a comfortable window—our team confirms every consultation timing individually."
+      surface="peach"
     >
-      <section className="py-14 md:py-20 bg-[#F8F5F1]">
+      <section className="py-14 md:py-20 bg-[#FCFAF7]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          <div className="lg:col-span-7 p-6 md:p-8 rounded-sm bg-[#F8F5F1] border border-[#C8B49D]/65 shadow-sm">
+          <div className="lg:col-span-7 p-6 md:p-8 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0] shadow-sm">
             <EnquiryForm />
           </div>
 
           <aside className="lg:col-span-5 space-y-6">
-            <div className="aspect-[16/10] rounded-sm overflow-hidden border border-[#C8B49D]/55">
-              <StudioPicture mediaId="sanctuary-sunlit" sizes="480px" className="w-full h-full" />
+            <div className="aspect-[16/10] rounded-sm overflow-hidden border border-[#D4BEB0]">
+              <StudioPicture mediaId="booking-station" sizes="480px" className="w-full h-full" />
             </div>
 
-            <div className="p-6 rounded-sm bg-[#F3EEF5] border border-[#C8B49D]/50 space-y-3 text-xs text-[#504348]">
-              <h2 className="font-sculpt text-lg font-semibold text-[#2D2328]">
-                How Studio Confirmation Works (For Client Deployments)
+            <div className="p-6 rounded-sm bg-[#F4E5DA] border border-[#D4BEB0] space-y-3 text-xs text-[#493B36]">
+              <h2 className="font-sculpt text-lg font-semibold text-[#2C221E]">
+                How Bookings Work
               </h2>
-              <p>
-                Unlike rigid automated slot calendars that misjudge hair density or colour correction history, AERA’s consultative flow gathers ritual scope and timing windows first—then lets the salon concierge confirm exact chair time personally.
+              <p className="leading-relaxed">
+                Hair colour and bridal appointments can vary depending on hair length and history. By collecting your preferred service and timing first, our stylist team makes sure enough relaxed time is set aside for your visit.
               </p>
-              <p className="pt-2 border-t border-[#C8B49D]/40 text-[11px]">
-                <strong>Showcase Location:</strong> {studioConfig.locale.neighborhood}, {studioConfig.locale.city} ({studioConfig.locale.currency})
+              <p className="pt-2 border-t border-[#D4BEB0] text-[11px] text-[#2C221E]">
+                <strong>Studio Location:</strong> {studioConfig.locale.neighborhood},{' '}
+                {studioConfig.locale.city} ({studioConfig.locale.currency})
               </p>
             </div>
           </aside>

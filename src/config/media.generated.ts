@@ -11,6 +11,36 @@ export interface MediaAssetEntry {
 }
 
 export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
+  "before-hair": {
+    "id": "before-hair",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/before-hair-896.webp",
+    "avifSrcset": "/media/before-hair-480.avif 480w, /media/before-hair-896.avif 896w",
+    "webpSrcset": "/media/before-hair-480.webp 480w, /media/before-hair-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAACQBQCdASoYACAAPt1YpU0opKOiMBgMARAbiWcAthcsAqH+dj9aHzBDHdVEQnrBNKnnPr9tiAD+83PldFuTk6ucgGWX1QK7mCbwQBgqf9nQLhIYJEGPR9fk/7HX3bXMC8i+t/ozre6W1PToYFriiDm2/f7ckQSH0Xenx7Y0TPyhGmo9KhBKJ/EEY2AykCX+tC4txpFFp2/Jt9CfCb4Lb2ZQjyZzpqP6IhLgIHsHOgAAAA=="
+  },
+  "booking-station": {
+    "id": "booking-station",
+    "width": 1376,
+    "height": 768,
+    "aspectRatio": 1.7917,
+    "fallbackSrc": "/media/booking-station-960.webp",
+    "avifSrcset": "/media/booking-station-480.avif 480w, /media/booking-station-960.avif 960w, /media/booking-station-1376.avif 1376w",
+    "webpSrcset": "/media/booking-station-480.webp 480w, /media/booking-station-960.webp 960w, /media/booking-station-1376.webp 1376w",
+    "lqip": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAAAwBACdASoYAA0APt1cpkyopSOiMAgBEBuJZQCdB3gAZw0TNefab4qdU2AA/uu6PCKzj2t3H5au1OpMl1YyWKL7KW1ZEF6oWfQ9HYoc+/6b+WhXVY5llbzzPAAcI6GWQraUxsya/4OeiUCZ61M40oV+DMPPVB5eNOSCvwe9qtTLnaSBScm6Mdbg55QAAA=="
+  },
+  "bridal-indian": {
+    "id": "bridal-indian",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/bridal-indian-896.webp",
+    "avifSrcset": "/media/bridal-indian-480.avif 480w, /media/bridal-indian-896.avif 896w",
+    "webpSrcset": "/media/bridal-indian-480.webp 480w, /media/bridal-indian-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRvwAAABXRUJQVlA4IPAAAADQBQCdASoYACAAPt1irU8opaSiKAqpEBuJQBOmUBDgc9jn0/D5LktZFXVOa2IdFVoBdB6F57d4AP7idOwS6jLEauY69cGihvbYc1bDMESjGvA4/aMkwStX8heuSrWqKNJ1mVKJyfy5L0uY4TQyCsSd8xUrpuU6F41jz0Ni+WriURT3sj2dLNiq7N57Doa+qpw/DKBUFLoHC01TJ+ysGIQT8Ux3RPZDzxcEOsPBsyVs7v8rKK+bmX6mTlQ1thX7Sx6qpGm8iUJ2PVAYmx2PTdCh9r8rrxvtgFQ0MYMDk+jDjpixO9M4roVVJrPJZjCZAAA="
+  },
   "doors-closed": {
     "id": "doors-closed",
     "width": 1376,
@@ -19,7 +49,27 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/doors-closed-960.webp",
     "avifSrcset": "/media/doors-closed-480.avif 480w, /media/doors-closed-960.avif 960w, /media/doors-closed-1376.avif 1376w",
     "webpSrcset": "/media/doors-closed-480.webp 480w, /media/doors-closed-960.webp 960w, /media/doors-closed-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAwBACdASoYAA0APt1ep00opSOiMAgBEBuJQBOmUASu2K5TpIad+BESBUAA/usXjm4VW/LiatxKS5MBq5HVBxc3ZCUE7zJz0C4gnx/j7J0hbijjJW0lAhRQleRXycUlarmQb8DSIHtnL5rmTkpBqUobtCQ5YUBXt53Y3KAA"
+    "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASoYAA0APt1cp0yopSOiMAgBEBuJQBOmUABoV2tGHE+oipErTAAA/uAEEdKxnR+STgVV/NIWqiERrygH4XFc/QUTIO0fOhZBDeDRFIW9AiQ/XF7zx7jaQfAAWajttXHf7YnKJQ8KWfffJRDvWZlYYBWQGKQgfudWqihoh6MyAAA="
+  },
+  "hero-craft": {
+    "id": "hero-craft",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/hero-craft-896.webp",
+    "avifSrcset": "/media/hero-craft-480.avif 480w, /media/hero-craft-896.avif 896w",
+    "webpSrcset": "/media/hero-craft-480.webp 480w, /media/hero-craft-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRigBAABXRUJQVlA4IBwBAABQBgCdASoYACAAPt1gqE2opaQiKA1REBuJQBdkJDE/x3wY6LtPE/2q6kL+7mKKgmWfpW7ZMbZU4z8SAAD+8m6NlZc/dCTXB9CB/xUoJOi5885Tp+mso5aLqqKBmHvQtWi9opaGDiO2UBPORn4jBxUP2wNksA+Q/yXnf/lB8KhISvbMDQ5JsgkV25hWLF4E9/aLujJ2VNJCKfwqEq94jGxgEoBkrehvaDXcL9/LWzNdgFWyk4iN9i9BebEGs5W/eg67VZKn/2mNfPzpWR2Rn8HDXV3OaUSZj4K2mxA0b1xmR44knq1LqiWjevyZ7IcDHKfcnQzvfkms8p2rXiqldvVrukMCVMBw/49Q5tZtcPNrBaBWR6GBfaKia1gAAA=="
+  },
+  "look-chestnut-layers": {
+    "id": "look-chestnut-layers",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/look-chestnut-layers-896.webp",
+    "avifSrcset": "/media/look-chestnut-layers-480.avif 480w, /media/look-chestnut-layers-896.avif 896w",
+    "webpSrcset": "/media/look-chestnut-layers-480.webp 480w, /media/look-chestnut-layers-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRu4AAABXRUJQVlA4IOIAAAAQBgCdASoYACAAPt1apUyopSOiMBgMARAbiWMAnQMumm5jqlFJkfavdbvO6TZtS61ZkL+6ikMvOeAA/reDVqYvwM6cS56mecaCROs4Pg0BCcg7umfhJn71ZV8cZPcIl5L+dFZn8nFVyk97CE772NeEyTxacDrZa0Qln5x2IOOUNuv1+W6c3Mdm2nrEHnh62W4HhtU/T+IwKfcOvPdZEgEtaUWU0Gb19fahaSRI+3cLskhR+SsSgih2eqhdCFeFShnzXs8WFccD5aDOx3jaH6kTDTADKBPJ5RbP1m7Kea7tMAAA"
   },
   "mirror-wall": {
     "id": "mirror-wall",
@@ -61,16 +111,6 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "webpSrcset": "/media/portrait-natural-profile-480.webp 480w, /media/portrait-natural-profile-896.webp 896w",
     "lqip": "data:image/webp;base64,UklGRu4AAABXRUJQVlA4IOIAAAAQBgCdASoYACAAPt1apUyopSOiMBgMARAbiWMAnQMumm5jqlFJkfavdbvO6TZtS61ZkL+6ikMvOeAA/reDVqYvwM6cS56mecaCROs4Pg0BCcg7umfhJn71ZV8cZPcIl5L+dFZn8nFVyk97CE772NeEyTxacDrZa0Qln5x2IOOUNuv1+W6c3Mdm2nrEHnh62W4HhtU/T+IwKfcOvPdZEgEtaUWU0Gb19fahaSRI+3cLskhR+SsSgih2eqhdCFeFShnzXs8WFccD5aDOx3jaH6kTDTADKBPJ5RbP1m7Kea7tMAAA"
   },
-  "portrait-silk-waves": {
-    "id": "portrait-silk-waves",
-    "width": 896,
-    "height": 1200,
-    "aspectRatio": 0.7467,
-    "fallbackSrc": "/media/portrait-silk-waves-896.webp",
-    "avifSrcset": "/media/portrait-silk-waves-480.avif 480w, /media/portrait-silk-waves-896.avif 896w",
-    "webpSrcset": "/media/portrait-silk-waves-480.webp 480w, /media/portrait-silk-waves-896.webp 896w",
-    "lqip": "data:image/webp;base64,UklGRvoAAABXRUJQVlA4IO4AAABQBgCdASoYACAAPt1epk4opSMiMBgIARAbiWMAxN6360d6kCi58V6o3shpuK+MzpDGpmzRE3PEb/iJAAD+67o3z8jZ7CkFfLlP3m+IrvoV3C0/64DU4prh/x8OxY5ukRl6tKqtlyerT7uj8HYPALUmkKyUfHsIknMM3oCaG6/UK2jmkKHkWbELJGt1370FdA4P6tnz1MCKWTytBefMlmJ1CoACEOxb3CyzhQ/8pGj1lDYQYUMQNJ3Eb+q0cYE4Fy5O9wjh76/yHAsdjpVjqGFNL/pnDnPxYKyHPNVsw/nHESNTyUHsCSAIWZ8F4RAA"
-  },
   "portrait-studio-waves": {
     "id": "portrait-studio-waves",
     "width": 896,
@@ -89,7 +129,57 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/sanctuary-sunlit-960.webp",
     "avifSrcset": "/media/sanctuary-sunlit-480.avif 480w, /media/sanctuary-sunlit-960.avif 960w, /media/sanctuary-sunlit-1376.avif 1376w",
     "webpSrcset": "/media/sanctuary-sunlit-480.webp 480w, /media/sanctuary-sunlit-960.webp 960w, /media/sanctuary-sunlit-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAAAwBACdASoYAA0APt1cpkyopSOiMAgBEBuJZQCdB3gAZw0TNefab4qdU2AA/uu6PCKzj2t3H5au1OpMl1YyWKL7KW1ZEF6oWfQ9HYoc+/6b+WhXVY5llbzzPAAcI6GWQraUxsya/4OeiUCZ61M40oV+DMPPVB5eNOSCvwe9qtTLnaSBScm6Mdbg55QAAA=="
+    "lqip": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAADQBACdASoYAA0APt1apkyopSOiMAgBEBuJQBOl4ANQEzoK1MqUPS1qBHejZ5gOQAD+aR+V2uFXzOSr24li5Sic8eMwaR4EhxvwdGyilemjztq9+WwZxm6PY1z8eRJ8CqLSs4M+VFInQnWqygz5ma5dWEGmP1fvbBNoncmdX6qae5AJbnE2hToENjgQqjiqQrYlB59AkIK6cNsoAAA="
+  },
+  "skincare-facial": {
+    "id": "skincare-facial",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/skincare-facial-896.webp",
+    "avifSrcset": "/media/skincare-facial-480.avif 480w, /media/skincare-facial-896.avif 896w",
+    "webpSrcset": "/media/skincare-facial-480.webp 480w, /media/skincare-facial-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRgYBAABXRUJQVlA4IPoAAAAwBgCdASoYACAAPt1eqE2opSOiKA1REBuJYgCdMoSER/aB15+bcWM8BSJkDdpvFGrVjd/0affSagHAAP7ffbS2pkXbnrNRGGlznFaFB1D6fxITp3gcmkbUbHJsC009FR8nozpkA5ulbQgIf5OL80fBLC4IY+fj3nJui3SOpQ8OHTk8xXH15HMcFsqZOaHon+tzjJdbNakX8Udm3q6ynxMZrdsVjujiCViWfFWoPV14z4R2MT49Pbm27/OKIDvF0yBjLDbspEiTJhDpsmOcR/e6iBlV+LNw8O6d71nj8CdahP2LVgQZwGsYcBuJ5pjlUhOioNjNx5EjwAAA"
+  },
+  "stage-blowout": {
+    "id": "stage-blowout",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/stage-blowout-896.webp",
+    "avifSrcset": "/media/stage-blowout-480.avif 480w, /media/stage-blowout-896.avif 896w",
+    "webpSrcset": "/media/stage-blowout-480.webp 480w, /media/stage-blowout-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRiwBAABXRUJQVlA4ICABAACwBgCdASoYACAAPt1iq08opSQiKAqpEBuJYwClsAgXQDrgL13aRzu2DPiaOTzez/axD/1gj9/IfziH1aSXgAD+9AMPr6e6QNzmOBCvlLNT096bzrcEMxUYutk3jvHccPRf+Mgjnn6VolpkVO055oC0vfjyi/hbdFisPrNiEyCXrul7tLBp/azRzX2lfcyV0q+rk4IKjKbd5jl0EkpzhWzSqKyOGkGwA856Itn1TdbuFim6IjkeW457PVPXdO0WNUYEhYoW4ydm6UDFSzx3+29mriXIJtDzwzvrPmOqbm6nyEseuUiKR7vrLhqAeeHAXbfHI3axUblAV3LBZ8eRGH6sH7OjuOdfVJbxXJPqgCn7zNJyp5A5OUhbz2dD1pYAAAA="
+  },
+  "stage-colour": {
+    "id": "stage-colour",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/stage-colour-896.webp",
+    "avifSrcset": "/media/stage-colour-480.avif 480w, /media/stage-colour-896.avif 896w",
+    "webpSrcset": "/media/stage-colour-480.webp 480w, /media/stage-colour-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRkQBAABXRUJQVlA4IDgBAACQBgCdASoYACAAPt1iq08opaOiKAqpEBuJZACB6Xz1ROf/ZoDu5cJVOwC8uyenHHXIUBPXdkrIRvdWa/CQAP7yLDdqs7Fq33Lw3vhtkvr1Pv15gtjN6P/V1Upm59TpSrQawUlp8nf/mD8RNGwfBnyO/XDsliOc8fyA8vFzaElnZzuXhrl5lI5vP1uTctzNU8gvNcWsoXDpA6L7lwlp7XD0ikFi6YcMcOICT2SP0ovV4nSiIF5lwuLyTdK+9FmluRJHdZev3lCtLyMk3xj1bNRuqD/t/ngrhSzdiEUFjMVMb0sYSfIAKylcdCaSZBAuVc1TJlVxJHbrJtOiKhX7i39ZFjRw+Y5k7Y4+bzcdgzShZRY7SjfCHlleJMJhbjKAicQmB3gXASFABVK0o/fRoHkJPM/okw+AAAA="
+  },
+  "stage-consultation": {
+    "id": "stage-consultation",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/stage-consultation-896.webp",
+    "avifSrcset": "/media/stage-consultation-480.avif 480w, /media/stage-consultation-896.avif 896w",
+    "webpSrcset": "/media/stage-consultation-480.webp 480w, /media/stage-consultation-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRioBAABXRUJQVlA4IB4BAABwBgCdASoYACAAPt1iqU+opSOiKAqpEBuJQBYhlWkxyMAdcnQ24skdLdIh1tyShLZ1m/XSh1a2NWcOx0AA/vYyfZeic6B9Uia4hPa6PENiMX3tw86/4NMUZmUxKuPZwfoIS7YcyJQ0Ta7xW2oHScQIqzVyLUGBqtf2iMRTRYGvXZjAjW+cWtruLIuh4CYIeeV3AFey+LuNF3UBlcJ9D50rJQAzDkaAVVyaRFx+jdFCkBBi213yJGngkFqQxmEUgfUpiz6S/Br+ao7yvHrf2IT9vwmggZLDaPzQmJQJP3IHLDWNAASuqrLUsmSTas/ZUg1ktXgej31xF1MT/jyg/cJQY7E6N0HQhqOfr7Hkcw2aRRS1oTCgZRn+bPmnOAAA"
+  },
+  "studio-aisle-daylight": {
+    "id": "studio-aisle-daylight",
+    "width": 1376,
+    "height": 768,
+    "aspectRatio": 1.7917,
+    "fallbackSrc": "/media/studio-aisle-daylight-960.webp",
+    "avifSrcset": "/media/studio-aisle-daylight-480.avif 480w, /media/studio-aisle-daylight-960.avif 960w, /media/studio-aisle-daylight-1376.avif 1376w",
+    "webpSrcset": "/media/studio-aisle-daylight-480.webp 480w, /media/studio-aisle-daylight-960.webp 960w, /media/studio-aisle-daylight-1376.webp 1376w",
+    "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAACQBACdASoYAA0APt1apkyopSOiMAgBEBuJYwCdMoAlvxWCajB/vyZnNXUJWkgA/mYipLnM29y++dQvPjaz5/WHUIk32fxYrYtV8a611UlfUgWpF/n3yKEi+J4CjlmX9RCIj9JF6KvjiG72xYWQ1U7sAd7KjIc9qxxSZlzTaGGy8AW+kfzBYQv0EReGQPrb5Om5d/qX/yDSAAAA"
   },
   "studio-courtyard": {
     "id": "studio-courtyard",
@@ -100,6 +190,46 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "avifSrcset": "/media/studio-courtyard-480.avif 480w, /media/studio-courtyard-848.avif 848w",
     "webpSrcset": "/media/studio-courtyard-480.webp 480w, /media/studio-courtyard-848.webp 848w",
     "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACwBQCdASoYACQAPt1orFCopiQiqrgIARAbiWUAxkAhnULOhxCtmqK0XmsxejZeOp7d6CKodwAA+p6h5SGgJFek/alEsGpVB6zuVi8ZM4GaMDGhOIvBYgBwqKJ0gsA8p9Vc3ZJ29mpFNlBL8mQbQlG47MwPhhzN0zEtg9SJ3EChJAUDEu/P+7Z25UGLZA0ouDg6GufbrPgVugWVSFfGmNDEQ+OGor2UbSdhhY0+yRvPzXTOuYqI1y/JQlan2kx7LK20udVBImzgAA=="
+  },
+  "stylist-colour": {
+    "id": "stylist-colour",
+    "width": 750,
+    "height": 1000,
+    "aspectRatio": 0.75,
+    "fallbackSrc": "/media/stylist-colour-750.webp",
+    "avifSrcset": "/media/stylist-colour-480.avif 480w, /media/stylist-colour-750.avif 750w",
+    "webpSrcset": "/media/stylist-colour-480.webp 480w, /media/stylist-colour-750.webp 750w",
+    "lqip": "data:image/webp;base64,UklGRioBAABXRUJQVlA4IB4BAACwBgCdASoYACAAPt1co00opSMiMBgMARAbiWgAnTKEhFCByVQ9JK5NlW2f7XPWzSPM/fvRSzuDrkcK+l9roAD+jNUEryrQzYYiPgAjlEv1QZIzIoX/TjC4oRH4cTvMj3u+o8Lm1lIF9Vx01ytd9aQhdanDL+TprMiH7pb5JnoALY9OP1bDMxgX/Rfr81zm1w19srIIdQLPypNeHLCiWPZySV1ftRK4d2kis2khPRDsvP/2Yq18mU6x33EVjajnM9Ar+49btUx4JjIYdQBQW5qmyDLz9pPHVm7+XsN98evV1Q/Q26O9vokXX1BLl3GasOBlvNewxzHuSSJx+m2qPiAYro1w9xAQYPDl3XuYOJ6m8u1wxzsoT7elByIsMAAA"
+  },
+  "stylist-cut": {
+    "id": "stylist-cut",
+    "width": 750,
+    "height": 1000,
+    "aspectRatio": 0.75,
+    "fallbackSrc": "/media/stylist-cut-750.webp",
+    "avifSrcset": "/media/stylist-cut-480.avif 480w, /media/stylist-cut-750.avif 750w",
+    "webpSrcset": "/media/stylist-cut-480.webp 480w, /media/stylist-cut-750.webp 750w",
+    "lqip": "data:image/webp;base64,UklGRjQBAABXRUJQVlA4ICgBAABwBgCdASoYACAAPt1mq1EopSOiqAgBEBuJZACdMtP29n/FsoDi4mfwypkwE0KkIO7QMFlhhyJ6O5PW4KAA/vcO+c7v12Y82Yrl+xIzpE00792HI1ptHBw0CfHzZWl85oUDsUBujFz7cdpJCLNBRhLODi8sV3Daa99B79FV5PrTYM5T0v2c0kO+Gs+DsvN8phqH13GunwLyP9a4bHPVJI/ubmlgMDyPJA6T83u3Q4gyHhyw1zohIsGXWfXj2tyMNTI9INlui3zBE3Rnw1nzjjMmu+yPLHiYGmD26gCyjKW6XMAuIvTfLvJVRhjF2BWomXRW4k2wet2CoQbvEesVAGJOkzRTL79HlCJEK3PPzyGPagPoD7oXJU8piCVykI6/WBTidNgkosAAAA=="
+  },
+  "stylist-skin": {
+    "id": "stylist-skin",
+    "width": 750,
+    "height": 1000,
+    "aspectRatio": 0.75,
+    "fallbackSrc": "/media/stylist-skin-750.webp",
+    "avifSrcset": "/media/stylist-skin-480.avif 480w, /media/stylist-skin-750.avif 750w",
+    "webpSrcset": "/media/stylist-skin-480.webp 480w, /media/stylist-skin-750.webp 750w",
+    "lqip": "data:image/webp;base64,UklGRhgBAABXRUJQVlA4IAwBAACQBgCdASoYACAAPt1gp04opaOiMBgIARAbiWIAnTKDLTHLYVULaQJmUC8auIxyx2Sm5kL+32gKpd5YkmYIAMn6tr23+T6J54jbL0J7CcAxGxqKXMwvnYfLPUsblx/+lxB2VkxpX63gdHtCMKyLVkDeFQoRwZqK5FY/RQAV5yIjfqQXTmQq1Gj3/qSszIWGMQYLT6549sC5QEj6vFf4pqBsF3sIfYO7JDdE9mVAsfjM+BO9e0bLfoZpYGpFEz7IPaWM9vn6HXVQLDEMArwi3clXUfalqlfVJVYOHyBWOJ7i4uTcVqbMkufhlecNX6rRkiCOdkakpEIbUrnbBkb+qp4nMjP2ozlKidohAAAA"
+  },
+  "stylist-styling": {
+    "id": "stylist-styling",
+    "width": 750,
+    "height": 1000,
+    "aspectRatio": 0.75,
+    "fallbackSrc": "/media/stylist-styling-750.webp",
+    "avifSrcset": "/media/stylist-styling-480.avif 480w, /media/stylist-styling-750.avif 750w",
+    "webpSrcset": "/media/stylist-styling-480.webp 480w, /media/stylist-styling-750.webp 750w",
+    "lqip": "data:image/webp;base64,UklGRlABAABXRUJQVlA4IEQBAADwBgCdASoYACAAPt1apkyopSOiMAgBEBuJZACdMoSCntA2gNKmzgJP/V4jGCFSc/rcmkxkBZosK3W36fo3+2aAAP4KskVP5MpHROJGzSYv3rWeDmLisIwYrqmxASEuh88sylqSstJt3ALHYPeB3DRF3S3sv378AxRQZOleIwvRQbZXVcNxvb5UDSjtxhMHSSZaLHgxxJkuSkwWgBUBwnO/Lf9e+QNmHjjYpxLVdbP2+mcNlH5zfAbTN0mmmIDTSWLjwrtRnDWQFzNGTDHJdofOyVP8bgHLzWEhY2xqoPzM/M5eGj9eqdfl/fQ7IP+O9rY7PJtr2YmLSuvMQaeJAWpsJk2M7Da9AGZYFlesgnhrAGP7JnwkvaUk23JieJ6In3uDgAYBvLaNiOFbOWOS8kHvYeWygrQ7AQES2JooQmsFQDkdGAA="
   },
   "suite-dusk": {
     "id": "suite-dusk",

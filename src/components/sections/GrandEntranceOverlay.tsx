@@ -14,6 +14,7 @@ export function GrandEntranceOverlay() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const portalRef = useRef<HTMLDivElement>(null);
+  const interiorRef = useRef<HTMLImageElement>(null);
   const doorLeftRef = useRef<HTMLDivElement>(null);
   const doorRightRef = useRef<HTMLDivElement>(null);
   const shadeLeftRef = useRef<HTMLDivElement>(null);
@@ -25,11 +26,11 @@ export function GrandEntranceOverlay() {
   const doorsAsset = getMediaAsset('doors-closed');
   const interiorAsset = getMediaAsset('sanctuary-sunlit');
 
-  // Decide on mount / replay whether entrance should play
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (reducedMotion) {
       setEntranceActive(false);
+      document.documentElement.removeAttribute('data-aera-entrance');
       return;
     }
 
@@ -48,7 +49,6 @@ export function GrandEntranceOverlay() {
     }
   }, [entranceReplayKey, reducedMotion, setEntranceActive]);
 
-  // Keep 16:9 door stage mathematically cover-fitted across any viewport (desktop/tablet/mobile)
   useEffect(() => {
     if (!entranceActive) return;
     document.documentElement.removeAttribute('data-aera-entrance');
@@ -79,7 +79,6 @@ export function GrandEntranceOverlay() {
     setEntranceActive(false);
   };
 
-  // Run automatic 2.75s Closed -> Swing Open -> Forward Walk-In -> Live Homepage choreography
   useEffect(() => {
     if (!entranceActive || reducedMotion) return;
 
@@ -87,55 +86,69 @@ export function GrandEntranceOverlay() {
       try {
         sessionStorage.setItem(SESSION_KEY, '1');
       } catch {
-        // Ignore storage errors
+        // Ignore storage write error
       }
       setEntranceActive(false);
     };
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        onComplete: finish,
+      gsap.set([doorLeftRef.current, doorRightRef.current], {
+        rotationY: 0,
+        force3D: true,
       });
+      gsap.set([shadeLeftRef.current, shadeRightRef.current], { opacity: 0 });
+      gsap.set(seamGlowRef.current, { opacity: 0, scaleX: 0.2 });
+      gsap.set(portalRef.current, { scale: 1, opacity: 1 });
+      gsap.set(interiorRef.current, { scale: 0.94, opacity: 0.96 });
+      gsap.set(crestRef.current, { opacity: 1, y: 0 });
+      gsap.set(overlayRef.current, { opacity: 1 });
+
+      const tl = gsap.timeline({ onComplete: finish });
       tlRef.current = tl;
 
-      // Reset closed baseline (0.00s)
-      gsap.set(doorLeftRef.current, { rotateY: 0 });
-      gsap.set(doorRightRef.current, { rotateY: 0 });
-      gsap.set([shadeLeftRef.current, shadeRightRef.current], { opacity: 0 });
-      gsap.set(crestRef.current, { opacity: 1 });
-      gsap.set(seamGlowRef.current, { opacity: 0 });
-      gsap.set(portalRef.current, { scale: 1, opacity: 1 });
-
-      // Phase 1 (0.32s -> 1.72s): Doors physically swing inward with perspective & cast shadow
-      tl.to(crestRef.current, { opacity: 0, duration: 0.32, ease: 'power2.out' }, 0.28)
-        .to(doorLeftRef.current, { rotateY: 84, duration: 1.42, ease: 'power3.inOut' }, 0.32)
-        .to(doorRightRef.current, { rotateY: -84, duration: 1.42, ease: 'power3.inOut' }, 0.32)
-        .to([shadeLeftRef.current, shadeRightRef.current], { opacity: 0.34, duration: 1.2, ease: 'power2.inOut' }, 0.38)
-        .to(seamGlowRef.current, { opacity: 0.7, duration: 0.55, ease: 'power2.out' }, 0.35)
-        .to(seamGlowRef.current, { opacity: 0, duration: 0.65, ease: 'power2.in' }, 1.05)
-
-        // Phase 2 (1.62s -> 2.70s): Camera walks forward through open doors into sunlit studio
+      // 1. Momentary pause on 100% closed salon doors -> subtle crest dissolve
+      tl.to(crestRef.current, { opacity: 0, y: -14, duration: 0.45, ease: 'power2.out' }, 0.18)
+        // 2. Doors swing smoothly INTO the bright sunlit salon along true outer jamb hinges
         .to(
-          portalRef.current,
-          { scale: 3.1, duration: 1.08, ease: 'power2.inOut' },
-          1.62
+          doorLeftRef.current,
+          { rotationY: 84, duration: 1.18, ease: 'power2.inOut' },
+          0.26
         )
         .to(
+          doorRightRef.current,
+          { rotationY: -84, duration: 1.18, ease: 'power2.inOut' },
+          0.26
+        )
+        .to(
+          [shadeLeftRef.current, shadeRightRef.current],
+          { opacity: 0.24, duration: 0.85, ease: 'power2.in' },
+          0.42
+        )
+        .to(
+          seamGlowRef.current,
+          { opacity: 0.52, scaleX: 1, duration: 0.72, ease: 'power2.out' },
+          0.36
+        )
+        // 3. Camera glides steadily down the corridor into the sunlit styling aisle
+        .to(
+          portalRef.current,
+          { scale: 2.55, opacity: 0, duration: 1.18, ease: 'power2.in' },
+          1.12
+        )
+        .to(
+          interiorRef.current,
+          { scale: 1.07, duration: 1.45, ease: 'power2.out' },
+          1.05
+        )
+        // 4. Seamless transition onto the live homepage hero
+        .to(
           overlayRef.current,
-          { opacity: 0, duration: 0.52, ease: 'power2.out' },
-          2.22
+          { opacity: 0, duration: 0.56, ease: 'power2.out' },
+          2.26
         );
     }, overlayRef);
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        finish();
-      }
-    };
-    window.addEventListener('keydown', onKeyDown);
-
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
       ctx.revert();
     };
   }, [entranceActive, entranceReplayKey, reducedMotion, setEntranceActive]);
@@ -147,30 +160,32 @@ export function GrandEntranceOverlay() {
       ref={overlayRef}
       role="region"
       aria-label="AERA Beauty Studio entrance sequence"
-      className="fixed inset-0 z-50 overflow-hidden bg-[#F8F5F1] flex items-center justify-center"
+      className="fixed inset-0 z-50 overflow-hidden bg-[#FCFAF7] flex items-center justify-center"
     >
-      {/* Door-free sunlit interior behind open doorway (prevents duplicate baked doors) */}
+      {/* Active Sunlit Salon Aisle Revealed Through Opening Doors */}
       <div className="absolute inset-0 overflow-hidden">
         <img
+          ref={interiorRef}
           src={interiorAsset.fallbackSrc}
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover scale-105 opacity-95"
+          className="w-full h-full object-cover"
+          style={{ willChange: 'transform, opacity' }}
         />
         <div
           className="absolute inset-0"
           style={{
             background:
-              'radial-gradient(circle at 50% 48%, rgba(248,245,241,0.45), rgba(243,230,223,0.28) 55%, rgba(80,67,72,0.16) 100%)',
+              'radial-gradient(circle at 50% 48%, rgba(252,250,247,0.12), rgba(244,229,218,0.22) 60%, rgba(44,34,30,0.16) 100%)',
           }}
         />
       </div>
 
-      {/* 3D Perspective Portal Wrapper */}
+      {/* 3D Architectural Doorway Stage */}
       <div
         ref={portalRef}
         className="relative w-full h-full flex items-center justify-center overflow-hidden"
-        style={{ transformOrigin: '50% 52%', willChange: 'transform, opacity' }}
+        style={{ transformOrigin: '50% 56%', willChange: 'transform, opacity' }}
       >
         <div ref={stageRef} className="relative shrink-0 entrance-perspective">
           <div
@@ -178,16 +193,16 @@ export function GrandEntranceOverlay() {
             className="absolute inset-0 pointer-events-none z-10"
             style={{
               background:
-                'radial-gradient(ellipse at 50% 52%, rgba(248,245,241,0.95), rgba(243,230,223,0.42) 38%, transparent 72%)',
+                'radial-gradient(ellipse at 50% 56%, rgba(252,250,247,0.7), rgba(244,229,218,0.28) 38%, transparent 70%)',
             }}
           />
 
-          {/* Outer Limestone Architecture + Fixed Sidelights (4 pure rectangular insets to avoid polygon cutout artifacts) */}
+          {/* Outer Travertine Facade + Glass Olive Bays (4 rectangular clips around 33.2%..66.8%, 22.1%..89.3%) */}
           {[
-            { inset: 'inset(0% 0% 87.85% 0%)', primary: true },
-            { inset: 'inset(92.75% 0% 0% 0%)', primary: false },
-            { inset: 'inset(12.1% 66.55% 7.2% 0%)', primary: false },
-            { inset: 'inset(12.1% 0% 7.2% 66.55%)', primary: false },
+            { inset: 'inset(0% 0% 77.85% 0%)', primary: true },
+            { inset: 'inset(89.25% 0% 0% 0%)', primary: false },
+            { inset: 'inset(22.1% 66.75% 10.65% 0%)', primary: false },
+            { inset: 'inset(22.1% 0% 10.65% 66.75%)', primary: false },
           ].map((panel, idx) => (
             <img
               key={idx}
@@ -200,15 +215,15 @@ export function GrandEntranceOverlay() {
             />
           ))}
 
-          {/* Left Swinging Photographic Door Leaf */}
+          {/* Left Swinging Smoked-Walnut & Fluted-Glass Door */}
           <div
             ref={doorLeftRef}
             className="door-leaf-3d absolute overflow-hidden"
             style={{
-              left: '33.4%',
-              top: '12.1%',
-              width: '16.6%',
-              height: '80.7%',
+              left: '33.2%',
+              top: '22.1%',
+              width: '16.8%',
+              height: '67.2%',
               transformOrigin: 'left center',
             }}
           >
@@ -218,25 +233,25 @@ export function GrandEntranceOverlay() {
               aria-hidden="true"
               style={{
                 position: 'absolute',
-                left: '-201.205%',
-                top: '-14.994%',
-                width: '602.41%',
-                height: '123.916%',
+                left: '-197.619%',
+                top: '-32.887%',
+                width: '595.238%',
+                height: '148.81%',
                 maxWidth: 'none',
               }}
             />
-            <div ref={shadeLeftRef} className="absolute inset-0 bg-[#2D2328] pointer-events-none" />
+            <div ref={shadeLeftRef} className="absolute inset-0 bg-[#2C221E] pointer-events-none" />
           </div>
 
-          {/* Right Swinging Photographic Door Leaf */}
+          {/* Right Swinging Smoked-Walnut & Fluted-Glass Door */}
           <div
             ref={doorRightRef}
             className="door-leaf-3d absolute overflow-hidden"
             style={{
               left: '50%',
-              top: '12.1%',
-              width: '16.6%',
-              height: '80.7%',
+              top: '22.1%',
+              width: '16.8%',
+              height: '67.2%',
               transformOrigin: 'right center',
             }}
           >
@@ -246,38 +261,38 @@ export function GrandEntranceOverlay() {
               aria-hidden="true"
               style={{
                 position: 'absolute',
-                left: '-301.205%',
-                top: '-14.994%',
-                width: '602.41%',
-                height: '123.916%',
+                left: '-297.619%',
+                top: '-32.887%',
+                width: '595.238%',
+                height: '148.81%',
                 maxWidth: 'none',
               }}
             />
-            <div ref={shadeRightRef} className="absolute inset-0 bg-[#2D2328] pointer-events-none" />
+            <div ref={shadeRightRef} className="absolute inset-0 bg-[#2C221E] pointer-events-none" />
           </div>
         </div>
 
-        {/* Subtle Threshold Etched Branding Plaque on Closed Doors */}
+        {/* Frosted Threshold Signage Plaque (Positioned cleanly clear of brass handles) */}
         <div
           ref={crestRef}
           className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-6"
         >
-          <div className="bg-[#2D2328]/45 backdrop-blur-sm border border-[#F8F5F1]/25 px-5 py-2.5 rounded-xs -translate-y-24 md:-translate-y-28 shadow-sm">
-            <p className="font-sculpt text-xs md:text-sm uppercase tracking-[0.42em] font-semibold text-[#F8F5F1]">
+          <div className="bg-[#2C221E]/55 backdrop-blur-md border border-[#FCFAF7]/30 px-6 py-2.5 rounded-xs -translate-y-10 shadow-sm">
+            <p className="font-sculpt text-xs md:text-sm uppercase tracking-[0.42em] font-semibold text-[#FCFAF7]">
               {studioConfig.brand.wordmark}
             </p>
-            <p className="text-[10px] uppercase tracking-[0.24em] text-[#F8F5F1]/90 mt-1.5">
-              {studioConfig.locale.neighborhood} · {studioConfig.locale.city}
+            <p className="text-[10px] uppercase tracking-[0.24em] text-[#F4E5DA] mt-1">
+              Hair · Skin · Bridal
             </p>
           </div>
         </div>
       </div>
 
-      {/* Skip Entrance Control (Available from t=0) */}
+      {/* Skip Entrance Button */}
       <button
         type="button"
         onClick={finishEntrance}
-        className="absolute bottom-6 right-6 z-50 px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-sm backdrop-blur-md border border-[#F8F5F1]/45 bg-[#2D2328]/55 text-[#F8F5F1] hover:bg-[#2D2328]/75 transition-colors cursor-pointer"
+        className="absolute bottom-6 right-6 z-50 px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-sm backdrop-blur-md border border-[#FCFAF7]/45 bg-[#2C221E]/65 text-[#FCFAF7] hover:bg-[#493B36] transition-colors cursor-pointer"
       >
         Skip Entrance →
       </button>

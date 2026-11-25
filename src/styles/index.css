@@ -1,46 +1,52 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --surface-porcelain: #F8F5F1;
-    --surface-peach-mist: #F3E6DF;
-    --surface-lilac-mist: #E6DDEB;
-    --surface-lilac-wash: #F3EEF5;
-    --accent-dusty-rose: #D5B4B8;
-    --accent-champagne: #C8B49D;
-    --brand-mauve: #504348;
-    --ink-plum: #2D2328;
-    --silk-ease: cubic-bezier(0.22, 1, 0.36, 1);
+:root {
+  --surface-white: #FCFAF7;
+  --surface-peach: #F4E5DA;
+  --surface-clay: #EFE0D5;
+  --border-sand: #D4BEB0;
+  --accent-rose: #DEB0A3;
+  --accent-terracotta: #B76E5D;
+  --accent-terracotta-ink: #874030;
+  --ink-cocoa: #493B36;
+  --ink-espresso: #2C221E;
 
-    --font-display: "Syne Variable", ui-sans-serif, system-ui, sans-serif;
-    --font-whisper: "Fraunces Variable", Georgia, serif;
-    --font-body: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
-  }
-
-  html {
-    background-color: var(--surface-porcelain);
-    color: var(--ink-plum);
-    font-family: var(--font-body);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-
-  body {
-    overflow-x: hidden;
-    background-color: var(--surface-porcelain);
-    color: var(--ink-plum);
-  }
+  --font-editorial: "Fraunces Variable", Georgia, serif;
+  --font-display: "Syne Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --silk-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.font-sculpt {
-  font-family: var(--font-display);
+html {
+  background-color: var(--surface-white);
+  color: var(--ink-espresso);
+  font-family: var(--font-body);
+  scroll-behavior: auto;
+}
+
+body {
+  overflow-x: hidden;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Primary upright editorial serif for expressive campaign & hero statements */
+.font-editorial {
+  font-family: var(--font-editorial);
+  font-variation-settings: "opsz" 72, "SOFT" 45, "WONK" 0;
   letter-spacing: -0.025em;
 }
 
+/* Crisp structural modern display sans for section rhythm & UI headers */
+.font-sculpt {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Restraint italic whisper accent — used selectively where appropriate */
 .font-whisper {
-  font-family: var(--font-whisper);
+  font-family: var(--font-editorial);
   font-style: italic;
-  font-variation-settings: "SOFT" 100, "WONK" 0;
+  font-variation-settings: "SOFT" 80, "WONK" 0;
 }
 
 .tabular {
@@ -51,10 +57,10 @@
   transition: all 550ms var(--silk-ease);
 }
 
-/* Entrance 3D perspective */
+/* Entrance 3D perspective stage */
 .entrance-perspective {
-  perspective: 1450px;
-  perspective-origin: 50% 52%;
+  perspective: 1600px;
+  perspective-origin: 50% 56%;
 }
 
 .door-leaf-3d {
@@ -63,15 +69,15 @@
   will-change: transform, filter;
 }
 
-/* Living Mirror subtle silk condensation veil */
+/* Living Mirror silk frost veil — clears dramatically when selected */
 .mirror-veil {
   background: radial-gradient(
-    circle at 42% 28%,
-    rgba(248, 245, 241, 0.56),
-    rgba(230, 221, 235, 0.46) 65%,
-    rgba(213, 180, 184, 0.3)
+    circle at 44% 30%,
+    rgba(252, 250, 247, 0.62),
+    rgba(244, 229, 218, 0.48) 65%,
+    rgba(222, 176, 163, 0.3)
   );
-  backdrop-filter: blur(4.5px);
+  backdrop-filter: blur(5px);
   transition: opacity 550ms var(--silk-ease), backdrop-filter 550ms var(--silk-ease);
 }
 
@@ -80,44 +86,53 @@
   backdrop-filter: blur(0px);
 }
 
-/* Custom accessible hairline range slider */
-input[type="range"].aera-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 2px;
-  border-radius: 999px;
-  background: var(--accent-champagne);
-  outline: none;
+@keyframes mirrorBreathe {
+  0%, 100% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.045);
+  }
 }
 
-input[type="range"].aera-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: var(--brand-mauve);
-  border: 2px solid var(--surface-porcelain);
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(45, 35, 40, 0.25);
+.mirror-active img {
+  animation: mirrorBreathe 8s var(--silk-ease) infinite;
 }
 
-input[type="range"].aera-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: var(--brand-mauve);
-  border: 2px solid var(--surface-porcelain);
-  cursor: pointer;
+/* Invisible full-width accessible range control overlaid cleanly over interactive Before/After canvas */
+input[type="range"].aera-overlay-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  margin: 0;
+  cursor: ew-resize;
+}
+
+input[type="range"].aera-overlay-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  cursor: ew-resize;
+}
+
+input[type="range"].aera-overlay-range::-moz-range-thumb {
+  width: 44px;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  cursor: ew-resize;
 }
 
 /* Accessibility focus styles */
 :focus-visible {
-  outline: 2px solid var(--brand-mauve);
+  outline: 2px solid var(--accent-terracotta-ink);
   outline-offset: 3px;
 }
 
-/* Hide scrollbars on horizontal mobile tracks while preserving scroll */
+/* Hide scrollbars cleanly while keeping swipe scroll active */
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -126,7 +141,7 @@ input[type="range"].aera-slider::-moz-range-thumb {
   display: none;
 }
 
-/* Pre-hydration instant closed-door cover preventing any 1-frame flash before React mounts */
+/* Pre-hydration instant closed-door cover (seamlessly swaps into live GSAP 3D doors) */
 #aera-pre-entrance {
   display: none;
 }
@@ -138,7 +153,7 @@ html[data-aera-entrance="pending"] #aera-pre-entrance {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background-color: #F8F5F1;
+  background-color: #FCFAF7;
   overflow: hidden;
 }
 
@@ -156,14 +171,14 @@ html[data-aera-entrance="pending"] #aera-pre-entrance .aera-pre-crest {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #F8F5F1;
+  color: #FCFAF7;
   text-align: center;
-  background: rgba(45, 35, 40, 0.45);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(248, 245, 241, 0.25);
-  padding: 0.625rem 1.25rem;
+  background: rgba(44, 34, 30, 0.56);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(252, 250, 247, 0.3);
+  padding: 0.65rem 1.35rem;
   border-radius: 2px;
-  transform: translateY(-6.5rem);
+  transform: translateY(-2.5rem);
 }
 
 html[data-aera-entrance="pending"] #aera-pre-entrance .aera-pre-crest span {
@@ -187,9 +202,10 @@ html[data-aera-entrance="pending"] #aera-pre-entrance .aera-pre-crest small {
   }
   .silk-transition,
   .mirror-veil,
+  .mirror-active img,
   [data-reveal] {
     transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -8,8 +9,8 @@ test.beforeAll(() => {
   fs.mkdirSync(ARTIFACT_CAPTURES, { recursive: true });
 });
 
-test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => {
-  test('desktop complete journey, entrance sequence, interactions, inner pages & telemetry', async ({
+test.describe('AERA Beauty Studio V2 — Visual, Scroll, A11y & Functional Audit', () => {
+  test('desktop complete journey, entrance sequence, pinned choreography, drag B/A, axe & routes', async ({
     page,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'desktop', 'Desktop-specific journey');
@@ -28,7 +29,6 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
       }
     });
 
-    // Inject PerformanceObserver before navigation so FCP/LCP/CLS are measured cleanly
     await page.addInitScript(() => {
       (window as unknown as { __vitals: Record<string, number> }).__vitals = { cls: 0 };
       try {
@@ -38,17 +38,9 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
             if (entry.entryType === 'largest-contentful-paint') {
               w.__vitals.lcp = entry.startTime;
             }
-            if (entry.entryType === 'paint' && entry.name === 'first-contentful-paint') {
-              w.__vitals.fcp = entry.startTime;
-            }
-            if (entry.entryType === 'layout-shift' && !(entry as unknown as { hadRecentInput: boolean }).hadRecentInput) {
-              w.__vitals.cls += (entry as unknown as { value: number }).value;
-            }
           }
         }).observe({ type: 'largest-contentful-paint', buffered: true });
-      } catch {
-        // Ignore unsupported entry types
-      }
+      } catch {}
       try {
         new PerformanceObserver((list) => {
           for (const entry of list.getEntries()) {
@@ -72,117 +64,155 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
-    // Capture Frame 1: Doors 100% Closed
+    // 1. Entrance Closed -> Swinging Inward -> Corridor Walk-In -> Hero
     await page.waitForTimeout(80);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-01-entrance-closed.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-01-entrance-closed.png') });
 
-    // Capture Frame 2: Doors Swinging Open (~0.95s)
-    await page.waitForTimeout(880);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-02-entrance-swinging.png') });
+    await page.waitForTimeout(820);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-02-entrance-swinging.png') });
 
-    // Capture Frame 3: Camera Gliding Forward (~1.95s)
-    await page.waitForTimeout(1000);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-03-entrance-pushing.png') });
+    await page.waitForTimeout(950);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-03-entrance-glide.png') });
 
-    // Wait for entrance to finish (~2.85s total) -> Hero settled
-    await page.waitForSelector('button:has-text("Skip Entrance")', { state: 'detached', timeout: 5000 });
-    await page.waitForTimeout(250);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-04-hero-settled.png') });
+    await page.waitForSelector('button:has-text("Skip Entrance")', { state: 'detached', timeout: 5500 });
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-04-hero-settled.png') });
 
-    // Verify no horizontal overflow & h1 presence
     const heroCheck = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       innerWidth: window.innerWidth,
       h1: document.querySelector('h1')?.textContent?.trim(),
-      loadedFonts: Array.from(document.fonts)
-        .filter((f) => f.status === 'loaded')
-        .map((f) => f.family),
     }));
     expect(heroCheck.scrollWidth).toBeLessThanOrEqual(heroCheck.innerWidth);
-    expect(heroCheck.h1).toContain('Sunlight');
+    expect(heroCheck.h1).toContain('Thoughtful hair');
 
-    // Scroll to Living Mirrors & verify keyboard/click switching
+    // 2. Living Mirror Room + Roving Keyboard Focus
     const mirrorSection = page.locator('#living-mirrors');
     await mirrorSection.evaluate((el) => el.scrollIntoView({ block: 'start' }));
     await page.waitForTimeout(500);
 
     const colourMirrorTab = page.locator('[role="tab"]').nth(1);
     await colourMirrorTab.click();
-    await expect(page.locator('#mirror-console-ledger')).toContainText('Sculptural Mineral Colour');
+    await expect(page.locator('#mirror-console-ledger')).toContainText('Hair Colour');
     await expect(page.locator('#mirror-console-ledger')).toContainText('₹8,500');
     await page.waitForTimeout(620);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-05-mirror-wall.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-05-living-mirrors.png') });
 
-    // Verify keyboard navigation between living mirrors
     await colourMirrorTab.focus();
     await page.keyboard.press('ArrowRight');
-    await expect(page.locator('#mirror-console-ledger')).toContainText('Botanical Skin Sanctuary');
+    await expect(page.locator('#mirror-console-ledger')).toContainText('Skincare & Facials');
     await page.keyboard.press('ArrowLeft');
-    await expect(page.locator('#mirror-console-ledger')).toContainText('Sculptural Mineral Colour');
+    await expect(page.locator('#mirror-console-ledger')).toContainText('Hair Colour');
 
-    // Scroll to Transformation & test Before/After range slider
+    // 3. Pinned Process Sequence: Forward Scroll + Reverse Scroll
+    const processRect = await page.locator('#transformation-section').evaluate((el) => {
+      const r = el.firstElementChild?.nextElementSibling?.getBoundingClientRect();
+      const top = el.getBoundingClientRect().top + window.scrollY - 64;
+      const host = el.querySelector('.lg\\:h-\\[220vh\\]')?.getBoundingClientRect();
+      return { top, range: Math.max(400, (host?.height || 1400) - (window.innerHeight - 64)) };
+    });
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.1), processRect);
+    await page.waitForTimeout(450);
+    await expect(page.locator('#transformation-section')).toContainText('Step 01');
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-06a-stage1-pin.png') });
+
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.5), processRect);
+    await page.waitForTimeout(550);
+    await expect(page.locator('#transformation-section')).toContainText('Step 02');
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-06b-stage2-pin.png') });
+
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.88), processRect);
+    await page.waitForTimeout(550);
+    await expect(page.locator('#transformation-section')).toContainText('Step 03');
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-06c-stage3-pin.png') });
+
+    // Reverse scroll verifies state rolls back gracefully
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.12), processRect);
+    await page.waitForTimeout(500);
+    await expect(page.locator('#transformation-section')).toContainText('Step 01');
+
+    // 4. Before & After Scroll Reveal & Direct Drag Without Fighting Scroll
     const slider = page.locator('#ba-split-slider');
     await slider.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(450);
-    await slider.fill('72');
-    await expect(slider).toHaveValue('72');
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-06-transformation-ba.png') });
+    await page.waitForTimeout(500);
+    const valAfterScroll = Number(await slider.inputValue());
+    expect(valAfterScroll).toBeLessThan(95);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-07a-ba-scroll.png') });
 
-    // Scroll to Artisans & Lookbook
-    const lookbookHeading = page.getByRole('heading', { name: /Three moods, five plates/i });
+    // Direct mouse drag across the photograph
+    const box = await slider.boundingBox();
+    expect(box).not.toBeNull();
+    if (box) {
+      await page.mouse.move(box.x + box.width * 0.65, box.y + box.height * 0.5);
+      await page.mouse.down();
+      await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.5, { steps: 10 });
+      await page.mouse.up();
+    }
+    await page.waitForTimeout(250);
+    const draggedVal = Number(await slider.inputValue());
+    expect(draggedVal).toBeGreaterThanOrEqual(22);
+    expect(draggedVal).toBeLessThanOrEqual(40);
+
+    // Nudge page scroll slightly -> verify scroll does NOT fight manual drag
+    await page.evaluate(() => window.scrollBy(0, 60));
+    await page.waitForTimeout(250);
+    expect(Number(await slider.inputValue())).toBe(draggedVal);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-07b-ba-manual-drag.png') });
+
+    // 5. Meet Our Stylists Sticky Horizontal Scroll Track
+    const stylistsRect = await page.getByLabel('Meet Our Stylists').evaluate((el) => {
+      const top = el.getBoundingClientRect().top + window.scrollY - 64;
+      return { top, range: Math.max(400, el.getBoundingClientRect().height - (window.innerHeight - 64)) };
+    });
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.08), stylistsRect);
+    await page.waitForTimeout(450);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-08a-stylists-start.png') });
+
+    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.85), stylistsRect);
+    await page.waitForTimeout(500);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-08b-stylists-scrolled.png') });
+
+    // 6. Lookbook Drawer -> Booking Submission -> WhatsApp Modal
+    const lookbookHeading = page.getByRole('heading', { name: /Recent looks from the studio chairs/i });
     await lookbookHeading.scrollIntoViewIfNeeded();
     await page.waitForTimeout(450);
-    await page.getByRole('button', { name: 'Mineral Colour', exact: true }).click();
+    await page.getByRole('button', { name: 'Hair Colour', exact: true }).click();
     await page.getByRole('button', { name: /Get This Look/i }).first().click();
     await expect(page.getByRole('dialog')).toBeVisible();
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-07-lookbook-dossier.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-09-lookbook-drawer.png') });
 
-    // Pre-fill Demo Request from Lookbook Dossier & submit through 3 steps
-    await page.getByRole('button', { name: /Pre-fill Demo Request/i }).click();
-    await page.getByRole('button', { name: /Continue to Specialist/i }).click();
-    await page.getByRole('button', { name: /Continue to Guest Details/i }).click();
+    await page.getByRole('button', { name: /Book This Look/i }).click();
+    await page.getByRole('button', { name: /Continue to Stylist/i }).click();
+    await page.getByRole('button', { name: /Continue to Your Details/i }).click();
     await page.getByPlaceholder(/Aditi Sharma/i).fill('Neha Rao');
     await page.getByPlaceholder(/aditi@example.com/i).fill('neha@example.com');
-    await page.getByRole('button', { name: /Submit Demo Appointment Request/i }).click();
-    await expect(page.getByText(/Demo Request Logged Locally/i)).toBeVisible();
-    await page.getByRole('button', { name: /Inspect Generated WhatsApp Payload/i }).click();
-    await expect(page.getByText(/Live wa.me disabled/i)).toBeVisible();
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-08-whatsapp-preview.png') });
-    await page.getByRole('button', { name: /Close WhatsApp concierge preview/i }).click();
-    await page.getByRole('button', { name: /Close appointment request drawer/i }).click();
+    await page.getByRole('button', { name: /Submit Appointment Request/i }).click();
+    await expect(page.getByText(/Preview Logged Locally/i)).toBeVisible();
+    await page.getByRole('button', { name: /Preview WhatsApp Message/i }).click();
+    await expect(page.getByText(/disabled in showcase mode/i)).toBeVisible();
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-10-whatsapp-modal.png') });
+    await page.getByRole('button', { name: /Close WhatsApp message preview/i }).click();
+    await page.getByRole('button', { name: /Close appointment drawer/i }).click();
     await page.waitForTimeout(300);
 
-    // Closing Sanctuary & Footer
-    const chairSection = page.getByRole('heading', { name: /Ready when/i });
-    await chairSection.evaluate((el) => el.closest('section')?.scrollIntoView({ block: 'start' }));
-    await page.waitForTimeout(600);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-09-chair-sanctuary.png') });
-
+    // 7. Closing Booking Scene & Footer Disclosure
     await page.locator('footer').scrollIntoViewIfNeeded();
-    await page.waitForTimeout(350);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'desktop-10-footer.png') });
+    await page.waitForTimeout(400);
+    await expect(page.locator('footer')).toContainText('Portfolio Concept Showcase');
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-desktop-11-closing-and-footer.png') });
 
-    // Semantic Landmarks & Accessibility Sanity on Homepage
-    const a11yCheck = await page.evaluate(() => ({
-      h1Count: document.querySelectorAll('h1').length,
-      hasHeader: Boolean(document.querySelector('header')),
-      hasNav: Boolean(document.querySelector('nav')),
-      hasMain: Boolean(document.querySelector('main')),
-      hasFooter: Boolean(document.querySelector('footer')),
-      hasSkipLink: Boolean(document.querySelector('a[href="#main-content"]')),
-      missingAltVisibleImgs: Array.from(document.querySelectorAll('img')).filter(
-        (img) =>
-          img.getAttribute('aria-hidden') !== 'true' &&
-          !img.closest('[aria-hidden="true"]') &&
-          !img.alt.trim()
-      ).length,
-    }));
-    expect(a11yCheck.h1Count).toBe(1);
-    expect(a11yCheck.hasHeader && a11yCheck.hasNav && a11yCheck.hasMain && a11yCheck.hasFooter).toBe(true);
-    expect(a11yCheck.hasSkipLink).toBe(true);
-    expect(a11yCheck.missingAltVisibleImgs).toBe(0);
+    // 8. Axe-Core Accessibility Audit on Homepage
+    const axeHome = await new AxeBuilder({ page }).analyze();
+    const seriousHome = axeHome.violations.filter((v) =>
+      ['critical', 'serious'].includes(v.impact || '')
+    );
+    console.log(
+      'AXE_HOME_VIOLATIONS:',
+      JSON.stringify(axeHome.violations.map((v) => ({ id: v.id, impact: v.impact, nodes: v.nodes.length })))
+    );
+    expect(seriousHome, `Serious/critical a11y violations on /: ${JSON.stringify(seriousHome)}`).toEqual([]);
 
-    // Capture Web Vitals & Image integrity on homepage
+    // 9. Measured Web Vitals & Broken Image Check
     const metrics = await page.evaluate(() => {
       const imgs = Array.from(document.querySelectorAll('img'));
       const brokenImgs = imgs.filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src);
@@ -197,10 +227,11 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
         brokenImgs,
       };
     });
-    console.log('MEASURED_VITALS:', JSON.stringify(metrics));
+    console.log('MEASURED_VITALS_V2:', JSON.stringify(metrics));
     expect(metrics.brokenImgCount).toBe(0);
+    expect(metrics.cls).toBeLessThan(0.05);
 
-    // Visit every inner page cleanly & capture screenshots
+    // 10. All Inner Pages: Zero Overflow + Axe-Core Verification + Screenshots
     for (const route of ['/services', '/team', '/bridal', '/gallery', '/about', '/enquire']) {
       await page.goto(route, { waitUntil: 'networkidle' });
       await page.waitForTimeout(300);
@@ -208,8 +239,15 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
         () => document.documentElement.scrollWidth > window.innerWidth
       );
       expect(overflow, `Horizontal overflow detected on ${route}`).toBe(false);
+
+      const axeRoute = await new AxeBuilder({ page }).analyze();
+      const seriousRoute = axeRoute.violations.filter((v) =>
+        ['critical', 'serious'].includes(v.impact || '')
+      );
+      expect(seriousRoute, `Axe violations on ${route}: ${JSON.stringify(seriousRoute)}`).toEqual([]);
+
       const slug = route.replace('/', '');
-      await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, `desktop-page-${slug}.png`) });
+      await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, `v2-desktop-page-${slug}.png`) });
     }
 
     expect(consoleErrors).toEqual([]);
@@ -226,10 +264,10 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
       () => document.documentElement.scrollWidth > window.innerWidth
     );
     expect(overflow).toBe(false);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'tablet-hero.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-tablet-hero.png') });
   });
 
-  test('mobile entrance, touch mirror strip, menu drawer & overflow check (390x844)', async ({
+  test('mobile entrance, touch mirrors, swipe stylists & menu drawer (390x844)', async ({
     page,
   }, testInfo) => {
     test.skip(testInfo.project.name !== 'mobile', 'Mobile-specific journey');
@@ -237,33 +275,32 @@ test.describe('AERA Beauty Studio — Visual, Motion & Functional Audit', () => 
     page.on('pageerror', (e) => errors.push(String(e)));
 
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(100);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'mobile-01-closed-doors.png') });
+    await page.waitForTimeout(80);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-mobile-01-closed.png') });
 
-    await page.waitForTimeout(950);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'mobile-02-swinging.png') });
+    await page.waitForTimeout(900);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-mobile-02-swinging.png') });
 
     await page.waitForSelector('button:has-text("Skip Entrance")', { state: 'detached', timeout: 5500 });
     await page.waitForTimeout(250);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'mobile-03-hero.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-mobile-03-hero.png') });
 
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth > window.innerWidth
     );
     expect(overflow).toBe(false);
 
-    // Scroll to mobile mirrors & test quick pill selector
     await page.locator('#living-mirrors').scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
-    await page.getByRole('button', { name: /03 · Botanical Skin Sanctuary/i }).click();
-    await expect(page.locator('#mirror-console-ledger')).toContainText('Botanical Skin Sanctuary');
+    await page.getByRole('button', { name: /03 · Skincare & Facials/i }).click();
+    await expect(page.locator('#mirror-console-ledger')).toContainText('Skincare & Facials');
     await page.waitForTimeout(550);
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'mobile-04-mirrors.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-mobile-04-mirrors.png') });
 
-    // Open mobile drawer
+    // Mobile drawer
     await page.getByRole('button', { name: /Open navigation menu/i }).click();
     await expect(page.getByRole('dialog', { name: /Mobile Navigation/i })).toBeVisible();
-    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'mobile-05-menu.png') });
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v2-mobile-05-menu.png') });
     await page.getByRole('button', { name: /Close navigation menu/i }).click();
 
     expect(errors).toEqual([]);

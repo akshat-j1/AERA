@@ -38,38 +38,39 @@ export function WhatsappPreviewModal() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="wa-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2D2328]/45 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2C221E]/45 backdrop-blur-xs"
       onClick={closeWhatsappPreview}
     >
       <div
-        className="w-full max-w-lg rounded-sm bg-[#F8F5F1] text-[#2D2328] border border-[#C8B49D]/70 p-6 space-y-5 shadow-2xl"
+        className="w-full max-w-lg rounded-sm bg-[#FCFAF7] text-[#2C221E] border border-[#D4BEB0] p-6 space-y-5 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-start justify-between border-b border-[#C8B49D]/40 pb-3">
+        <div className="flex items-start justify-between border-b border-[#D4BEB0]/60 pb-3">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#504348]">
-              {studioConfig.whatsapp.demoMode ? 'Demo Safeguard Active' : 'WhatsApp Concierge'}
+            <p className="text-[10px] uppercase tracking-[0.2em] font-medium text-[#874030]">
+              WhatsApp Integration
             </p>
-            <h2 id="wa-modal-title" className="font-sculpt text-xl font-semibold mt-0.5">
-              Contextual Concierge Payload
+            <h2 id="wa-modal-title" className="font-editorial text-xl font-medium mt-0.5">
+              Pre-Filled Salon Message
             </h2>
           </div>
           <button
             type="button"
             onClick={closeWhatsappPreview}
-            aria-label="Close WhatsApp concierge preview"
-            className="p-1.5 rounded-sm border border-[#C8B49D]/60 cursor-pointer"
+            aria-label="Close WhatsApp message preview"
+            className="p-1.5 rounded-sm border border-[#D4BEB0] hover:bg-[#F4E5DA] cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <p className="text-xs text-[#504348] leading-relaxed">
-          In portfolio demo mode, no external phone number is dialed. Below is the exact pre-filled enquiry payload generated for a paying salon client once verified WhatsApp digits are supplied in{' '}
-          <code className="px-1 py-0.5 rounded bg-[#E6DDEB]/70 text-[#2D2328]">studio.config.ts</code>:
+        <p className="text-xs text-[#493B36] leading-relaxed">
+          {studioConfig.whatsapp.demoMode
+            ? 'In this portfolio showcase, live WhatsApp dialing is paused because no salon phone number is connected. Here is the formatted message sent when configured for a live salon client:'
+            : 'Review your pre-filled salon inquiry message below before opening WhatsApp.'}
         </p>
 
-        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F3EEF5] border border-[#C8B49D]/50 text-[#2D2328] leading-relaxed">
+        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F4E5DA]/65 border border-[#D4BEB0] text-[#2C221E] leading-relaxed">
           {message}
         </pre>
 
@@ -77,10 +78,10 @@ export function WhatsappPreviewModal() {
           <button
             type="button"
             onClick={copyPayload}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-[#504348]/40 text-xs hover:bg-[#E6DDEB]/50 cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-[#493B36]/35 text-xs hover:bg-[#F4E5DA] cursor-pointer"
           >
-            {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-            {copied ? 'Copied Message' : 'Copy Concierge Message'}
+            {copied ? <Check className="w-3.5 h-3.5 text-[#874030]" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? 'Copied Message' : 'Copy Message'}
           </button>
 
           {liveUri ? (
@@ -88,13 +89,13 @@ export function WhatsappPreviewModal() {
               href={liveUri}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs"
             >
               Open in WhatsApp <ExternalLink className="w-3.5 h-3.5" />
             </a>
           ) : (
-            <span className="text-[11px] text-[#504348]/80">
-              Live <code>wa.me</code> disabled until real number is configured
+            <span className="text-[11px] text-[#493B36]/80">
+              Live <code>wa.me</code> dialing disabled in showcase mode
             </span>
           )}
         </div>

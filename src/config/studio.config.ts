@@ -5,7 +5,8 @@ export interface StudioConfig {
     fullName: string;
     tagline: string;
     subline: string;
-    demoNotice: string;
+    footerDisclosure: string;
+    submissionNotice: string;
   };
   locale: {
     city: string;
@@ -13,7 +14,6 @@ export interface StudioConfig {
     country: string;
     currency: string;
     numberLocale: string;
-    coordinatesLabel: string;
   };
   location: {
     addressLine1: string;
@@ -26,9 +26,9 @@ export interface StudioConfig {
   };
   whatsapp: {
     /**
-     * In demoMode (default for fictional portfolio showcase), triggers an in-app
-     * WhatsApp Concierge Message Preview modal instead of dialing an unverified number.
-     * Set demoMode: false and supply verifiedDigits when deploying for a real client.
+     * In demoMode (fictional showcase), opens a formatted WhatsApp message preview
+     * instead of dialing unverified numbers. Set demoMode: false and supply verifiedDigits
+     * when deploying for a live salon client.
      */
     demoMode: boolean;
     verifiedDigits: string;
@@ -38,10 +38,6 @@ export interface StudioConfig {
     siteUrl: string;
     defaultTitle: string;
     defaultDescription: string;
-    /**
-     * LocalBusiness JSON-LD remains disabled by default in fictional showcase mode
-     * so non-existent physical business records are never emitted as verified listings.
-     */
     publishLocalBusinessSchema: boolean;
   };
   navigation: Array<{ label: string; to: string }>;
@@ -52,11 +48,13 @@ export const studioConfig: StudioConfig = {
     name: 'AERA',
     wordmark: 'A E R A',
     fullName: 'AERA Beauty Studio',
-    tagline: 'Sunlight, movement, and effortless craft.',
+    tagline: 'Thoughtful hair, luminous skin, and unhurried craft in Indiranagar.',
     subline:
-      'Architectural haircuts, low-ammonia mineral colour, and calm barrier facials inside a luminous Indiranagar sanctuary.',
-    demoNotice:
-      'Portfolio Showcase — Fictional studio data in Bengaluru (₹ INR). Demo appointment requests preview locally and do not confirm live salon slots.',
+      'A calm daylight salon for precision haircuts, natural hair colour, restorative facials, and effortless Indian bridal styling.',
+    footerDisclosure:
+      'Portfolio Concept Showcase · Fictional Bengaluru salon data (₹ INR). Submissions preview locally—no live bookings or messages are dispatched.',
+    submissionNotice:
+      'This site is a portfolio concept showcase—no real salon appointment is reserved or transmitted.',
   },
   locale: {
     city: 'Bengaluru',
@@ -64,39 +62,37 @@ export const studioConfig: StudioConfig = {
     country: 'IN',
     currency: 'INR',
     numberLocale: 'en-IN',
-    coordinatesLabel: 'BLR · 12.97° N',
   },
   location: {
-    addressLine1: '12th Main, HAL 2nd Stage (Showcase Concept Address)',
+    addressLine1: '12th Main, HAL 2nd Stage',
     addressLine2: 'Indiranagar, Bengaluru, Karnataka',
     postalCode: '560038',
     latitude: 12.9716,
     longitude: 77.6412,
-    directionsNote:
-      'Fictional showcase sanctuary concept set amid shaded avenue trees off 100 Feet Road, Indiranagar.',
+    directionsNote: 'Just off 100 Feet Road beneath shaded rain trees in Indiranagar.',
     hours: [
       { days: 'Tuesday – Friday', hours: '10:30 AM – 8:00 PM' },
       { days: 'Saturday – Sunday', hours: '10:00 AM – 8:30 PM' },
-      { days: 'Monday', hours: 'Closed for Studio Rest' },
+      { days: 'Monday', hours: 'Closed' },
     ],
   },
   whatsapp: {
     demoMode: true,
     verifiedDigits: '',
-    displayLabel: 'Concierge Preview',
+    displayLabel: 'Message on WhatsApp',
   },
   seo: {
     siteUrl: 'https://aera-beauty-studio.example',
-    defaultTitle: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Sanctuary',
+    defaultTitle: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Salon',
     defaultDescription:
-      'AERA Beauty Studio blends architectural spatial storytelling, sculptural hair craft, mineral colour, and calm botanical skin rituals in a reusable soft-luxury showcase.',
+      'A calm daylight beauty salon in Indiranagar, Bengaluru offering precision haircuts, ammonia-free hair colour, facials, and bridal hair & makeup.',
     publishLocalBusinessSchema: false,
   },
   navigation: [
-    { label: 'Rituals', to: '/services' },
-    { label: 'Artisans', to: '/team' },
+    { label: 'Services', to: '/services' },
+    { label: 'Stylists', to: '/team' },
     { label: 'Bridal', to: '/bridal' },
     { label: 'Lookbook', to: '/gallery' },
-    { label: 'Studio', to: '/about' },
+    { label: 'Our Studio', to: '/about' },
   ],
 };

@@ -9,29 +9,29 @@ import { formatCurrency, formatDuration } from '../../lib/format';
 import { useStudio } from '../../lib/StudioContext';
 
 const enquirySchema = z.object({
-  serviceId: z.string().min(1, 'Please select a ritual'),
+  serviceId: z.string().min(1, 'Please choose a service'),
   artisanId: z.string().optional(),
   hairLength: z.string().min(1),
   preferredWindow: z.string().min(1),
   preferredDate: z.string().optional(),
-  guestName: z.string().trim().min(2, 'Please enter at least 2 characters for your name'),
-  contactHandle: z.string().trim().min(5, 'Please provide a demo phone or email handle'),
+  guestName: z.string().trim().min(2, 'Please enter your name'),
+  contactHandle: z.string().trim().min(5, 'Please enter an email or phone number'),
   notes: z.string().max(400).optional(),
-  companyWebsite: z.string().max(0).optional(), // honeypot
+  companyWebsite: z.string().max(0).optional(),
 });
 
 const WINDOWS = [
-  'Weekday Morning (10:30 – 13:30 IST)',
-  'Weekday Afternoon (14:00 – 17:30 IST)',
-  'Weekday Early Evening (17:30 – 20:00 IST)',
-  'Weekend Atelier Slot (Sat/Sun)',
+  'Weekday Morning (10:30 – 13:30)',
+  'Weekday Afternoon (14:00 – 17:30)',
+  'Weekday Evening (17:30 – 20:00)',
+  'Weekend (Sat / Sun)',
 ];
 
 const HAIR_PROFILES = [
   'Short / Cropped',
   'Shoulder / Medium Length',
-  'Long & Dense',
-  'Skin / Bridal Consultation Only',
+  'Long & Thick',
+  'Skincare / Bridal Trial',
 ];
 
 export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
@@ -79,38 +79,49 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
     });
 
     if (!parsed.success) {
-      setErrorMsg(parsed.error.issues[0]?.message ?? 'Please check the entered details.');
+      setErrorMsg(parsed.error.issues[0]?.message ?? 'Please review your entered details.');
       return;
     }
 
-    const demoCode = `AERA-DEMO-${Math.floor(1000 + Math.random() * 9000)}`;
+    const demoCode = `AERA-${Math.floor(1000 + Math.random() * 9000)}`;
     setSubmittedRef(demoCode);
     onSubmitted?.();
   };
 
   if (submittedRef) {
     return (
-      <div className="space-y-5 p-5 rounded-sm bg-[#F3EEF5] border border-[#C8B49D]/60">
+      <div className="space-y-5 p-6 rounded-sm bg-[#F4E5DA]/70 border border-[#D4BEB0]">
         <div className="flex items-start gap-3">
-          <CheckCircle2 className="w-5 h-5 text-[#504348] shrink-0 mt-0.5" />
-          <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-[#504348]">
-              Demo Request Logged Locally · {submittedRef}
+          <CheckCircle2 className="w-5 h-5 text-[#874030] shrink-0 mt-0.5" />
+          <div className="space-y-1.5">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-[#874030] font-medium">
+              Preview Logged Locally · Ref {submittedRef}
             </p>
-            <h3 className="font-sculpt text-xl font-semibold text-[#2D2328]">
+            <h3 className="font-editorial text-xl font-medium text-[#2C221E]">
               Thank you, {guestName}.
             </h3>
-            <p className="text-xs text-[#504348] leading-relaxed">
-              This is a <strong>portfolio demonstration</strong>—no real booking was transmitted to a live salon or confirmed for an actual chair slot.
+            <p className="text-xs text-[#493B36] leading-relaxed">
+              {studioConfig.brand.submissionNotice}
             </p>
           </div>
         </div>
 
-        <div className="p-4 rounded-sm bg-[#F8F5F1] border border-[#C8B49D]/45 text-xs space-y-1.5">
-          <p><span className="text-[#504348]/75">Ritual:</span> <strong>{selectedService.name}</strong></p>
-          <p><span className="text-[#504348]/75">Profile:</span> {hairLength}</p>
-          <p><span className="text-[#504348]/75">Specialist:</span> {selectedArtisan ? selectedArtisan.name : 'First Available Specialist'}</p>
-          <p><span className="text-[#504348]/75">Preferred Window:</span> {preferredWindow}{preferredDate ? ` (${preferredDate})` : ''}</p>
+        <div className="p-4 rounded-sm bg-[#FCFAF7] border border-[#D4BEB0]/60 text-xs space-y-1.5">
+          <p>
+            <span className="text-[#493B36]/80">Service:</span>{' '}
+            <strong>{selectedService.name}</strong>
+          </p>
+          <p>
+            <span className="text-[#493B36]/80">Length / Focus:</span> {hairLength}
+          </p>
+          <p>
+            <span className="text-[#493B36]/80">Stylist:</span>{' '}
+            {selectedArtisan ? selectedArtisan.name : 'Any Available Stylist'}
+          </p>
+          <p>
+            <span className="text-[#493B36]/80">Time Preference:</span> {preferredWindow}
+            {preferredDate ? ` (${preferredDate})` : ''}
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-2.5">
@@ -118,7 +129,7 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             type="button"
             onClick={() =>
               openWhatsappPreview({
-                sourceLabel: `Demo Request ${submittedRef}`,
+                sourceLabel: `Appointment Preview ${submittedRef}`,
                 ritualName: selectedService.name,
                 artisanName: selectedArtisan?.name,
                 hairLength,
@@ -127,10 +138,10 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
                 notes,
               })
             }
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs hover:bg-[#874030] cursor-pointer"
           >
             <MessageSquare className="w-3.5 h-3.5" />
-            Inspect Generated WhatsApp Payload
+            Preview WhatsApp Message
           </button>
           <button
             type="button"
@@ -138,9 +149,9 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
               setSubmittedRef(null);
               setStep(1);
             }}
-            className="px-4 py-2.5 rounded-sm border border-[#504348]/35 text-xs text-[#2D2328] cursor-pointer"
+            className="px-4 py-2.5 rounded-sm border border-[#493B36]/35 text-xs text-[#2C221E] cursor-pointer"
           >
-            Test Another Request
+            Start Over
           </button>
         </div>
       </div>
@@ -149,25 +160,23 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Honest Demo Notice Banner */}
-      <div className="p-3 rounded-sm bg-[#E6DDEB]/65 border border-[#C8B49D]/55 flex items-start gap-2.5 text-[11px] text-[#2D2328]">
-        <Info className="w-4 h-4 text-[#504348] shrink-0 mt-0.5" />
-        <p>{studioConfig.brand.demoNotice}</p>
-      </div>
-
       {selectedLook && (
-        <div className="px-3 py-2 rounded-sm bg-[#F3E6DF] border border-[#C8B49D]/50 text-xs flex justify-between items-center">
-          <span>Pre-filled from Lookbook: <strong>{selectedLook.title}</strong></span>
-          <span className="text-[10px] uppercase tracking-[0.14em] text-[#504348]">{selectedLook.indexCode}</span>
+        <div className="px-3.5 py-2.5 rounded-sm bg-[#F4E5DA] border border-[#D4BEB0] text-xs flex justify-between items-center">
+          <span>
+            Selected Look: <strong>{selectedLook.title}</strong>
+          </span>
+          <span className="text-[10px] uppercase tracking-[0.14em] text-[#874030]">
+            Look {selectedLook.indexCode}
+          </span>
         </div>
       )}
 
-      {/* Calm Step Indicators */}
+      {/* Step Tabs */}
       <div className="grid grid-cols-3 gap-2 text-[11px]">
         {[
-          [1, '01 · Ritual'],
-          [2, '02 · Timing'],
-          [3, '03 · Guest Details'],
+          [1, '1 · Service'],
+          [2, '2 · Stylist & Time'],
+          [3, '3 · Your Details'],
         ].map(([num, label]) => (
           <button
             key={num}
@@ -175,8 +184,8 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             onClick={() => setStep(num as 1 | 2 | 3)}
             className={`py-2 px-2.5 rounded-sm border text-left transition-colors cursor-pointer ${
               step === num
-                ? 'border-[#504348] bg-[#504348] text-[#F8F5F1]'
-                : 'border-[#C8B49D]/50 bg-[#F8F5F1] text-[#504348]'
+                ? 'border-[#493B36] bg-[#493B36] text-[#FCFAF7] font-medium'
+                : 'border-[#D4BEB0] bg-[#FCFAF7] text-[#493B36]'
             }`}
           >
             {label}
@@ -184,63 +193,66 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
         ))}
       </div>
 
-      {/* Step 1: Ritual & Hair Profile */}
+      {/* Step 1: Service */}
       {step === 1 && (
         <div className="space-y-4">
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Select Ritual</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Select Service</span>
             <select
               value={serviceId}
               onChange={(e) => setServiceId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             >
               {salonServices.map((s) => (
                 <option key={s.id} value={s.id}>
-                  {s.name} — From {formatCurrency(s.startingPriceInr)} ({formatDuration(s.durationMinutes)})
+                  {s.name} — From {formatCurrency(s.startingPriceInr)} (
+                  {formatDuration(s.durationMinutes)})
                 </option>
               ))}
             </select>
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Hair Length / Focus</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Hair Length / Focus</span>
             <select
               value={hairLength}
               onChange={(e) => setHairLength(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             >
               {HAIR_PROFILES.map((hp) => (
-                <option key={hp} value={hp}>{hp}</option>
+                <option key={hp} value={hp}>
+                  {hp}
+                </option>
               ))}
             </select>
           </label>
 
-          <div className="p-3 rounded-sm bg-[#F3EEF5] text-xs text-[#504348] space-y-1">
-            <p className="font-medium text-[#2D2328]">{selectedService.name}</p>
+          <div className="p-3.5 rounded-sm bg-[#F4E5DA]/60 text-xs text-[#493B36] space-y-1">
+            <p className="font-medium text-[#2C221E]">{selectedService.name}</p>
             <p>{selectedService.consultationNote}</p>
           </div>
 
           <button
             type="button"
             onClick={() => setStep(2)}
-            className="w-full py-2.5 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.16em] cursor-pointer"
+            className="w-full py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] hover:bg-[#874030] cursor-pointer"
           >
-            Continue to Specialist &amp; Timing →
+            Continue to Stylist &amp; Time →
           </button>
         </div>
       )}
 
-      {/* Step 2: Specialist & Time Window */}
+      {/* Step 2: Stylist & Time */}
       {step === 2 && (
         <div className="space-y-4">
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Preferred Specialist</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Stylist</span>
             <select
               value={artisanId}
               onChange={(e) => setArtisanId(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             >
-              <option value="">First Available Specialist</option>
+              <option value="">First Available Stylist</option>
               {artisans.map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name} — {a.role}
@@ -250,25 +262,27 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Preferred Studio Window</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Time Window</span>
             <select
               value={preferredWindow}
               onChange={(e) => setPreferredWindow(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             >
               {WINDOWS.map((w) => (
-                <option key={w} value={w}>{w}</option>
+                <option key={w} value={w}>
+                  {w}
+                </option>
               ))}
             </select>
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Ideal Date (Optional)</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Preferred Date (Optional)</span>
             <input
               type="date"
               value={preferredDate}
               onChange={(e) => setPreferredDate(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             />
           </label>
 
@@ -276,25 +290,24 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="px-4 py-2.5 rounded-sm border border-[#504348]/35 text-xs cursor-pointer"
+              className="px-4 py-2.5 rounded-sm border border-[#D4BEB0] text-xs text-[#2C221E] cursor-pointer"
             >
               ← Back
             </button>
             <button
               type="button"
               onClick={() => setStep(3)}
-              className="flex-1 py-2.5 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.16em] cursor-pointer"
+              className="flex-1 py-2.5 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] hover:bg-[#874030] cursor-pointer"
             >
-              Continue to Guest Details →
+              Continue to Your Details →
             </button>
           </div>
         </div>
       )}
 
-      {/* Step 3: Guest Details & Submit */}
+      {/* Step 3: Contact & Submit */}
       {step === 3 && (
         <div className="space-y-4">
-          {/* Honeypot */}
           <input
             type="text"
             tabIndex={-1}
@@ -306,42 +319,49 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
           />
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Your Name *</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Full Name *</span>
             <input
               type="text"
               required
               placeholder="e.g., Aditi Sharma"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             />
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Demo Contact (Email or Phone Placeholder) *</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">Email or Phone Number *</span>
             <input
               type="text"
               required
               placeholder="e.g., aditi@example.com"
               value={contactHandle}
               onChange={(e) => setContactHandle(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             />
           </label>
 
           <label className="block space-y-1.5 text-xs">
-            <span className="uppercase tracking-[0.14em] text-[#504348]">Hair History / Sensitivity Notes</span>
+            <span className="uppercase tracking-[0.14em] text-[#493B36]">
+              Notes (Previous Colour, Hair History, Event Dates)
+            </span>
             <textarea
               rows={3}
-              placeholder="Optional notes on past colour, henna, scalp sensitivity, or bridal dates."
+              placeholder="Share anything helpful for your stylist ahead of the appointment."
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full p-2.5 rounded-sm border border-[#C8B49D]/70 bg-[#F8F5F1] text-[#2D2328]"
+              className="w-full p-2.5 rounded-sm border border-[#D4BEB0] bg-[#FCFAF7] text-[#2C221E]"
             />
           </label>
 
+          <div className="p-3 rounded-sm bg-[#F4E5DA]/60 border border-[#D4BEB0]/60 flex items-start gap-2 text-[11px] text-[#493B36]">
+            <Info className="w-3.5 h-3.5 text-[#874030] shrink-0 mt-0.5" />
+            <span>{studioConfig.brand.submissionNotice}</span>
+          </div>
+
           {errorMsg && (
-            <p role="alert" className="text-xs text-[#6B2130] bg-[#D5B4B8]/30 px-3 py-2 rounded-sm">
+            <p role="alert" className="text-xs text-[#7B281E] bg-[#DEB0A3]/35 px-3 py-2 rounded-sm">
               {errorMsg}
             </p>
           )}
@@ -350,15 +370,15 @@ export function EnquiryForm({ onSubmitted }: { onSubmitted?: () => void }) {
             <button
               type="button"
               onClick={() => setStep(2)}
-              className="px-4 py-2.5 rounded-sm border border-[#504348]/35 text-xs cursor-pointer"
+              className="px-4 py-2.5 rounded-sm border border-[#D4BEB0] text-xs cursor-pointer"
             >
               ← Back
             </button>
             <button
               type="submit"
-              className="flex-1 py-2.5 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#3A2E33] cursor-pointer"
+              className="flex-1 py-3 rounded-sm bg-[#493B36] text-[#FCFAF7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#874030] cursor-pointer"
             >
-              Submit Demo Appointment Request
+              Submit Appointment Request
             </button>
           </div>
         </div>
