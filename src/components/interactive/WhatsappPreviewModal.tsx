@@ -1,0 +1,104 @@
+import { useEffect, useState } from 'react';
+import { X, Copy, Check, ExternalLink } from 'lucide-react';
+import { useStudio } from '../../lib/StudioContext';
+import { buildWhatsAppMessage, buildWhatsAppUri } from '../../lib/whatsapp';
+import { studioConfig } from '../../config/studio.config';
+
+export function WhatsappPreviewModal() {
+  const { whatsappPreview, closeWhatsappPreview } = useStudio();
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!whatsappPreview) return;
+    setCopied(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeWhatsappPreview();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [whatsappPreview, closeWhatsappPreview]);
+
+  if (!whatsappPreview) return null;
+
+  const message = buildWhatsAppMessage(whatsappPreview);
+  const liveUri = buildWhatsAppUri(whatsappPreview);
+
+  const copyPayload = async () => {
+    try {
+      await navigator.clipboard.writeText(message);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard API may fail in non-HTTPS contexts
+    }
+  };
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="wa-modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#2D2328]/45 backdrop-blur-xs"
+      onClick={closeWhatsappPreview}
+    >
+      <div
+        className="w-full max-w-lg rounded-sm bg-[#F8F5F1] text-[#2D2328] border border-[#C8B49D]/70 p-6 space-y-5 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between border-b border-[#C8B49D]/40 pb-3">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-[#504348]">
+              {studioConfig.whatsapp.demoMode ? 'Demo Safeguard Active' : 'WhatsApp Concierge'}
+            </p>
+            <h2 id="wa-modal-title" className="font-sculpt text-xl font-semibold mt-0.5">
+              Contextual Concierge Payload
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={closeWhatsappPreview}
+            aria-label="Close WhatsApp concierge preview"
+            className="p-1.5 rounded-sm border border-[#C8B49D]/60 cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <p className="text-xs text-[#504348] leading-relaxed">
+          In portfolio demo mode, no external phone number is dialed. Below is the exact pre-filled enquiry payload generated for a paying salon client once verified WhatsApp digits are supplied in{' '}
+          <code className="px-1 py-0.5 rounded bg-[#E6DDEB]/70 text-[#2D2328]">studio.config.ts</code>:
+        </p>
+
+        <pre className="whitespace-pre-wrap font-sans text-xs p-4 rounded-sm bg-[#F3EEF5] border border-[#C8B49D]/50 text-[#2D2328] leading-relaxed">
+          {message}
+        </pre>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+          <button
+            type="button"
+            onClick={copyPayload}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-[#504348]/40 text-xs hover:bg-[#E6DDEB]/50 cursor-pointer"
+          >
+            {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+            {copied ? 'Copied Message' : 'Copy Concierge Message'}
+          </button>
+
+          {liveUri ? (
+            <a
+              href={liveUri}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-sm bg-[#504348] text-[#F8F5F1] text-xs"
+            >
+              Open in WhatsApp <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          ) : (
+            <span className="text-[11px] text-[#504348]/80">
+              Live <code>wa.me</code> disabled until real number is configured
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
