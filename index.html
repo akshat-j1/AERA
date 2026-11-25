@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AERA Beauty Studio — Bengaluru Hair, Skin &amp; Bridal Sanctuary</title>
+    <meta name="description" content="AERA Beauty Studio is a contemporary soft-luxury salon showcase featuring sculptural hair craft, mineral colour, botanical skin rituals, and bridal curation." />
+    <meta name="theme-color" content="#F8F5F1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      (function () {
+        try {
+          var isHome = location.pathname === '/' || location.pathname === '/index.html';
+          var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var seen = sessionStorage.getItem('aera_entrance_seen') === '1';
+          if (isHome && !reduced && !seen) {
+            document.documentElement.setAttribute('data-aera-entrance', 'pending');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <!--app-head-->
+  </head>
+  <body class="bg-[#F8F5F1] text-[#2D2328] antialiased selection:bg-[#E6DDEB] selection:text-[#2D2328]">
+    <!-- Pre-hydration instant closed-door cover (removed seamlessly once React mounts 3D doors) -->
+    <div id="aera-pre-entrance" aria-hidden="true">
+      <img src="/media/doors-closed-960.webp" alt="" aria-hidden="true" />
+      <div class="aera-pre-crest">
+        <span>A E R A</span>
+        <small>Indiranagar · Bengaluru</small>
+      </div>
+    </div>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+node_modules
+dist
+dist-ssr
+audit-captures
+.vite
+*.tsbuildinfo
+test-results
+playwright-report
+.env
+.env.*
+!.env.example
+.DS_Store
+src/assets/media/raw/*.DS_Store
