@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { salonServices } from '../../config/services.config';
+import { studioConfig } from '../../config/studio.config';
 import { formatCurrency } from '../../lib/format';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 import { useStudio } from '../../lib/StudioContext';
@@ -97,7 +98,7 @@ export function ChairSanctuarySection() {
               />
               <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-2 text-xs text-[#FAF8F7] z-10">
                 <span className="px-3.5 py-1.5 rounded-full bg-[#2A2128]/65 backdrop-blur-md">
-                  Indiranagar Studio · Styling Floor
+                  {studioConfig.locale.neighborhood} Studio · Styling Floor
                 </span>
               </div>
             </div>

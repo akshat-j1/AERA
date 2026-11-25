@@ -1,9 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useStudio } from '../../lib/StudioContext';
 
 export function MobileConciergeBar() {
   const { openEnquiry, openWhatsappPreview, entranceActive } = useStudio();
+  const { pathname } = useLocation();
+  const [pastHero, setPastHero] = useState(false);
 
-  if (entranceActive) return null;
+  useEffect(() => {
+    const onScroll = () => setPastHero(window.scrollY > 440);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [pathname]);
+
+  if (entranceActive || pathname === '/enquire') return null;
+  if (pathname === '/' && !pastHero) return null;
 
   return (
     <div className="fixed bottom-0 inset-x-0 z-30 md:hidden bg-[#FAF8F7]/95 backdrop-blur-md border-t border-[#DCD2D8] px-4 py-2.5 flex items-center gap-2.5 shadow-[0_-4px_20px_rgba(42,33,40,0.08)]">

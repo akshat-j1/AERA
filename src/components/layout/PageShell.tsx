@@ -46,7 +46,7 @@ export function PageShell({
             <h1 className="font-campaign text-4xl md:text-6xl font-bold leading-[1.02] text-[#2A2128]">
               {titlePrefix}
               {titleAccent ? (
-                <span className="block md:inline font-editorial font-semibold text-[#493D46] text-[0.86em]">
+                <span className="block md:inline font-whisper font-normal text-[#844D60] text-[0.9em]">
                   {' '}
                   {titleAccent}
                 </span>

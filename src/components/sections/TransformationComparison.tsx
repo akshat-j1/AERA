@@ -137,8 +137,8 @@ export function TransformationComparison() {
   }
 
   return (
-    <div ref={host} className="relative lg:motion-safe:enhanced:h-[210vh] bg-[#FAF8F7] border-b border-[#DCD2D8]">
-      <div className="py-16 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
+    <div ref={host} className="relative lg:motion-safe:enhanced:h-[150vh] bg-[#FAF8F7] border-b border-[#DCD2D8]">
+      <div className="py-14 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
         <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-1.5 max-w-2xl">
@@ -149,28 +149,30 @@ export function TransformationComparison() {
                 {study.afterMediaId ? 'Explore the finished transformation.' : 'Explore the proposed cut and colour.'}
               </h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {transformationStudies.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  aria-pressed={index === studyIndex}
-                  onClick={() => {
-                    if (index === studyIndex) return;
-                    drag.current = null;
-                    setStudyIndex(index);
-                    resumeScroll();
-                  }}
-                  className={`px-4 py-2 text-xs rounded-full border transition-colors cursor-pointer ${
-                    index === studyIndex
-                      ? 'bg-[#493D46] text-[#FAF8F7] border-[#493D46]'
-                      : 'bg-[#F2EEF1] text-[#2A2128] border-[#DCD2D8] hover:bg-[#E7DFEB]'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
+            {transformationStudies.length > 1 && (
+              <div className="flex flex-wrap gap-2">
+                {transformationStudies.map((item, index) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    aria-pressed={index === studyIndex}
+                    onClick={() => {
+                      if (index === studyIndex) return;
+                      drag.current = null;
+                      setStudyIndex(index);
+                      resumeScroll();
+                    }}
+                    className={`px-4 py-2 text-xs rounded-full border transition-colors cursor-pointer ${
+                      index === studyIndex
+                        ? 'bg-[#493D46] text-[#FAF8F7] border-[#493D46]'
+                        : 'bg-[#F2EEF1] text-[#2A2128] border-[#DCD2D8] hover:bg-[#E7DFEB]'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
@@ -227,7 +229,9 @@ export function TransformationComparison() {
                 </div>
               </div>
               <p className="text-[11px] text-[#493D46] text-center max-w-md mx-auto">
-                {study.afterMediaId ? 'Drag the divider or use the arrow keys to compare.' : `A matched result photo is pending. ${study.subtitle}`}
+                {study.afterMediaId
+                  ? 'Drag or use arrow keys to compare. Illustrative same-subject studio transformation.'
+                  : `A matched result photo is pending. ${study.subtitle}`}
               </p>
             </div>
 

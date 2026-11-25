@@ -12,10 +12,10 @@ export type MediaId =
   | 'skincare-facial'
   | 'bridal-indian'
   | 'before-hair'
+  | 'after-hair-matched'
   | 'look-chestnut-layers'
   | 'portrait-balayage'
   | 'portrait-chignon'
-  | 'portrait-natural-profile'
   | 'portrait-studio-waves'
   | 'stylist-cut'
   | 'stylist-colour'
@@ -72,7 +72,11 @@ export const mediaMeta: Record<MediaId, MediaMetadata> = {
     objectPosition: '50% 24%',
   },
   'before-hair': {
-    alt: 'Single baseline hair profile photograph showing unlayered dry shoulder-length hair before styling',
+    alt: 'Baseline studio portrait before styling showing unlayered dry shoulder-length hair',
+    objectPosition: '48% 30%',
+  },
+  'after-hair-matched': {
+    alt: 'Matched same-subject transformation showing soft precision layers and dimensional espresso-caramel gloss',
     objectPosition: '48% 30%',
   },
   'look-chestnut-layers': {
@@ -86,10 +90,6 @@ export const mediaMeta: Record<MediaId, MediaMetadata> = {
   'portrait-chignon': {
     alt: 'Relaxed low chignon updo with soft face-framing tendrils and rose-berry lip finish',
     objectPosition: '50% 20%',
-  },
-  'portrait-natural-profile': {
-    alt: 'Profile hair movement study in quiet studio daylight',
-    objectPosition: '50% 22%',
   },
   'portrait-studio-waves': {
     alt: 'Shoulder-length sculpted waves with natural sheen in front of plaster wall',

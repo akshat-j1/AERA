@@ -1,14 +1,14 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { lookbookEntries, lookbookMoods, type LookbookMood } from '../config/lookbook.config';
 import { formatCurrency } from '../lib/format';
 import { useStudio } from '../lib/StudioContext';
 import { PageShell } from '../components/layout/PageShell';
 import { StudioPicture } from '../components/layout/StudioPicture';
-import { TransformationSection } from '../components/sections/TransformationSection';
 
 export function GalleryPage() {
   const [mood, setMood] = useState<LookbookMood>('All');
-  const { openLookbook } = useStudio();
+  const { openLookbook, openEnquiry } = useStudio();
 
   const items =
     mood === 'All' ? lookbookEntries : lookbookEntries.filter((l) => l.mood === mood);
@@ -18,10 +18,10 @@ export function GalleryPage() {
       eyebrow="Lookbook"
       titlePrefix="Hair, colour, skincare"
       titleAccent="& bridal studies."
-      description="Explore concept looks by focus area, then open a portrait for service timing and pricing."
+      description="Explore curated salon studies by focus area, then open any portrait for tailored timing and transparent INR guidance."
       surface="alabaster"
     >
-      <section className="py-14 md:py-20 bg-[#FAF8F7]">
+      <section className="py-14 md:py-20 bg-[#FAF8F7] border-b border-[#DCD2D8]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-10">
           <div className="flex flex-wrap gap-2">
             {lookbookMoods.map((m) => (
@@ -84,7 +84,36 @@ export function GalleryPage() {
         </div>
       </section>
 
-      <TransformationSection />
+      <section className="py-14 md:py-20 bg-[#F2EEF1]">
+        <div className="max-w-7xl mx-auto px-5 md:px-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-2 max-w-xl">
+            <p className="text-[11px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
+              Daylight Consultation
+            </p>
+            <h2 className="font-campaign text-2xl sm:text-3xl font-bold text-[#2A2128]">
+              Ready to adapt a study to your hair texture?
+            </h2>
+            <p className="text-sm text-[#493D46] leading-relaxed">
+              Bring look references or book a calm 15-minute colour &amp; layer mapping session before deciding.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => openEnquiry({ sourceLabel: 'Gallery Look Consultation' })}
+              className="px-6 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] transition-colors cursor-pointer"
+            >
+              Book Consultation
+            </button>
+            <Link
+              to="/services"
+              className="px-5 py-3 rounded-full border border-[#DCD2D8] bg-[#FAF8F7] text-xs uppercase tracking-[0.14em] text-[#2A2128] hover:bg-[#E7DFEB] transition-colors"
+            >
+              Full Service Menu
+            </Link>
+          </div>
+        </div>
+      </section>
     </PageShell>
   );
 }

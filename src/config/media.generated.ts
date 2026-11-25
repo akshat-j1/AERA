@@ -11,6 +11,16 @@ export interface MediaAssetEntry {
 }
 
 export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
+  "after-hair-matched": {
+    "id": "after-hair-matched",
+    "width": 896,
+    "height": 1200,
+    "aspectRatio": 0.7467,
+    "fallbackSrc": "/media/after-hair-matched-896.webp",
+    "avifSrcset": "/media/after-hair-matched-480.avif 480w, /media/after-hair-matched-896.avif 896w",
+    "webpSrcset": "/media/after-hair-matched-480.webp 480w, /media/after-hair-matched-896.webp 896w",
+    "lqip": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABQBQCdASoYACAAPt1ep0yopSOiMBgMARAbiWUAxkA0cAYhkNj4biME0Z5V08yrLk+5BSgA/u+3h/CbWQIpZMEtWdNKRLM/3QESru6AZPUpfJaU77+asiQ+aLuWNsBEALg/4sZbD0V8MeXkI0Ed3xSOXSZULtklBsS34xNAFqxOwxxUtoQITAtlhUakQGkuI8HP8ba9/RKoLgfT1LzpqgRcOzPe7WRIPAZUAAAA"
+  },
   "before-hair": {
     "id": "before-hair",
     "width": 896,
@@ -29,7 +39,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/booking-station-960.webp",
     "avifSrcset": "/media/booking-station-480.avif 480w, /media/booking-station-960.avif 960w, /media/booking-station-1376.avif 1376w",
     "webpSrcset": "/media/booking-station-480.webp 480w, /media/booking-station-960.webp 960w, /media/booking-station-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRpgAAABXRUJQVlA4IIwAAAAwBACdASoYAA0APt1cpkyopSOiMAgBEBuJZQCdB3gAZw0TNefab4qdU2AA/uu6PCKzj2t3H5au1OpMl1YyWKL7KW1ZEF6oWfQ9HYoc+/6b+WhXVY5llbzzPAAcI6GWQraUxsya/4OeiUCZ61M40oV+DMPPVB5eNOSCvwe9qtTLnaSBScm6Mdbg55QAAA=="
+    "lqip": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4IIgAAACwAwCdASoYAA0APt1cpkyopSOiMAgBEBuJZQCdABAJOAEmUvtMQAD+66r5jz4kgjK7j/4WuE7BEIqW51sqeKgEEA8S2GYJUVC38i1K7Z9ju2pH4YplhjkvTIioi8ioxw2TuKlKNg3XHtGNxya8Dz1CbMaXuNYSwYth0tu/JkbS4wG7W4OeUAAA"
   },
   "bridal-indian": {
     "id": "bridal-indian",
@@ -49,7 +59,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/doors-closed-960.webp",
     "avifSrcset": "/media/doors-closed-480.avif 480w, /media/doors-closed-960.avif 960w, /media/doors-closed-1376.avif 1376w",
     "webpSrcset": "/media/doors-closed-480.webp 480w, /media/doors-closed-960.webp 960w, /media/doors-closed-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASoYAA0APt1cp0yopSOiMAgBEBuJQBOmUABoV2tGHE+oipErTAAA/uAEEdKxnR+STgVV/NIWqiERrygH4XFc/QUTIO0fOhZBDeDRFIW9AiQ/XF7zx7jaQfAAWajttXHf7YnKJQ8KWfffJRDvWZlYYBWQGKQgfudWqihoh6MyAAA="
+    "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAADwAwCdASoYAA0APt1cp0yopSOiMAgBEBuJQBOmUABoV2tGHE78RrbgAP7gBBHSr8n3x2JVV8qAKop6lDitM/enLwPxnEJXgJWCDtJDEUhb0CJD9cXvPHuNo4tEOSPGuyT4f8s3G8ieNeGU92tDczhxokOj1AZBEpkqMVbdfmAXsAAA"
   },
   "hero-craft": {
     "id": "hero-craft",
@@ -79,7 +89,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/mirror-wall-960.webp",
     "avifSrcset": "/media/mirror-wall-480.avif 480w, /media/mirror-wall-960.avif 960w, /media/mirror-wall-1376.avif 1376w",
     "webpSrcset": "/media/mirror-wall-480.webp 480w, /media/mirror-wall-960.webp 960w, /media/mirror-wall-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoYAA0APt1cp00opSOiMAgBEBuJZwCo9CPtv3I1huvRaUAA/uf18l8I26LHM953spDcOLNaqGchSXcZsmiqvm5yLJ1cAWekdHbEaE8UMdDo927XLBGozAAA"
+    "lqip": "data:image/webp;base64,UklGRmwAAABXRUJQVlA4IGAAAAAQBACdASoYAA0APt1cp00opSOiMAgBEBuJZwAAYcwrSWZZqHVW9OGsAAD+4L+uHNuuaZIwupqA5DAMnp/kZbs5M7nyVr2tN5JuKwUZKUnj3HkHGmjzWEBOG2jQCTwAAAA="
   },
   "portrait-balayage": {
     "id": "portrait-balayage",
@@ -101,16 +111,6 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "webpSrcset": "/media/portrait-chignon-480.webp 480w, /media/portrait-chignon-896.webp 896w",
     "lqip": "data:image/webp;base64,UklGRtQAAABXRUJQVlA4IMgAAACQBQCdASoYACAAPt1cpUyopSOiMAgBEBuJYwC3uB6P3inBmIOQwVKZCqKLs6XtB4/2stdMAAD+jTesC2DN34QQM/Ddy7jywvbB1GjTnlLQdB5cJ0S5wing0fx6zUDH1YlsNg6nvekEWJpQbEFJvKzDGBnE5kmxvtaQ2x8d/c76dwaaTTIVWXXAjKGMtUxXpvcqnGBlyLx6Q4iWR5uYCuLGzy9HNmdS5yAslWyDhqm04Dlb/D11GJVtjg2CGeHdGsioDW4eyTgAAA=="
   },
-  "portrait-natural-profile": {
-    "id": "portrait-natural-profile",
-    "width": 896,
-    "height": 1200,
-    "aspectRatio": 0.7467,
-    "fallbackSrc": "/media/portrait-natural-profile-896.webp",
-    "avifSrcset": "/media/portrait-natural-profile-480.avif 480w, /media/portrait-natural-profile-896.avif 896w",
-    "webpSrcset": "/media/portrait-natural-profile-480.webp 480w, /media/portrait-natural-profile-896.webp 896w",
-    "lqip": "data:image/webp;base64,UklGRu4AAABXRUJQVlA4IOIAAAAQBgCdASoYACAAPt1apUyopSOiMBgMARAbiWMAnQMumm5jqlFJkfavdbvO6TZtS61ZkL+6ikMvOeAA/reDVqYvwM6cS56mecaCROs4Pg0BCcg7umfhJn71ZV8cZPcIl5L+dFZn8nFVyk97CE772NeEyTxacDrZa0Qln5x2IOOUNuv1+W6c3Mdm2nrEHnh62W4HhtU/T+IwKfcOvPdZEgEtaUWU0Gb19fahaSRI+3cLskhR+SsSgih2eqhdCFeFShnzXs8WFccD5aDOx3jaH6kTDTADKBPJ5RbP1m7Kea7tMAAA"
-  },
   "portrait-studio-waves": {
     "id": "portrait-studio-waves",
     "width": 896,
@@ -129,7 +129,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/sanctuary-sunlit-960.webp",
     "avifSrcset": "/media/sanctuary-sunlit-480.avif 480w, /media/sanctuary-sunlit-960.avif 960w, /media/sanctuary-sunlit-1376.avif 1376w",
     "webpSrcset": "/media/sanctuary-sunlit-480.webp 480w, /media/sanctuary-sunlit-960.webp 960w, /media/sanctuary-sunlit-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAADQBACdASoYAA0APt1apkyopSOiMAgBEBuJQBOl4ANQEzoK1MqUPS1qBHejZ5gOQAD+aR+V2uFXzOSr24li5Sic8eMwaR4EhxvwdGyilemjztq9+WwZxm6PY1z8eRJ8CqLSs4M+VFInQnWqygz5ma5dWEGmP1fvbBNoncmdX6qae5AJbnE2hToENjgQqjiqQrYlB59AkIK6cNsoAAA="
+    "lqip": "data:image/webp;base64,UklGRqgAAABXRUJQVlA4IJwAAADQBACdASoYAA0APt1apkyopSOiMAgBEBuJQBOl4ANQEzcK1MqUPJXN8FLiT5fwAAD+aR+Oa2Mq+AcOmfAOEshvQobq6hVZozKmVGyfvHa5F9svK5iLniRmgq575DhsLi9tHs6hnnEbdi08pK8+1tdz5zUMGIaDmA13L7c2QYrpvIdYq+sVZqVNzntChz/MIlepM1gdQTYMLvYAAAA="
   },
   "skincare-facial": {
     "id": "skincare-facial",
@@ -179,7 +179,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/studio-aisle-daylight-960.webp",
     "avifSrcset": "/media/studio-aisle-daylight-480.avif 480w, /media/studio-aisle-daylight-960.avif 960w, /media/studio-aisle-daylight-1376.avif 1376w",
     "webpSrcset": "/media/studio-aisle-daylight-480.webp 480w, /media/studio-aisle-daylight-960.webp 960w, /media/studio-aisle-daylight-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4IJoAAACQBACdASoYAA0APt1apkyopSOiMAgBEBuJYwCdMoAlvxWCajB/vyZnNXUJWkgA/mYipLnM29y++dQvPjaz5/WHUIk32fxYrYtV8a611UlfUgWpF/n3yKEi+J4CjlmX9RCIj9JF6KvjiG72xYWQ1U7sAd7KjIc9qxxSZlzTaGGy8AW+kfzBYQv0EReGQPrb5Om5d/qX/yDSAAAA"
+    "lqip": "data:image/webp;base64,UklGRqAAAABXRUJQVlA4IJQAAABQBACdASoYAA0APt1cpkyopSOiMAgBEBuJYwCdMoADK7gKGnd0QSoJGkRwAP5mIqToEk7/svOnCJ1clVih0mMFS2f9vqZjdYwVwO8WW1CrFKCvTzTUMNL2xTPEOqPr3meQ+pJ5N3Qh8MajdUNiPDmzDTj6LuwitX5F0wxWS/P2tyNZbf8PcdXjLqY3XEuKrk62qAAA"
   },
   "studio-courtyard": {
     "id": "studio-courtyard",
@@ -239,6 +239,6 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/suite-dusk-960.webp",
     "avifSrcset": "/media/suite-dusk-480.avif 480w, /media/suite-dusk-960.avif 960w, /media/suite-dusk-1376.avif 1376w",
     "webpSrcset": "/media/suite-dusk-480.webp 480w, /media/suite-dusk-960.webp 960w, /media/suite-dusk-1376.webp 1376w",
-    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADQAwCdASoYAA0APt1apkyopSOiMAgBEBuJQBOgAxfpPLJ/sFifvCAA/ksl1wEPZp1Mdmbthnh+Mx0m62Q2PmMCgJQOVWlJYBnHwCMTRb2Eu+JSLqP9mUUUeK2i2pv+LYvaLKodFyvjjBsxvmb+uLpAX8mZOnsOjkgvkB3ti3Jq1EdorEOgAA=="
+    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAADQAwCdASoYAA0APt1apkyopSOiMAgBEBuJQBOgAxZS1pfqZIdp6AAA/ksl1wEPZp1Mdmbthnh/NmPA+eQaV1vRVpsOuWy7h1g4tr5OEQWoq2tvmewYniFgdj3A/WBChQkv5jclN1b6nhPFFeCrr/JL0Y8X9cjs29L8c8Bxy37ca49XLtsAAA=="
   }
 };

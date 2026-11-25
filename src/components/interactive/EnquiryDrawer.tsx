@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { StudioDialog } from '../layout/StudioDialog';
 import { X } from 'lucide-react';
+import { studioConfig } from '../../config/studio.config';
 import { useStudio } from '../../lib/StudioContext';
 const EnquiryForm = lazy(() => import('./EnquiryForm').then((module) => ({ default: module.EnquiryForm })));
 
@@ -24,7 +25,7 @@ export function EnquiryDrawer() {
         <div className="flex items-start justify-between border-b border-[#DCD2D8] pb-4">
           <div>
             <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">
-              AERA Indiranagar
+              {studioConfig.brand.name} {studioConfig.locale.neighborhood}
             </p>
             <h2 id="enquiry-drawer-title" className="font-campaign text-2xl font-bold mt-0.5">
               Book a Visit

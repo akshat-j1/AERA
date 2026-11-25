@@ -145,17 +145,17 @@ export const transformationStudies: TransformationStudy[] = [
     id: 'cut-and-gloss-study',
     label: 'Cut & Shine Gloss',
     subtitle:
-      'Drag the divider or use the arrow keys to reveal the consultation plan.',
-    mediaId: 'portrait-balayage',
+      'Drag the divider or use the arrow keys to compare baseline texture against the layered gloss finish. Illustrative same-subject studio transformation.',
+    mediaId: 'after-hair-matched',
     beforeMediaId: 'before-hair',
-    afterMediaId: null,
-    targetSwatchMediaId: 'portrait-balayage',
-    targetSwatchLabel: 'Target Gloss Tone Reference',
+    afterMediaId: 'after-hair-matched',
+    targetSwatchMediaId: 'after-hair-matched',
+    targetSwatchLabel: 'Layered Gloss Transformation',
     beforeCaption: 'Before · Unshaped Baseline Length',
-    afterCaption: 'Planned Transformation · Soft Internal Layers & Gloss',
+    afterCaption: 'After · Precision Layers & Espresso-Caramel Gloss',
     beforeNote: 'Natural unlayered length with flat silhouette and dry mid-to-end texture.',
     afterNote:
-      'Proposed dry perimeter balance, face-framing movement, and ammonia-free bond gloss.',
+      'Soft internal shoulder layers, healthy curved ends, and ammonia-free dimensional shine.',
     proposedSteps: [
       'Shape soft shoulder-skimming layers in natural fall',
       'Apply cool-neutral espresso bond gloss for mirror shine',
@@ -164,30 +164,6 @@ export const transformationStudies: TransformationStudy[] = [
     durationLabel: '2 hrs · Precision Cut & Shine Gloss',
     recommendedSummary: 'Includes dry consultation, shaping cut, bond wash, and weightless blowout.',
     serviceId: 'sculptural-cut',
-  },
-  {
-    id: 'balayage-colour-study',
-    label: 'Hand-Painted Balayage',
-    subtitle:
-      'Drag the divider or use the arrow keys to reveal the consultation plan.',
-    mediaId: 'portrait-balayage',
-    beforeMediaId: 'before-hair',
-    afterMediaId: null,
-    targetSwatchMediaId: 'stage-blowout',
-    targetSwatchLabel: 'Target Dimension Swatch',
-    beforeCaption: 'Before · Uniform Single-Tone Base',
-    afterCaption: 'Planned Transformation · Seam-Free Ribbon Placement',
-    beforeNote: 'Uniform dark base without subtle dimension around the temple and ends.',
-    afterNote:
-      'Fine hand-painted brunette ribbons placed in natural window light for soft grow-out.',
-    proposedSteps: [
-      'Fine diagonal micro-veils placed below crown for effortless regrowth',
-      'Low-ammonia pearl-bronze toning glaze seals porosity',
-      'Bond-repair mist locks light reflection outdoors',
-    ],
-    durationLabel: '3 hrs · Balayage & Bond Treatment',
-    recommendedSummary: 'Includes custom tone formulation, allergy patch check, and finishing blowout.',
-    serviceId: 'mineral-balayage',
   },
 ];
 

@@ -66,7 +66,7 @@ function ReelCard({
     <article
       data-reel-card
       data-reel-col={index % 2 === 0 ? 'even' : 'odd'}
-      className={`space-y-3 ${staggerClass}`}
+      className={`snap-start shrink-0 w-[72vw] max-w-[290px] sm:w-auto sm:max-w-none space-y-3 ${staggerClass}`}
     >
       <div className="relative aspect-[9/16] rounded-sm overflow-hidden bg-[#F2EEF1] border border-[#DCD2D8] shadow-[0_18px_42px_rgba(42,33,40,0.09)] group">
         <video
@@ -95,12 +95,12 @@ function ReelCard({
           className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#2A2128]/75 via-[#2A2128]/25 to-transparent"
         />
 
-        {/* Top Row Badges: Reel Number & Duration */}
+        {/* Clean Top Index Marker */}
         <div className="absolute top-3 inset-x-3 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] pointer-events-none">
-          <span className="px-2.5 py-1 rounded-full bg-[#FAF8F7]/92 text-[#2A2128] font-semibold">
+          <span className="px-2 py-0.5 rounded-xs bg-[#FAF8F7]/90 text-[#2A2128] font-semibold">
             {reel.indexCode} · {reel.category}
           </span>
-          <span className="px-2 py-1 rounded-full bg-[#2A2128]/70 text-[#FAF8F7] tabular">
+          <span className="px-2 py-0.5 rounded-xs bg-[#2A2128]/65 text-[#FAF8F7] tabular">
             {reel.durationLabel}
           </span>
         </div>
@@ -200,24 +200,28 @@ export function InMotionSection() {
 
           <Link
             to="/gallery"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#493D46]/30 text-xs uppercase tracking-[0.15em] text-[#2A2128] hover:bg-[#E7DFEB] transition-colors shrink-0"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-xs uppercase tracking-[0.15em] text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] transition-colors shrink-0"
           >
             Explore Lookbook <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        {/* Staggered Vertical Video Grid (Zero Autoplay Sound, On-Demand Play/Pause) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-7 items-start">
+        {/* Mobile Swipe Rail + Desktop Staggered 4-Up Editorial Grid */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-5 px-5 pb-3 sm:mx-0 sm:px-0 sm:pb-0 sm:overflow-visible sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 md:gap-7 items-start no-scrollbar">
           {motionReelsConfig.reels.map((reel, idx) => (
             <ReelCard
               key={reel.id}
               reel={reel}
               index={idx}
               claimPlayback={claimPlayback}
-              staggerClass={idx % 2 === 1 ? 'lg:mt-10' : ''}
+              staggerClass={idx % 2 === 1 ? 'lg:mt-8' : ''}
             />
           ))}
         </div>
+
+        <p className="sm:hidden text-[11px] uppercase tracking-[0.18em] text-[#844D60]">
+          Swipe sideways to preview all four studio reels →
+        </p>
       </div>
     </section>
   );

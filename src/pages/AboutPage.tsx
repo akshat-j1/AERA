@@ -11,7 +11,7 @@ export function AboutPage() {
     <PageShell
       eyebrow="Our Studio"
       titlePrefix="A calm salon"
-      titleAccent="in Indiranagar."
+      titleAccent={`in ${studioConfig.locale.neighborhood}.`}
       description="Thoughtfully designed around true window daylight, unhurried chairs, and low-toxicity hair and skin rituals suited to daily life."
       surface="porcelain"
     >
@@ -23,7 +23,7 @@ export function AboutPage() {
                 Why daylight matters more than spotlights.
               </h2>
               <p className="text-sm text-[#493D46] leading-relaxed">
-                Cool overhead ceiling lighting distorts natural undertones and masks uneven texture. Inside AERA, sheer linen daylight windows and travertine mirrors let stylists balance colour and layers honestly as you wear them outdoors.
+                Cool overhead ceiling lighting distorts natural undertones and masks uneven texture. Inside {studioConfig.brand.name}, sheer linen daylight windows and travertine mirrors let stylists balance colour and layers honestly as you wear them outdoors.
               </p>
               <p className="text-sm text-[#493D46] leading-relaxed">
                 Our care blends eliminate harsh ammonia fumes and sticky waxes—focusing on bond integrity, relaxed scalp health, and calm facial sculpting.
@@ -43,7 +43,7 @@ export function AboutPage() {
                       sourceLabel: 'Studio Location Page',
                     })
                   }
-                  className="px-4 py-3 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
+                  className="px-4 py-3 rounded-sm border border-[#DCD2D8] text-xs text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] cursor-pointer"
                 >
                   Message on WhatsApp
                 </button>
@@ -54,7 +54,7 @@ export function AboutPage() {
               <div className="col-span-7 aspect-[16/11] rounded-sm overflow-hidden shadow-md border border-[#DCD2D8]">
                 <StudioPicture mediaId="studio-aisle-daylight" sizes="440px" className="w-full h-full" />
               </div>
-              <div className="col-span-5 aspect-[2/3] rounded-t-[140px] rounded-b-sm overflow-hidden shadow-md border border-[#DCD2D8]">
+              <div className="col-span-5 aspect-[2/3] rounded-sm overflow-hidden shadow-md border border-[#DCD2D8]">
                 <StudioPicture mediaId="studio-courtyard" sizes="320px" className="w-full h-full" />
               </div>
             </div>

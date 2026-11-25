@@ -149,16 +149,20 @@ export function LivingMirrorWall() {
                         objectPosition={mirror.reflectionObjectPosition}
                         sizes="360px"
                         className="w-full h-full"
-                        imgClassName="w-full h-full object-cover transition-transform duration-700 scale-100 group-hover:scale-[1.02]"
+                        imgClassName={`w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-[1.02] ${
+                          isActive ? 'brightness-[0.98] contrast-[0.97]' : 'brightness-[0.95] contrast-[0.92] sepia-[0.06]'
+                        }`}
                       />
 
+                      <div className="mirror-glass-sheen absolute inset-0 pointer-events-none" />
                       <div className="mirror-veil absolute inset-0 pointer-events-none" />
 
                       <span
-                        className={`absolute bottom-3 inset-x-1.5 py-1 px-1.5 text-[9px] md:text-[10px] uppercase tracking-[0.12em] rounded-xs text-center whitespace-nowrap transition-colors ${
+                        aria-hidden="true"
+                        className={`absolute bottom-2.5 inset-x-2 py-1 px-2 text-[9px] md:text-[10px] uppercase tracking-[0.14em] rounded-xs text-center whitespace-nowrap transition-all ${
                           isActive
-                            ? 'bg-[#493D46] text-[#FAF8F7] font-medium'
-                            : 'bg-[#FAF8F7]/94 text-[#2A2128]'
+                            ? 'bg-[#2A2128]/88 text-[#FAF8F7] font-medium backdrop-blur-xs'
+                            : 'bg-[#FAF8F7]/82 text-[#493D46] backdrop-blur-xs'
                         }`}
                       >
                         {mirror.mirrorIndex} · {mirror.shortLabel}
@@ -235,7 +239,7 @@ export function LivingMirrorWall() {
               </button>
               <Link
                 to={`/services?pillar=${currentMirror.id}`}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full border border-[#493D46]/35 text-xs text-[#2A2128] hover:bg-[#E7DFEB] transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-xs uppercase tracking-[0.12em] text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] transition-colors"
               >
                 Full Menu <ArrowRight className="w-3.5 h-3.5" />
               </Link>

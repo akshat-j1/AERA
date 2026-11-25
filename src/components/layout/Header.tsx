@@ -72,13 +72,6 @@ export function Header() {
           <div className="flex lg:hidden items-center gap-2.5">
             <button
               type="button"
-              onClick={() => openEnquiry({ sourceLabel: 'Mobile Header' })}
-              className="px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] rounded-full bg-[#493D46] text-[#FAF8F7] cursor-pointer"
-            >
-              Book
-            </button>
-            <button
-              type="button"
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}

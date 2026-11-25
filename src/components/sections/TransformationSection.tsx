@@ -111,7 +111,7 @@ export function TransformationSection() {
       {/* PART A: Sticky Our Process Sequence + Bleed-Safe Liquid Ripple */}
       <div
         ref={stickyHostRef}
-        className="relative lg:motion-safe:enhanced:h-[225vh] bg-[#E7DFEB]/45 border-y border-[#DCD2D8]"
+        className="relative lg:motion-safe:enhanced:h-[172vh] bg-[#E7DFEB]/45 border-y border-[#DCD2D8]"
       >
         <div className="py-16 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
           <div className="max-w-7xl mx-auto px-5 md:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">

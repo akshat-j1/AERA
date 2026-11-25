@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { studioConfig } from '../../config/studio.config';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -77,7 +78,7 @@ export function EthosSpacer() {
           ref={trackBottomRef}
           className="flex items-center gap-8 md:gap-12 whitespace-nowrap font-editorial text-sm sm:text-base md:text-lg uppercase tracking-[0.26em] text-[#844D60]"
         >
-          <span>Indiranagar Bengaluru</span>
+          <span>{studioConfig.locale.neighborhood} {studioConfig.locale.city}</span>
           <span className="text-[#493D46]">·</span>
           <span>Unhurried Daylight Chairs</span>
           <span className="text-[#493D46]">·</span>

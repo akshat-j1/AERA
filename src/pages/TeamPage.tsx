@@ -1,3 +1,4 @@
+import { studioConfig } from '../config/studio.config';
 import { artisans } from '../config/team.config';
 import { mirrorPillars } from '../config/services.config';
 import { formatCurrency } from '../lib/format';
@@ -13,7 +14,7 @@ export function TeamPage() {
       eyebrow="Meet Our Stylists"
       titlePrefix="Experienced hands,"
       titleAccent="welcoming care."
-      description="Every AERA specialist works unhurriedly by window light—pairing technical precision with thoughtful listening."
+      description={`Every ${studioConfig.brand.name} specialist works unhurriedly by window light—pairing technical precision with thoughtful listening.`}
       surface="porcelain"
     >
       <section className="py-14 md:py-20 bg-[#FAF8F7]">
@@ -28,11 +29,7 @@ export function TeamPage() {
               >
                 <div className={`lg:col-span-5 ${reverse ? 'lg:order-2' : ''}`}>
                   <div className="relative max-w-md mx-auto">
-                    <div
-                      className={`aspect-[3/4] overflow-hidden border border-[#DCD2D8] shadow-md bg-[#F2EEF1] ${
-                        idx % 2 === 0 ? 'rounded-t-[190px] rounded-b-sm' : 'rounded-sm'
-                      }`}
-                    >
+                    <div className="aspect-[3/4] rounded-sm overflow-hidden border border-[#DCD2D8] shadow-sm bg-[#F2EEF1]">
                       <StudioPicture
                         mediaId={artisan.mediaId}
                         objectPosition={artisan.imagePosition}
@@ -96,7 +93,7 @@ export function TeamPage() {
                           artisanName: artisan.name,
                         })
                       }
-                      className="px-4 py-3 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
+                      className="px-4 py-3 rounded-sm border border-[#DCD2D8] text-xs text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>

@@ -214,7 +214,7 @@ test.describe('technical foundation desktop regressions', () => {
   test('comparison reaches both endpoints and keeps manual control until resumed', async ({ page }) => {
     await openHome(page);
     const frame = page.locator('[data-ba-divider]');
-    const slider = page.getByRole('slider', { name: /before photo and consultation plan/i });
+    const slider = page.getByRole('slider', { name: /before and after divider/i });
     const points = await frame.evaluate((element) => {
       const host = element.closest('#transformation-section')!.children[2];
       const start = host.getBoundingClientRect().top + scrollY - 64;
@@ -229,7 +229,7 @@ test.describe('technical foundation desktop regressions', () => {
     await page.keyboard.press('End');
     await expect(slider).toHaveAttribute('aria-valuenow', '100');
     await page.keyboard.press('Home');
-    await expect(slider).toHaveAttribute('aria-valuetext', '100% consultation plan revealed');
+    await expect(slider).toHaveAttribute('aria-valuetext', '100% after revealed');
     await page.keyboard.press('PageUp');
     await expect(slider).toHaveAttribute('aria-valuenow', '10');
     await expect(slider.locator('.aera-compare-handle')).toHaveCSS('outline-width', '3px');
@@ -237,7 +237,7 @@ test.describe('technical foundation desktop regressions', () => {
     await expect(slider).toHaveAttribute('aria-valuenow', '10');
     await page.getByRole('button', { name: /resume scroll wipe/i }).click();
     await expect(slider).toHaveAttribute('aria-valuenow', '50');
-    expect(await frame.locator('img').count()).toBe(1);
+    expect(await frame.locator('img').count()).toBe(2);
   });
 
   test('reduced motion removes sticky geometry and fits every stylist at 1280 and 1440', async ({ page }) => {

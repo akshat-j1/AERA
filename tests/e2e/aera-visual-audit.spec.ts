@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const ARTIFACT_CAPTURES = path.resolve('audit-captures/v4-phase1/journey');
+const ARTIFACT_CAPTURES = path.resolve('audit-captures/v4-phase2/journey');
 
 test.beforeAll(() => {
   fs.mkdirSync(ARTIFACT_CAPTURES, { recursive: true });
@@ -181,17 +181,14 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
     expect(Number(await frameLocator.getAttribute('data-ba-divider'))).toBe(draggedVal);
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-07c-ba-manual-drag.png') });
 
-    // 5. Meet Our Stylists Sticky Horizontal Track
-    const stylistsRect = await page.getByLabel('Meet Our Stylists').evaluate((el) => {
-      const top = el.getBoundingClientRect().top + window.scrollY - 64;
-      return { top, range: Math.max(400, el.getBoundingClientRect().height - (window.innerHeight - 64)) };
-    });
-    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.08), stylistsRect);
+    // 5. Meet Our Stylists Editorial Section
+    const stylistsSection = page.getByLabel('Meet Our Stylists');
+    await stylistsSection.scrollIntoViewIfNeeded();
     await page.waitForTimeout(450);
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-08a-stylists-start.png') });
 
-    await page.evaluate(({ top, range }) => window.scrollTo(0, top + range * 0.85), stylistsRect);
-    await page.waitForTimeout(450);
+    await page.evaluate(() => window.scrollBy(0, 140));
+    await page.waitForTimeout(300);
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-08b-stylists-scrolled.png') });
 
     // 6. AERA in Motion Staggered Vertical Video Section (Play / Pause)
@@ -200,14 +197,14 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
     await page.waitForTimeout(550);
     await expect(page.locator('#aera-in-motion video')).toHaveCount(4);
 
-    const playBtn = page.getByRole('button', { name: /Play Silk Detangling & Finish/i });
+    const playBtn = page.getByRole('button', { name: /Play Daylight Wave Styling/i });
     await playBtn.click();
     await page.waitForTimeout(400);
     const firstVideoPaused = await page.locator('#aera-in-motion video').first().evaluate((v: HTMLVideoElement) => v.paused);
     expect(firstVideoPaused).toBe(false);
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-09-in-motion.png') });
 
-    await page.getByRole('button', { name: /Pause Silk Detangling & Finish/i }).click();
+    await page.getByRole('button', { name: /Pause Daylight Wave Styling/i }).click();
     const afterPause = await page.locator('#aera-in-motion video').first().evaluate((v: HTMLVideoElement) => v.paused);
     expect(afterPause).toBe(true);
 
@@ -286,6 +283,21 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
     );
     expect(overflow).toBe(false);
     await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-tablet-hero.png') });
+  });
+
+  test('laptop layout integrity check (1280x800)', async ({ browser }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'Run laptop viewport check once');
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const page = await context.newPage();
+    await page.addInitScript(() => sessionStorage.setItem('aera_entrance_seen', '1'));
+    await page.goto('/', { waitUntil: 'networkidle' });
+    await page.waitForTimeout(350);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    );
+    expect(overflow).toBe(false);
+    await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-laptop-hero.png') });
+    await context.close();
   });
 
   test('mobile entrance, touch mirrors, video section & menu drawer (390x844)', async ({

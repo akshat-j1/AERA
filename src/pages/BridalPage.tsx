@@ -1,4 +1,5 @@
 import { bridalPackages, bridalTimeline } from '../config/bridal.config';
+import { studioConfig } from '../config/studio.config';
 import { formatCurrency } from '../lib/format';
 import { useStudio } from '../lib/StudioContext';
 import { PageShell } from '../components/layout/PageShell';
@@ -35,7 +36,7 @@ export function BridalPage() {
                 Light, comfortable styling built to last effortlessly.
               </h2>
               <p className="text-sm text-[#493D46] leading-relaxed">
-                From fresh mogra-wrapped braids and low silk chignons to soft skin-first makeup calibrated against Bengaluru sunlight, we test everything gently with your jewellery during a 2-hour trial beforehand.
+                From fresh mogra-wrapped braids and low silk chignons to soft skin-first makeup calibrated against {studioConfig.locale.city} sunlight, we test everything gently with your jewellery during a 2-hour trial beforehand.
               </p>
               <button
                 type="button"
@@ -136,7 +137,7 @@ export function BridalPage() {
                           artisanName: 'Ananya Krishnan',
                         })
                       }
-                      className="w-full py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
+                      className="w-full py-2.5 rounded-sm border border-[#DCD2D8] text-xs text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>

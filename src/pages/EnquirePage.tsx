@@ -6,7 +6,7 @@ import { StudioPicture } from '../components/layout/StudioPicture';
 export function EnquirePage() {
   return (
     <PageShell
-      eyebrow="Indiranagar, Bengaluru"
+      eyebrow={`${studioConfig.locale.neighborhood}, ${studioConfig.locale.city}`}
       titlePrefix="Book your"
       titleAccent="next visit."
       description="Choose a service, stylist preference and time window to preview an appointment request."

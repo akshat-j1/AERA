@@ -137,7 +137,7 @@ export function ServicesPage() {
                           ritualName: svc.name,
                         })
                       }
-                      className="w-full lg:w-auto px-5 py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer"
+                      className="w-full lg:w-auto px-5 py-2.5 rounded-sm border border-[#DCD2D8] text-xs text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>

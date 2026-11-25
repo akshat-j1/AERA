@@ -42,11 +42,14 @@ describe('AERA configuration & helper integrity', () => {
     }
   });
 
-  it('exposes configured vertical salon video reels with local MP4 and poster paths', () => {
+  it('exposes configured vertical salon video reels with local MP4, poster paths, and verified commercial provenance', () => {
     expect(motionReelsConfig.reels.length).toBeGreaterThanOrEqual(4);
     for (const reel of motionReelsConfig.reels) {
       expect(reel.videoSrc.endsWith('.mp4')).toBe(true);
       expect(reel.posterSrc.endsWith('.jpg') || reel.posterSrc.endsWith('.webp')).toBe(true);
+      expect(reel.sourceUrl).toMatch(/^https:\/\/mixkit\.co\/free-stock-video\/.+-\d+\/$/);
+      expect(reel.licenseName).toBe('Mixkit Stock Video Free License');
+      expect(reel.licenseUrl).toContain('mixkit.co/license');
     }
   });
 

@@ -9,7 +9,12 @@ export interface SalonMotionReel {
   videoSrc: string;
   /** Crisp poster image shown before playback */
   posterSrc: string;
-  /** Source and per-file license evidence must be verified before publication. */
+  /** Complete asset provenance & verified commercial permissions */
+  sourceUrl: string;
+  assetId: string;
+  creator: string;
+  licenseName: string;
+  licenseUrl: string;
   licenseNote: string;
   /** Optional public Instagram Reel or video permalink configured per client */
   externalReelUrl?: string;
@@ -26,51 +31,71 @@ export const motionReelsConfig: {
   eyebrow: 'AERA in Motion',
   heading: 'Quiet daylight rituals, straight from the styling floor.',
   subcopy:
-    'Short vertical studies capturing calm hair brushing, warm scalp rinses, mirror bridal prep, and gentle skin finishing—tap any frame to play.',
+    'Four short studies across soft hair setting, facial sculpting, and sunlit bridal prep—tap any frame to play.',
   reels: [
     {
       id: 'reel-hair-brushing',
       indexCode: '01',
-      title: 'Silk Detangling & Finish',
+      title: 'Daylight Wave Styling',
       category: 'Haircuts & Styling',
-      caption: 'Gentle boar-bristle smoothing after weightless layer work.',
+      caption: 'Gentle wave setting and serene temple framing before the mirror.',
       durationLabel: '0:06',
       videoSrc: '/media/videos/hair-brushing.mp4',
       posterSrc: '/media/videos/hair-brushing-poster.jpg',
-      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
+      sourceUrl: 'https://mixkit.co/free-stock-video/bride-getting-her-makeup-and-hair-done-40592/',
+      assetId: 'mixkit-40592',
+      creator: 'Not listed on Mixkit clip page',
+      licenseName: 'Mixkit Stock Video Free License',
+      licenseUrl: 'https://mixkit.co/license/#videoFree',
+      licenseNote: 'Verified commercial free license on Mixkit clip page (#40592); re-encoded locally to 540x960 fast-start MP4.',
     },
     {
       id: 'reel-scalp-wash',
       indexCode: '02',
-      title: 'Warm Botanical Washbasin',
-      category: 'Scalp Therapy',
-      caption: 'Slow lukewarm water cleanse paired with soothing neck release.',
+      title: 'Sculpted Facial Therapy',
+      category: 'Skincare & Facials',
+      caption: 'Unhurried jawline lymphatic release in a bright quiet treatment room.',
       durationLabel: '0:06',
       videoSrc: '/media/videos/scalp-wash.mp4',
       posterSrc: '/media/videos/scalp-wash-poster.jpg',
-      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
+      sourceUrl: 'https://mixkit.co/free-stock-video/woman-receiving-a-facial-treatment-at-the-spa-52141/',
+      assetId: 'mixkit-52141',
+      creator: 'Not listed on Mixkit clip page',
+      licenseName: 'Mixkit Stock Video Free License',
+      licenseUrl: 'https://mixkit.co/license/#videoFree',
+      licenseNote: 'Verified commercial free license on Mixkit clip page (#52141); re-encoded locally to 540x960 fast-start MP4.',
     },
     {
       id: 'reel-mirror-makeup',
       indexCode: '03',
-      title: 'Mirror Prep & Dew Finish',
+      title: 'Brow & Dewy Balance',
       category: 'Bridal & Makeup',
-      caption: 'Checking soft eye balance and natural luminosity in daylight.',
+      caption: 'Delicate brow grooming and natural luminous skin prep beside window light.',
       durationLabel: '0:06',
       videoSrc: '/media/videos/mirror-makeup.mp4',
       posterSrc: '/media/videos/mirror-makeup-poster.jpg',
-      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
+      sourceUrl: 'https://mixkit.co/free-stock-video/stylist-and-makeup-artist-working-on-a-bride-40583/',
+      assetId: 'mixkit-40583',
+      creator: 'Not listed on Mixkit clip page',
+      licenseName: 'Mixkit Stock Video Free License',
+      licenseUrl: 'https://mixkit.co/license/#videoFree',
+      licenseNote: 'Verified commercial free license on Mixkit clip page (#40583); re-encoded locally to 540x960 fast-start MP4.',
     },
     {
       id: 'reel-bridal-brush',
       indexCode: '04',
-      title: 'Feather-Light Skin Set',
-      category: 'Skin & Bridal',
-      caption: 'Sheer veil finishing brush applied before stepping outdoors.',
+      title: 'Chignon & Floral Finish',
+      category: 'Bridal Suite',
+      caption: 'Checking low chignon poise and soft veil placement in daylight.',
       durationLabel: '0:06',
       videoSrc: '/media/videos/bridal-brush.mp4',
       posterSrc: '/media/videos/bridal-brush-poster.jpg',
-      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
+      sourceUrl: 'https://mixkit.co/free-stock-video/bride-admiring-her-makeup-40560/',
+      assetId: 'mixkit-40560',
+      creator: 'Not listed on Mixkit clip page',
+      licenseName: 'Mixkit Stock Video Free License',
+      licenseUrl: 'https://mixkit.co/license/#videoFree',
+      licenseNote: 'Verified commercial free license on Mixkit clip page (#40560); re-encoded locally to 540x960 fast-start MP4.',
     },
   ],
 };
