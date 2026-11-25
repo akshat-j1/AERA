@@ -22,9 +22,11 @@ export function HomePage() {
 
   return (
     <>
-      <HeroSection />
-      <EthosSpacer />
-      <LivingMirrorWall />
+      <div className="aera-arrival">
+        <HeroSection />
+        <EthosSpacer />
+        <LivingMirrorWall />
+      </div>
       <TransformationSection />
       <ArtisansPreview />
       <InMotionSection />

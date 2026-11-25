@@ -46,3 +46,6 @@ Thumbs.db
 .gemini/
 .codex/
 .claude/
+
+# Locally supplied stock video and poster files
+/public/media/local-reels/

@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -33,19 +33,37 @@ export function TransformationComparison() {
   const { openEnquiry } = useStudio();
 
   function applyDivider(next: number) {
-    const percent = Math.min(100, Math.max(0, Math.round(next)));
-    value.current = percent;
+    const position = Math.min(100, Math.max(0, next));
+    const percent = Math.round(position);
     const canvas = frame.current;
-    if (canvas && canvas.dataset.baDivider !== String(percent)) {
-      canvas.style.setProperty('--divider', `${percent}%`);
+    if (!canvas) return;
+
+    if (position !== value.current) {
+      value.current = position;
+      canvas.style.setProperty('--divider', `${position.toFixed(2)}%`);
+    }
+    if (canvas.dataset.baDivider !== String(percent)) {
       canvas.dataset.baDivider = String(percent);
       canvas.toggleAttribute('data-before-label', percent >= 28);
       canvas.toggleAttribute('data-after-label', percent <= 45);
       canvas.toggleAttribute('data-plan-visible', percent <= 12);
       slider.current?.setAttribute('aria-valuenow', String(percent));
     }
-    slider.current?.setAttribute('aria-valuetext', `${100 - percent}% ${label.toLowerCase()} revealed`);
+    const description = `${100 - percent}% ${label.toLowerCase()} revealed`;
+    if (slider.current?.getAttribute('aria-valuetext') !== description) {
+      slider.current?.setAttribute('aria-valuetext', description);
+    }
   }
+
+  useEffect(() => {
+    const canvas = frame.current;
+    if (!canvas || reducedMotion) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting && manual.current && !drag.current?.active) resumeScroll();
+    });
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, [reducedMotion, label]);
 
   useGSAP(() => {
     if (reducedMotion || !host.current || !frame.current) return;
@@ -137,16 +155,16 @@ export function TransformationComparison() {
   }
 
   return (
-    <div ref={host} className="relative lg:motion-safe:enhanced:h-[150vh] bg-[#FAF8F7] border-b border-[#DCD2D8]">
+    <div ref={host} className="relative lg:motion-safe:enhanced:h-[146vh] aera-compare-section">
       <div className="py-14 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
         <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div className="space-y-1.5 max-w-2xl">
               <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
-                03 · {study.afterMediaId ? 'Before & After' : 'Transformation Consultation'}
+                {study.afterMediaId ? 'Before & After' : 'Transformation Consultation'}
               </p>
               <h3 className="font-campaign text-2xl sm:text-3xl md:text-4xl font-bold text-[#2A2128] leading-tight">
-                {study.afterMediaId ? 'Explore the finished transformation.' : 'Explore the proposed cut and colour.'}
+                {study.afterMediaId ? 'A softer shape. More dimension.' : 'Explore the proposed cut and colour.'}
               </h3>
             </div>
             {transformationStudies.length > 1 && (
@@ -211,10 +229,11 @@ export function TransformationComparison() {
                   role="slider"
                   tabIndex={0}
                   aria-label={study.afterMediaId ? 'Before and After divider' : 'Before photo and consultation plan divider'}
+                  aria-describedby="aera-compare-caption"
                   aria-valuemin={0}
                   aria-valuemax={100}
-                  aria-valuenow={value.current}
-                  aria-valuetext={`${100 - value.current}% ${label.toLowerCase()} revealed`}
+                  aria-valuenow={Math.round(value.current)}
+                  aria-valuetext={`${100 - Math.round(value.current)}% ${label.toLowerCase()} revealed`}
                   onKeyDown={moveByKey}
                   className="aera-compare-slider absolute inset-0 pointer-events-none outline-none"
                 >
@@ -228,9 +247,9 @@ export function TransformationComparison() {
                   </div>
                 </div>
               </div>
-              <p className="text-[11px] text-[#493D46] text-center max-w-md mx-auto">
+              <p id="aera-compare-caption" className="text-xs text-[#493D46] text-center max-w-md mx-auto">
                 {study.afterMediaId
-                  ? 'Drag or use arrow keys to compare. Illustrative same-subject studio transformation.'
+                  ? 'Illustrative edit of the same studio portrait. Drag or use the arrow keys.'
                   : `A matched result photo is pending. ${study.subtitle}`}
               </p>
             </div>
@@ -240,27 +259,16 @@ export function TransformationComparison() {
                 <p className="text-[11px] uppercase tracking-[0.18em] font-semibold text-[#844D60]">{study.durationLabel}</p>
                 <p className="text-sm text-[#493D46] leading-relaxed">{study.recommendedSummary}</p>
               </div>
-              <div className="space-y-3.5 text-xs">
-                <div className="p-4 rounded-sm bg-[#F2EEF1] border-l-2 border-[#B77F91] space-y-1">
-                  <p className="font-semibold text-[#2A2128]">{study.beforeCaption}</p>
-                  <p className="text-[#493D46] leading-relaxed">{study.beforeNote}</p>
+              <dl className="divide-y divide-[#DCD2D8] text-sm">
+                <div className="grid grid-cols-[4rem_1fr] gap-3 py-3">
+                  <dt className="font-semibold text-[#844D60]">Before</dt>
+                  <dd className="text-[#493D46]">{study.beforeNote}</dd>
                 </div>
-                <div className="p-4 rounded-sm bg-[#E7DFEB]/55 border-l-2 border-[#493D46] space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="w-12 h-14 rounded-xs overflow-hidden border border-[#DCD2D8] shrink-0">
-                      <StudioPicture mediaId={study.targetSwatchMediaId} altOverride={study.targetSwatchLabel} sizes="64px" className="w-full h-full" />
-                    </div>
-                    <div className="space-y-1">
-                      <p className="font-semibold text-[#2A2128]">{study.afterCaption}</p>
-                      <p className="text-[11px] text-[#844D60] font-medium">{study.targetSwatchLabel}</p>
-                    </div>
-                  </div>
-                  <ul className="list-disc pl-4 space-y-1 text-[#493D46]">
-                    {study.proposedSteps.map((step) => <li key={step}>{step}</li>)}
-                  </ul>
-                  <p className="text-[11px] text-[#493D46]/85 pt-1 border-t border-[#DCD2D8]/80">{study.afterNote}</p>
+                <div className="grid grid-cols-[4rem_1fr] gap-3 py-3">
+                  <dt className="font-semibold text-[#844D60]">{label}</dt>
+                  <dd className="text-[#493D46]">{study.afterNote}</dd>
                 </div>
-              </div>
+              </dl>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <button
                   type="button"
@@ -270,7 +278,7 @@ export function TransformationComparison() {
                   Request a Consultation →
                 </button>
                 {manualOverride && !reducedMotion && (
-                  <button type="button" onClick={resumeScroll} className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs text-[#2A2128] hover:bg-[#E7DFEB] cursor-pointer">
+                  <button type="button" onClick={resumeScroll} className="inline-flex items-center gap-1.5 py-2.5 text-xs text-[#493D46] underline underline-offset-4 hover:text-[#844D60] cursor-pointer">
                     <RotateCcw className="w-3.5 h-3.5" /> Resume Scroll Wipe
                   </button>
                 )}

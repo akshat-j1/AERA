@@ -136,3 +136,8 @@ export function getMediaAsset(id: string): MediaAssetEntry & MediaMetadata {
     ...meta,
   };
 }
+
+export const heroRoom = {
+  mediaId: 'sanctuary-sunlit',
+  sizes: '(min-width: 1200px) 960px, (min-width: 768px) 82vw, 100vw',
+} as const;

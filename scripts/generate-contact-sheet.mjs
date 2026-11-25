@@ -3,8 +3,8 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const rawDir = path.resolve('src/assets/media/raw');
-const videoDir = path.resolve('public/media/videos');
-const outFile = path.resolve(process.argv[2] ?? 'audit-captures/v4-phase2/v4-photography-contact-sheet.jpg');
+const videoDir = path.resolve('public/media/local-reels');
+const outFile = path.resolve(process.argv[2] ?? 'audit-captures/photography-contact-sheet.jpg');
 
 const imageFiles = fs
   .readdirSync(rawDir)
@@ -12,7 +12,7 @@ const imageFiles = fs
   .sort()
   .map((f) => ({ label: f.replace(/\.[^.]+$/, ''), file: path.join(rawDir, f) }));
 
-const videoPosters = fs.existsSync(videoDir)
+const videoPosters = process.env.AERA_ENABLE_LOCAL_REELS === '1' && fs.existsSync(videoDir)
   ? fs
       .readdirSync(videoDir)
       .filter((f) => /-poster\.(jpe?g|webp)$/i.test(f))

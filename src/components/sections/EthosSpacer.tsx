@@ -20,9 +20,9 @@ export function EthosSpacer() {
       if (trackTopRef.current) {
         gsap.fromTo(
           trackTopRef.current,
-          { xPercent: 4 },
+          { xPercent: 7 },
           {
-            xPercent: -14,
+            xPercent: -13,
             ease: 'none',
             scrollTrigger: {
               trigger: containerRef.current,
@@ -37,9 +37,9 @@ export function EthosSpacer() {
       if (trackBottomRef.current) {
         gsap.fromTo(
           trackBottomRef.current,
-          { xPercent: -14 },
+          { xPercent: -13 },
           {
-            xPercent: 4,
+            xPercent: 7,
             ease: 'none',
             scrollTrigger: {
               trigger: containerRef.current,
@@ -58,12 +58,12 @@ export function EthosSpacer() {
     <section
       ref={containerRef}
       aria-label="Studio Craft Disciplines"
-      className="py-10 md:py-14 bg-[#E7DFEB]/40 border-y border-[#DCD2D8] overflow-hidden select-none pointer-events-none"
+      className="aera-ethos py-8 md:py-10 overflow-hidden select-none"
     >
       <div className="space-y-3 md:space-y-4">
         <div
           ref={trackTopRef}
-          className="flex items-center gap-8 md:gap-12 whitespace-nowrap font-campaign text-2xl sm:text-4xl md:text-5xl font-bold text-[#493D46]"
+          className="aera-ethos-track flex items-center gap-x-8 gap-y-2 md:gap-x-12 whitespace-nowrap motion-reduce:whitespace-normal motion-reduce:flex-wrap font-campaign text-2xl sm:text-4xl md:text-5xl font-bold text-[#493D46]"
         >
           <span>Precision Haircuts</span>
           <span className="text-[#844D60]">·</span>
@@ -76,7 +76,7 @@ export function EthosSpacer() {
 
         <div
           ref={trackBottomRef}
-          className="flex items-center gap-8 md:gap-12 whitespace-nowrap font-editorial text-sm sm:text-base md:text-lg uppercase tracking-[0.26em] text-[#844D60]"
+          className="aera-ethos-track flex items-center gap-x-8 gap-y-2 md:gap-x-12 whitespace-nowrap motion-reduce:whitespace-normal motion-reduce:flex-wrap font-editorial text-sm sm:text-base md:text-lg uppercase tracking-[0.26em] text-[#844D60]"
         >
           <span>{studioConfig.locale.neighborhood} {studioConfig.locale.city}</span>
           <span className="text-[#493D46]">·</span>

@@ -88,6 +88,7 @@ test.describe('technical foundation desktop regressions', () => {
     await services.click();
     await page.getByRole('button', { name: 'Replay Salon Entrance' }).click();
     await expect(skip).toBeFocused();
+    await expect(page.locator('[data-route-veil]')).toHaveCSS('visibility', 'hidden');
     await skip.press('Enter');
     await services.click();
     await home.click();
@@ -282,22 +283,43 @@ test.describe('technical foundation desktop regressions', () => {
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
   });
 
+  test('stylist portraits travel horizontally without reserving a desktop scroll pin', async ({ page }) => {
+    await openHome(page);
+    const rail = page.locator('[data-stylist-rail]');
+    await rail.scrollIntoViewIfNeeded();
+    const available = await rail.evaluate((element) => element.scrollWidth - element.clientWidth);
+    expect(available).toBeGreaterThan(150);
+    await page.getByRole('button', { name: 'Next stylists' }).press('Enter');
+    await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
+    await page.getByRole('button', { name: 'Previous stylists' }).press('Enter');
+    await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeLessThan(2);
+    await expect(page.locator('#meet-stylists > div').first()).toHaveCSS('position', 'static');
+  });
+
   test('reels pause each other and pause offscreen, and expose a retry for failed media', async ({ page }) => {
     await openHome(page);
     const cards = page.locator('[data-reel-card]');
     await cards.first().scrollIntoViewIfNeeded();
     const videos = cards.locator('video');
+    if ((await videos.count()) === 0) {
+      const links = page.locator('#aera-in-motion').getByRole('link', { name: /watch .* on mixkit/i });
+      await expect(links).toHaveCount(4);
+      for (const link of await links.all()) {
+        await expect(link).toHaveAttribute('href', /^https:\/\/mixkit\.co\/free-stock-video\//);
+      }
+      return;
+    }
     await cards.nth(0).getByRole('button', { name: /^play/i }).click();
     await expect.poll(() => videos.nth(0).evaluate((video: HTMLVideoElement) => video.paused)).toBe(false);
     await cards.nth(1).getByRole('button', { name: /^play/i }).click();
     await expect.poll(() => videos.evaluateAll((items: HTMLVideoElement[]) => items.map((video) => video.paused))).toEqual([true, false, true, true]);
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     await expect.poll(() => videos.nth(1).evaluate((video: HTMLVideoElement) => video.paused)).toBe(true);
-    await page.route('**/media/videos/mirror-makeup.mp4', (route) => route.abort());
+    await page.route('**/media/local-reels/mirror-makeup.mp4', (route) => route.abort());
     await cards.nth(2).getByRole('button', { name: /^play/i }).click();
     await expect(cards.nth(2).getByRole('button', { name: /^retry/i })).toBeVisible();
     await expect(cards.nth(2).getByRole('status')).toContainText('could not play');
-    await page.unroute('**/media/videos/mirror-makeup.mp4');
+    await page.unroute('**/media/local-reels/mirror-makeup.mp4');
     await cards.nth(2).getByRole('button', { name: /^retry/i }).click();
     await expect(cards.nth(2).getByRole('button', { name: /^pause/i })).toBeVisible();
   });

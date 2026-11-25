@@ -26,17 +26,16 @@ export function LivingMirrorWall() {
   useGSAP(
     () => {
       if (reducedMotion || !sectionRef.current) return;
-      gsap.from('[data-mirror-reveal]', {
-        clipPath: 'inset(0% 0% 18% 0%)',
-        opacity: 0,
-        y: 28,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 76%',
-          once: true,
-        },
+      gsap.fromTo('[data-mirror-reveal]', {
+        clipPath: 'inset(0 0 8% 4% round 7% 5% 1% 2%)',
+        x: -16,
+        y: 22,
+      }, {
+        clipPath: 'inset(0 0 0 0 round 2px)',
+        x: 0,
+        y: 0,
+        ease: 'none',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 94%', end: 'top 46%', scrub: 0.4 },
       });
     },
     { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
@@ -84,30 +83,30 @@ export function LivingMirrorWall() {
     <section
       ref={sectionRef}
       id="living-mirrors"
+      tabIndex={-1}
       aria-label="Interactive Salon Mirrors"
-      className="py-18 md:py-24 bg-[#FAF8F7] scroll-mt-20"
+      className="aera-mirror-room pt-12 pb-14 md:pt-16 md:pb-18 scroll-mt-20"
     >
-      <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-10">
+      <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-7">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
           <div className="md:col-span-7 space-y-2">
             <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
-              01 · Interactive Mirror Room
+              The Mirror Room
             </p>
             <h2 className="font-campaign text-3xl sm:text-4xl md:text-5xl font-bold text-[#2A2128] leading-[1.04]">
-              Touch any mirror to explore our services.
+              Find your ritual.
             </h2>
           </div>
           <p className="md:col-span-5 text-sm text-[#493D46] md:text-right leading-relaxed">
-            Each mirror clears its frosted veil to preview tailored treatments and ₹ INR pricing.
+            Select a mirror for treatments, timing and prices.
           </p>
         </div>
 
         <div
-          data-mirror-reveal
-          className="rounded-sm overflow-hidden border border-[#DCD2D8] shadow-[0_24px_60px_rgba(42,33,40,0.08)] bg-[#F2EEF1]"
+          className="rounded-sm overflow-hidden border border-[#DCD2D8] bg-[#F2EEF1]"
         >
-          <div ref={wallScrollRef} className="overflow-x-auto no-scrollbar">
-            <div className="relative min-w-[700px] w-full aspect-[16/9]">
+          <div data-mirror-reveal ref={wallScrollRef} className="overflow-x-auto no-scrollbar">
+            <div className="relative min-w-[700px] w-full aspect-[1376/768]">
               <StudioPicture
                 mediaId="mirror-wall"
                 sizes="(max-width: 768px) 760px, 1280px"
@@ -125,16 +124,22 @@ export function LivingMirrorWall() {
                       }}
                       type="button"
                       role="tab"
+                      id={`mirror-tab-${mirror.id}`}
+                      aria-label={`${mirror.mirrorIndex} · ${mirror.shortLabel}`}
                       tabIndex={isActive ? 0 : -1}
                       aria-selected={isActive}
                       aria-controls="mirror-console-ledger"
                       onClick={() => setActivePillar(mirror.id)}
-                      onMouseEnter={() => setActivePillar(mirror.id)}
+                      onPointerEnter={(event) => {
+                        if (event.pointerType === 'mouse' && !event.currentTarget.closest('[role="tablist"]')?.matches(':focus-within')) {
+                          setActivePillar(mirror.id);
+                        }
+                      }}
                       onKeyDown={(e) => handleMirrorKeyDown(e, idx)}
-                      className={`group absolute overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 border transition-all duration-500 ${
+                      className={`group absolute overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 border motion-safe:transition-colors duration-300 ${
                         isActive
-                          ? 'mirror-active border-[#844D60] ring-2 ring-[#FAF8F7]/95 shadow-[0_0_28px_rgba(183,127,145,0.48)]'
-                          : 'border-transparent hover:border-[#B77F91]/70'
+                          ? 'mirror-active border-[#65524e]'
+                          : 'border-transparent hover:border-[#65524e]/70'
                       }`}
                       style={{
                         left: mirror.hotspotStyle.left,
@@ -146,12 +151,11 @@ export function LivingMirrorWall() {
                     >
                       <StudioPicture
                         mediaId={mirror.reflectionMediaId}
+                        altOverride=""
                         objectPosition={mirror.reflectionObjectPosition}
                         sizes="360px"
                         className="w-full h-full"
-                        imgClassName={`w-full h-full object-cover transition-all duration-700 scale-100 group-hover:scale-[1.02] ${
-                          isActive ? 'brightness-[0.98] contrast-[0.97]' : 'brightness-[0.95] contrast-[0.92] sepia-[0.06]'
-                        }`}
+                        imgClassName="w-full h-full object-cover mirror-reflection"
                       />
 
                       <div className="mirror-glass-sheen absolute inset-0 pointer-events-none" />
@@ -180,6 +184,7 @@ export function LivingMirrorWall() {
                 key={m.id}
                 type="button"
                 onClick={() => setActivePillar(m.id)}
+                aria-pressed={m.id === activePillar}
                 className={`px-4 py-3 text-[11px] whitespace-nowrap border-r border-[#DCD2D8] cursor-pointer ${
                   m.id === activePillar
                     ? 'bg-[#493D46] text-[#FAF8F7] font-medium'
@@ -194,9 +199,10 @@ export function LivingMirrorWall() {
           <div
             id="mirror-console-ledger"
             role="tabpanel"
+            aria-labelledby={`mirror-tab-${activePillar}`}
             className="p-6 md:p-8 bg-[#FAF8F7] border-t border-[#DCD2D8] grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
           >
-            <div className="lg:col-span-5 space-y-2">
+            <div key={activePillar} className="aera-ledger-copy lg:col-span-5 space-y-2">
               <p className="text-[11px] uppercase tracking-[0.18em] font-semibold text-[#844D60]">
                 Mirror {currentMirror.mirrorIndex} · {currentMirror.startingLabel}
               </p>

@@ -65,70 +65,39 @@ body {
   transition: all 550ms var(--silk-ease);
 }
 
-/* Entrance 3D perspective doorway stage */
-.entrance-perspective {
-  perspective: 1700px;
-  perspective-origin: 50% 50%;
-}
-
-.door-leaf-3d {
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  will-change: transform, opacity;
-}
-
-/* Living Mirror optical glass reflection + frosted silk mist */
+/* The frame shadow stays in place as the frosted reflection clears. */
 .mirror-veil {
-  background:
-    linear-gradient(
-      128deg,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(250, 248, 247, 0.08) 30%,
-      rgba(250, 248, 247, 0) 52%,
-      rgba(231, 223, 235, 0.14) 100%
-    ),
-    radial-gradient(
-      circle at 46% 32%,
-      rgba(246, 242, 239, 0.72),
-      rgba(231, 223, 235, 0.52) 64%,
-      rgba(216, 173, 182, 0.28)
-    );
-  backdrop-filter: blur(4px);
-  box-shadow:
-    inset 0 2px 12px rgba(42, 33, 40, 0.2),
-    inset 0 0 0 1px rgba(42, 33, 40, 0.08);
-  transition: opacity 550ms var(--silk-ease), backdrop-filter 550ms var(--silk-ease);
+  background: linear-gradient(143deg, rgb(253 246 243 / 73%), rgb(223 211 221 / 48%) 74%, rgb(184 161 166 / 27%));
+  backdrop-filter: blur(3px);
+  transition: opacity 480ms var(--silk-ease), clip-path 530ms var(--silk-ease);
+  clip-path: inset(0);
 }
 
 .mirror-glass-sheen {
-  background: linear-gradient(
-    124deg,
-    rgba(255, 252, 248, 0.2) 0%,
-    rgba(255, 252, 248, 0.03) 28%,
-    rgba(255, 252, 248, 0) 56%,
-    rgba(255, 252, 248, 0.09) 100%
-  );
-  box-shadow:
-    inset 0 2px 14px rgba(42, 33, 40, 0.22),
-    inset 0 -2px 8px rgba(42, 33, 40, 0.08);
+  background:
+    linear-gradient(126deg, rgb(255 251 241 / 29%), transparent 40%, rgb(240 219 202 / 12%) 79%),
+    linear-gradient(0deg, rgb(77 52 46 / 10%), transparent 38%);
+  box-shadow: inset 0 2px 12px rgb(41 29 28 / 34%), inset 0 -2px 6px rgb(41 29 28 / 22%);
+}
+
+.mirror-reflection {
+  filter: saturate(.86) contrast(.93);
 }
 
 .mirror-active .mirror-veil {
   opacity: 0;
-  backdrop-filter: blur(0px);
+  clip-path: inset(0 0 0 85%);
 }
 
-@keyframes mirrorBreathe {
-  0%, 100% {
-    transform: scale(1.02);
-  }
-  50% {
-    transform: scale(1.045);
+@media (prefers-reduced-motion: no-preference) {
+  .aera-ledger-copy {
+    animation: aera-ledger-open 360ms var(--silk-ease) both;
   }
 }
 
-.mirror-active img {
-  animation: mirrorBreathe 8s var(--silk-ease) infinite;
+@keyframes aera-ledger-open {
+  from { opacity: .55; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 /* Invisible accessible keyboard range control overlaid inside Before/After image (no external bar) */
@@ -202,207 +171,148 @@ html:has(dialog:modal) {
 }
 
 #aera-entrance[open] {
-  display: grid;
-  place-items: center;
-  animation: aera-entrance-finish 2.28s both;
+  animation: aera-entrance-finish 2.44s both;
 }
 
-.aera-entrance-surround {
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(
-      ellipse 46% 52% at 50% 50%,
-      rgba(250, 248, 247, 0) 0%,
-      rgba(250, 248, 247, 0.08) 54%,
-      rgba(242, 236, 233, 0.94) 68%,
-      #E7DFEB 100%
-    );
-  animation: aera-entrance-clear 800ms 900ms ease-out both;
-}
-
+/* Aperture and leaf cuts use the same 454–922 × 169–689 crop of doors-closed. */
 .aera-entrance-frame {
-  box-sizing: border-box;
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  width: min(92vw, 960px);
-  height: min(84dvh, 720px);
-  border: 14px solid #352725;
-  outline: 10px solid #FAF8F7;
-  box-shadow:
-    inset 0 0 0 1px rgba(210, 192, 168, 0.45),
-    0 36px 96px rgba(42, 33, 40, 0.22);
-  perspective: 1900px;
-  perspective-origin: 50% 48%;
-  transform-style: preserve-3d;
-  animation: aera-entrance-push 880ms 1160ms var(--silk-ease) both;
+  --facade-width: max(100vw, min(1100px, 280vw));
+  --left-jamb: 32.994%;
+  --right-jamb: 67.006%;
+  --lintel: 22.005%;
+  --sill: 89.714%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--facade-width);
+  aspect-ratio: 1376 / 768;
+  perspective: clamp(880px, 118vw, 1900px);
+  perspective-origin: 50% 56%;
+  transform: translate(-50%, -50%);
+  transform-origin: 50% 55%;
+  box-shadow: 0 0 0 135vmax #eae3da;
+  animation: aera-entrance-push 1.08s 1.14s var(--silk-ease) both;
 }
 
-.aera-entrance-beam {
+.aera-entrance-facade {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: transparent;
+  background: var(--aera-facade-image, none) 50% / 100% 100% no-repeat,
+    linear-gradient(180deg, #eae5d9 0 17%, #d7c6b1 17% 89.7%, #eee7dd 89.7%);
+  clip-path: polygon(evenodd,
+    0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+    var(--left-jamb) var(--lintel), var(--left-jamb) var(--sill),
+    var(--right-jamb) var(--sill), var(--right-jamb) var(--lintel),
+    var(--left-jamb) var(--lintel)
+  );
 }
 
 .aera-entrance-leaf {
-  position: relative;
-  height: 100%;
-  border: 12px solid #3A2B29;
-  border-bottom-width: 28px;
-  background: rgba(250, 248, 247, 0.16);
-  box-shadow:
-    inset 0 0 0 1px rgba(204, 184, 158, 0.5),
-    inset 0 18px 34px rgba(42, 33, 40, 0.16);
-  transform-style: preserve-3d;
+  position: absolute;
+  top: var(--lintel);
+  width: 17.02%;
+  height: 67.71%;
+  background-image: var(--aera-facade-image, none),
+    repeating-linear-gradient(90deg, #d7baa1 0 3px, #ebd6bd 4px, #b49980 6px);
+  background-size: 588.034% 147.692%, auto;
+  background-position: var(--leaf-source) 68.145%, center;
   backface-visibility: hidden;
-  will-change: transform;
+  transform: rotateY(0);
+  animation: aera-entrance-swing 1.23s 400ms cubic-bezier(.36,.04,.22,1) both;
 }
 
-.aera-entrance-glass {
+.aera-entrance-leaf::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background:
-    repeating-linear-gradient(
-      90deg,
-      rgba(250, 248, 247, 0.82) 0px,
-      rgba(250, 248, 247, 0.94) 5px,
-      rgba(231, 223, 235, 0.72) 10px,
-      rgba(216, 173, 182, 0.42) 14px
-    ),
-    radial-gradient(circle at 50% 44%, rgba(255, 250, 245, 0.72), rgba(231, 223, 235, 0.56));
-  backdrop-filter: blur(18px) saturate(1.04);
-}
-
-.aera-entrance-handle {
-  position: absolute;
-  top: 42%;
-  inset-inline-end: 14px;
-  width: 7px;
-  height: min(26%, 148px);
-  border-radius: 999px;
-  background: linear-gradient(180deg, #C7B296 0%, #8E765F 50%, #4E3E38 100%);
-  box-shadow:
-    0 4px 12px rgba(24, 16, 18, 0.35),
-    inset 1px 0 1px rgba(255, 255, 255, 0.45);
+  background: #392720;
+  opacity: 0;
+  animation: aera-entrance-shade 1.13s 400ms ease-in-out both;
 }
 
 .aera-entrance-leaf-left {
-  --door-swing: 88deg;
+  --door-swing: 91deg;
+  --leaf-source: 39.755%;
+  left: var(--left-jamb);
   transform-origin: left center;
 }
 
 .aera-entrance-leaf-right {
-  --door-swing: -88deg;
+  --door-swing: -91deg;
+  --leaf-source: 60.245%;
+  left: 50%;
   transform-origin: right center;
-  border-inline-start-width: 6px;
-}
-
-.aera-entrance-leaf-left {
-  border-inline-end-width: 6px;
-}
-
-.aera-entrance-leaf-right .aera-entrance-handle {
-  inset-inline: 14px auto;
-}
-
-#aera-entrance[open] .aera-entrance-leaf {
-  animation: aera-entrance-swing 1060ms 340ms cubic-bezier(0.24, 0.9, 0.32, 1) both;
 }
 
 .aera-entrance-crest {
   position: absolute;
-  inset-inline: 24px;
-  top: 28%;
+  inset-inline: 0;
+  top: 5.7%;
   display: grid;
   justify-items: center;
-  gap: 10px;
+  gap: .45rem;
+  color: #382b2b;
   text-align: center;
-  padding: 18px 24px;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(250, 248, 247, 0.88) 0%, rgba(250, 248, 247, 0.5) 54%, transparent 78%);
-  animation: aera-entrance-crest 460ms 340ms ease-out both;
+  animation: aera-entrance-crest 290ms 100ms ease-out both;
 }
 
 .aera-entrance-crest span {
-  font: 700 clamp(2.4rem, 5.5vw, 3.6rem)/1.05 var(--font-campaign);
-  letter-spacing: 0.32em;
-  padding-inline-start: 0.32em;
-  color: var(--ink-aubergine);
+  font: 750 clamp(1.65rem, 3.2vw, 3.1rem)/1 var(--font-campaign);
+  letter-spacing: .3em;
+  padding-inline-start: .3em;
 }
 
 .aera-entrance-crest small,
 #aera-entrance button {
   font-size: 11px;
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .aera-entrance-crest small {
-  letter-spacing: 0.3em;
-  color: var(--accent-berry-ink);
-  font-weight: 600;
+  letter-spacing: .21em;
 }
 
 #aera-entrance button {
   position: absolute;
-  right: 24px;
-  bottom: 24px;
-  z-index: 4;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
   padding: 10px 20px;
   color: var(--surface-porcelain);
   background: var(--ink-plum);
   border-radius: 999px;
-  letter-spacing: 0.16em;
-  box-shadow: 0 8px 24px rgba(42, 33, 40, 0.16);
+  letter-spacing: .16em;
   cursor: pointer;
 }
 
 @keyframes aera-entrance-swing {
-  from {
-    transform: rotateY(0);
-    filter: brightness(1);
-  }
-  to {
-    transform: rotateY(var(--door-swing));
-    filter: brightness(0.9);
-  }
+  to { transform: rotateY(var(--door-swing)); }
 }
 
-@keyframes aera-entrance-clear {
-  to { opacity: 0; }
+@keyframes aera-entrance-shade {
+  48% { opacity: .26; }
+  to { opacity: .10; }
 }
 
 @keyframes aera-entrance-push {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(1.18);
-    opacity: 0.85;
-  }
-  100% {
-    transform: scale(1.32);
-    opacity: 0;
-  }
+  from { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  72% { opacity: 1; }
+  to { transform: translate(-50%, -50%) scale(3.45); opacity: 0; }
 }
 
 @keyframes aera-entrance-crest {
-  to {
-    transform: translateY(-10px) scale(0.98);
-    opacity: 0;
-  }
+  to { opacity: 0; }
 }
 
 @keyframes aera-entrance-finish {
-  84% { opacity: 1; }
+  91% { opacity: 1; }
   to { opacity: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mirror-active img {
-    animation: none !important;
+  .mirror-veil {
+    transition: none;
   }
   .silk-transition {
     transition: none !important;
@@ -423,4 +333,271 @@ html:has(dialog:modal) {
 .aera-compare:not([data-after-label]) .aera-after-label,
 .aera-compare:not([data-plan-visible]) .aera-plan-copy {
   visibility: hidden;
+}
+
+/* The same light field continues from the salon opening through the mirror room. */
+.aera-arrival {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse 62% 26% at 86% 17%, #eddfdf 0%, transparent 88%),
+    linear-gradient(180deg, var(--surface-porcelain) 8%, #f0e7ec 45%, var(--surface-porcelain) 92%);
+}
+
+.aera-hero {
+  padding: 5.1rem 0 .9rem;
+}
+
+.aera-hero-inner {
+  width: min(100% - 40px, 1230px);
+  margin-inline: auto;
+}
+
+.aera-hero-coordinate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+  padding-block-end: .8rem;
+  border-bottom: 1px solid #dcd2d8;
+  font-size: .6875rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.aera-hero-scene {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(9.7rem, 47vw, 20rem) .15rem 1.8rem;
+}
+
+.aera-hero-room {
+  position: absolute;
+  inset: .7rem 0 auto;
+  height: clamp(12.4rem, 60vw, 22rem);
+  overflow: hidden;
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+  transform-origin: 50% 64%;
+  background: #ede3dc;
+}
+
+.aera-hero-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 25%, rgb(250 248 247 / 10%) 42%, #f7f1f2 57%, transparent 82%);
+}
+
+.aera-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 31rem;
+  color: var(--ink-aubergine);
+}
+
+.aera-hero-wordmark {
+  font-size: clamp(3.4rem, 14vw, 6.8rem);
+  font-weight: 750;
+  line-height: .88;
+  margin: .55rem 0 .6rem;
+}
+
+.aera-hero-headline {
+  color: var(--accent-berry-ink);
+  font-size: clamp(1.65rem, 4.1vw, 3rem);
+  font-weight: 500;
+  line-height: 1.07;
+}
+
+.aera-hero-description {
+  max-width: 24rem;
+  margin: .68rem 0 .9rem;
+  font-size: clamp(.81rem, 1.25vw, 1rem);
+  line-height: 1.55;
+  color: var(--ink-plum);
+}
+
+.aera-hero-portrait {
+  position: absolute;
+  z-index: 1;
+  top: clamp(4.1rem, 22vw, 8.5rem);
+  right: .55rem;
+  width: clamp(98px, 28vw, 180px);
+  aspect-ratio: 3 / 4;
+  border-radius: 48% 48% 2px 2px / 26% 26% 2px 2px;
+  overflow: hidden;
+  box-shadow: 0 13px 38px rgb(64 43 43 / 16%);
+}
+
+.aera-hero-portrait:focus-within {
+  outline: 2px solid var(--accent-berry-ink);
+  outline-offset: 3px;
+}
+
+.aera-hero-thread {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .aera-hero-scene {
+    display: grid;
+    align-items: end;
+    min-height: clamp(32rem, 46vw, 39.5rem);
+    padding: 0 0 clamp(1.7rem, 5.8vw, 5.4rem);
+  }
+
+  .aera-hero-room {
+    inset: 1.15rem 4% 0 15%;
+    height: auto;
+    border-radius: 50% 50% 2px 2px / 28% 28% 2px 2px;
+    mask-image: linear-gradient(90deg, transparent, #000 21%);
+  }
+
+  .aera-hero-wash {
+    background:
+      linear-gradient(90deg, #faf8f7 6%, rgb(250 248 247 / 97%) 16%, rgb(250 248 247 / 80%) 30%, transparent 61%),
+      linear-gradient(0deg, rgb(248 239 237 / 45%), transparent 28%);
+    mask-image: linear-gradient(180deg, transparent 5%, #000 30% 80%, transparent 100%);
+  }
+
+  .aera-hero-coordinate {
+    padding-block-end: .95rem;
+  }
+
+  .aera-hero-copy {
+    padding-inline-start: clamp(.5rem, 2.2vw, 2rem);
+  }
+
+  .aera-hero-wordmark {
+    font-size: clamp(5.2rem, 10.5vw, 10.1rem);
+    margin: .6rem 0 .65rem -.05em;
+  }
+
+  .aera-hero-portrait {
+    top: auto;
+    bottom: clamp(9px, 2vw, 30px);
+    right: 1%;
+    width: clamp(150px, 21vw, 300px);
+  }
+
+  .aera-hero-thread {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    right: 2.5%;
+    bottom: -3.1rem;
+    width: 1px;
+    height: 4.8rem;
+    background: #9d7683;
+    transform-origin: top;
+  }
+}
+
+
+.aera-ethos-track {
+  padding-inline: clamp(20px, 8vw, 8rem);
+}
+
+.aera-ethos {
+  position: relative;
+  border-block: 1px solid rgb(144 104 125 / 17%);
+  background: rgb(231 221 230 / 25%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(#aera-entrance[open]) .aera-hero-copy {
+    animation: aera-arrival-copy 420ms 1.68s var(--silk-ease) both;
+  }
+
+  html:has(#aera-entrance[open]) .aera-ethos {
+    animation: aera-arrival-ethos 340ms 1.88s ease-out both;
+  }
+}
+
+@keyframes aera-arrival-copy {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes aera-arrival-ethos {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.aera-mirror-room {
+  background: linear-gradient(180deg, transparent, var(--surface-porcelain) 84%);
+}
+
+
+.aera-stylist-section {
+  background: linear-gradient(180deg, var(--surface-porcelain), #f1e8ed 30%, var(--surface-porcelain));
+}
+
+.aera-stylist-card {
+  width: clamp(230px, 74vw, 430px);
+}
+
+.aera-stylist-rail {
+  scroll-padding-inline: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #b89aa7 transparent;
+}
+
+@media (min-width: 768px) {
+  .aera-stylist-card { width: clamp(310px, 38vw, 455px); }
+  .aera-stylist-rail { scroll-padding-inline: 0; }
+}
+
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .aera-stylist-controls { display: none; }
+  .aera-stylist-track { display: grid; width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .aera-stylist-card { width: auto; }
+}
+
+
+.aera-process-host {
+  background: linear-gradient(180deg, var(--surface-porcelain), #eee5ee 22% 76%, #f5efef);
+}
+
+.aera-process-image[aria-hidden="true"] {
+  visibility: hidden;
+}
+
+.aera-motion-section {
+  background: linear-gradient(180deg, var(--surface-porcelain), #f2e9ee 78%, #f2e9ee);
+}
+
+.aera-reel-card {
+  width: min(71vw, 290px);
+}
+
+.aera-reel-plate {
+  border-radius: 2px;
+}
+
+.aera-reel-rail {
+  scroll-padding-inline: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #b89aa7 transparent;
+}
+
+@media (min-width: 640px) {
+  .aera-reel-card { width: auto; }
+  .aera-reel-card:nth-child(even) { padding-top: 24px; }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .aera-reel-play { transition: transform 230ms var(--silk-ease), opacity 230ms var(--silk-ease); }
+  .aera-reel-plate :is(button, a):hover .aera-reel-play { transform: scale(1.075); }
+}
+
+
+.aera-compare-section {
+  background: linear-gradient(180deg, #f5efef, var(--surface-porcelain) 32%);
+}
+
+.aera-page-banner {
+  background-image: radial-gradient(ellipse 70% 125% at 96% 1%, #eee3e9, transparent);
 }

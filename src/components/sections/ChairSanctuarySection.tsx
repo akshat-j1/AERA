@@ -69,7 +69,7 @@ export function ChairSanctuarySection() {
     <section
       ref={sectionRef}
       aria-label="Book Your Chair"
-      className="py-20 md:py-28 bg-[#E7DFEB]/50 text-[#2A2128] scroll-mt-20"
+      className="py-14 md:py-18 bg-[#E7DFEB]/50 text-[#2A2128] scroll-mt-20"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-10">
         <div className="relative rounded-sm overflow-hidden border border-[#DCD2D8] shadow-[0_24px_65px_rgba(42,33,40,0.09)] bg-[#FAF8F7]">

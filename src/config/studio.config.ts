@@ -3,6 +3,8 @@ export interface StudioConfig {
     name: string;
     wordmark: string;
     entranceSubline: string;
+    heroHeadline: string;
+    heroDescription: string;
     fullName: string;
     tagline: string;
     subline: string;
@@ -51,6 +53,8 @@ export const studioConfig: StudioConfig = {
     name: 'AERA',
     wordmark: 'A E R A',
     entranceSubline: 'Hair · Skin · Beauty',
+    heroHeadline: 'Beauty, in good light.',
+    heroDescription: 'Precision cuts, dimensional colour and gentle skincare in Indiranagar, Bengaluru.',
     fullName: 'AERA Beauty Studio',
     tagline: 'Contemporary hair, luminous skin, and quiet bridal craft in Indiranagar.',
     subline:

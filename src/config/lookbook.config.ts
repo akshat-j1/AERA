@@ -153,9 +153,9 @@ export const transformationStudies: TransformationStudy[] = [
     targetSwatchLabel: 'Layered Gloss Transformation',
     beforeCaption: 'Before · Unshaped Baseline Length',
     afterCaption: 'After · Precision Layers & Espresso-Caramel Gloss',
-    beforeNote: 'Natural unlayered length with flat silhouette and dry mid-to-end texture.',
+    beforeNote: 'A straighter perimeter with a natural, even length.',
     afterNote:
-      'Soft internal shoulder layers, healthy curved ends, and ammonia-free dimensional shine.',
+      'Soft shoulder layers, curved ends and a dimensional espresso gloss.',
     proposedSteps: [
       'Shape soft shoulder-skimming layers in natural fall',
       'Apply cool-neutral espresso bond gloss for mirror shine',
@@ -170,6 +170,7 @@ export const transformationStudies: TransformationStudy[] = [
 export const transformationStages = [
   {
     code: '01',
+    shortLabel: 'Consultation',
     title: 'Quiet Daylight Mapping',
     description:
       'Every appointment starts beside natural window light—studying your dry hair movement, density, and face framing before making the first cut.',
@@ -177,6 +178,7 @@ export const transformationStages = [
   },
   {
     code: '02',
+    shortLabel: 'Colour',
     title: 'Hand-Painted Dimension',
     description:
       'Custom ammonia-free shades are placed with gentle brushwork in true daylight so subtle highlights grow out seamlessly without harsh banding.',
@@ -184,6 +186,7 @@ export const transformationStages = [
   },
   {
     code: '03',
+    shortLabel: 'Finish',
     title: 'Weightless Gloss Finish',
     description:
       'Restorative botanical moisture mist and relaxed brushwork leave hair bouncy, reflective, and naturally effortless days later.',

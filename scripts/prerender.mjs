@@ -4,8 +4,18 @@ import { pathToFileURL } from 'node:url';
 
 const dist = path.resolve('dist');
 const entry = path.resolve('dist-ssr/entry-server.js');
+if (process.env.AERA_ENABLE_LOCAL_REELS !== '1') {
+  fs.rmSync(path.join(dist, 'media/local-reels'), { recursive: true, force: true });
+}
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
 const { renderRoute, prerenderConfig } = await import(pathToFileURL(entry).href);
+
+const doorPath = path.join(dist, 'media/doors-closed-480.avif');
+const doorTexture = fs.existsSync(doorPath) ? fs.readFileSync(doorPath).toString('base64') : '';
+
+const manifest = JSON.parse(fs.readFileSync(path.join(dist, '.vite/manifest.json'), 'utf8'));
+const homeChunk = manifest['src/pages/HomePage.tsx']?.file;
+const homeModulePreload = homeChunk ? `<link rel="modulepreload" href="/${homeChunk}">` : '';
 
 for (const route of [...prerenderConfig.routePaths, '/404']) {
   const { html, headTags, entranceBrand, entranceSubline } = await renderRoute(route);
@@ -13,7 +23,10 @@ for (const route of [...prerenderConfig.routePaths, '/404']) {
   const pageHtml = template
     .replace(/<title>[\s\S]*?<\/title>/, '')
     .replace(/<meta name="description"[\s\S]*?>/, '')
-    .replace('<!--app-head-->', () => headTags)
+    .replace('<!--app-head-->', () => (route === '/' ? homeModulePreload : '') + headTags)
+    .replace('data-entrance-facade', route === '/' && doorTexture
+      ? `data-entrance-facade style="--aera-facade-image:url(data:image/avif;base64,${doorTexture})"`
+      : 'data-entrance-facade')
     .replace(/<!--entrance-brand-->.*?<!--\/entrance-brand-->/, () => entranceBrand)
     .replace(/<!--entrance-subline-->.*?<!--\/entrance-subline-->/, () => entranceSubline)
     .replace('<div id="root"><!--app-html--></div>', () => `<div id="root" data-ssr-path="${route}">${html}</div>`);

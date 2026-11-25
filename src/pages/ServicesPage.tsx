@@ -42,8 +42,8 @@ export function ServicesPage() {
         </div>
       }
     >
-      <section className="py-14 md:py-20 bg-[#FAF8F7]">
-        <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-10">
+      <section className="py-9 md:py-14 bg-[#FAF8F7]">
+        <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-7">
           <div className="flex flex-wrap gap-2 border-b border-[#DCD2D8] pb-6">
             <button
               type="button"

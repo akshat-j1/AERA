@@ -4,6 +4,7 @@ import { App } from './App';
 import { getRouteSeo, buildSalonJsonLd } from './lib/seo';
 import { loadRoutePage } from './lib/routePages';
 import { getRoutePath, routePaths } from './lib/routePaths';
+import { getMediaAsset, heroRoom } from './config/media.config';
 import { studioConfig } from './config/studio.config';
 
 export const prerenderConfig = {
@@ -24,8 +25,13 @@ export async function renderRoute(url: string) {
   const seo = getRouteSeo(url);
   const canonical = new URL(seo.path, prerenderConfig.siteUrl).href;
   const jsonLd = route === '/404' ? null : buildSalonJsonLd();
+  const heroSource = getMediaAsset(heroRoom.mediaId);
   const headTags = renderToStaticMarkup(
     <>
+      {route === '/' && (
+        <link rel="preload" as="image" type="image/avif" imageSrcSet={heroSource.avifSrcset}
+          imageSizes={heroRoom.sizes} fetchPriority="high" />
+      )}
       <title>{seo.title}</title>
       <meta name="description" content={seo.description} />
       {(!prerenderConfig.allowIndexing || route === '/404') && <meta name="robots" content="noindex, follow" />}

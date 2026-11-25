@@ -38,9 +38,16 @@ function ssgPreviewRoutesPlugin(): Plugin {
   };
 }
 
+const localReelDir = path.resolve('public/media/local-reels');
+const localReelFiles = process.env.AERA_ENABLE_LOCAL_REELS === '1' && fs.existsSync(localReelDir)
+  ? fs.readdirSync(localReelDir).filter((filename) => /\.(mp4|jpg)$/.test(filename))
+  : [];
+
 export default defineConfig({
+  define: { __AERA_LOCAL_REEL_FILES__: JSON.stringify(localReelFiles) },
   plugins: [react(), tailwindcss(), ssgPreviewRoutesPlugin()],
   build: {
+    manifest: true,
     sourcemap: false,
     rollupOptions: {
       output: {

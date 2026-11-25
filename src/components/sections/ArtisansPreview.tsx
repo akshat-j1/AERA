@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -14,70 +14,90 @@ gsap.registerPlugin(ScrollTrigger);
 export function ArtisansPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
+  const rail = useRef<HTMLDivElement>(null);
   const { openEnquiry } = useStudio();
 
   useGSAP(
     () => {
       if (reducedMotion || !sectionRef.current) return;
 
-      gsap.from('[data-stylist-card]', {
-        opacity: 0,
-        y: 26,
-        duration: 0.75,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 78%',
-          once: true,
-        },
+      gsap.fromTo('[data-stylist-image]', {
+        y: 16,
+      }, {
+        y: 0,
+        stagger: 0.08,
+        ease: 'none',
+        scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', end: 'top 36%', scrub: 0.4 },
       });
     },
     { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
+  function moveRail(direction: number) {
+    const first = rail.current?.querySelector('[data-stylist-card]');
+    if (!first || !rail.current) return;
+    const gap = parseFloat(getComputedStyle(first.parentElement!).columnGap) || 0;
+    rail.current.scrollBy({
+      left: (first.getBoundingClientRect().width + gap) * direction,
+      behavior: reducedMotion ? 'instant' : 'smooth',
+    });
+  }
+
   return (
     <section
       id="meet-stylists"
       aria-label="Meet Our Stylists"
-      className="bg-[#F2EEF1] border-b border-[#DCD2D8] scroll-mt-20"
+      className="aera-stylist-section scroll-mt-20"
     >
-      <div ref={sectionRef} className="py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-10">
+      <div ref={sectionRef} className="py-12 md:py-16">
+        <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-7">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#DCD2D8] pb-5">
             <div className="space-y-1.5">
               <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
-                04 · Meet Our Stylists
+                Meet Our Stylists
               </p>
               <h2 className="font-campaign text-3xl sm:text-4xl font-bold text-[#2A2128]">
-                Calm specialists dedicated to your hair and skin.
+                A chair with your name on it.
               </h2>
             </div>
-            <Link
-              to="/team"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#2A2128] hover:text-[#844D60] transition-colors shrink-0"
-            >
-              All Stylists <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
+            <div className="flex items-center gap-3">
+              <div className="aera-stylist-controls flex items-center gap-2" role="group" aria-label="Stylist rail controls">
+                <button type="button" aria-label="Previous stylists" aria-controls="studio-stylist-rail"
+                  className="rounded-full border border-[#b896a2] p-2 hover:bg-[#E7DFEB] cursor-pointer" onClick={() => moveRail(-1)}>
+                  <ArrowLeft aria-hidden="true" className="size-4" />
+                </button>
+                <button type="button" aria-label="Next stylists" aria-controls="studio-stylist-rail"
+                  className="rounded-full border border-[#b896a2] p-2 hover:bg-[#E7DFEB] cursor-pointer" onClick={() => moveRail(1)}>
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </button>
+              </div>
+              <Link
+                to="/team"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#2A2128] hover:text-[#844D60] transition-colors shrink-0"
+              >
+                All Stylists <ArrowRight aria-hidden="true" className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
-          <div className="overflow-x-auto lg:overflow-visible snap-x snap-mandatory no-scrollbar -mx-5 px-5 lg:mx-0 lg:px-0">
-            <div className="flex gap-6 lg:grid lg:grid-cols-3 lg:gap-8 w-max lg:w-full items-start pb-2 lg:pb-0">
+          <div ref={rail} id="studio-stylist-rail" data-stylist-rail
+            className="aera-stylist-rail overflow-x-auto snap-x snap-mandatory -mx-5 px-5 md:mx-0 md:px-0">
+            <div className="aera-stylist-track flex gap-5 md:gap-7 w-max items-start pb-4">
               {artisans.map((person, idx) => (
                 <article
                   key={person.id}
                   data-stylist-card
-                  className={`group snap-start shrink-0 w-[280px] sm:w-[330px] lg:w-auto lg:min-w-0 space-y-3.5 ${
+                  className={`group aera-stylist-card snap-start shrink-0 min-w-0 space-y-3 ${
                     idx % 2 === 1 ? 'lg:mt-6' : ''
                   }`}
                 >
-                  <div className="relative aspect-[3/4] max-h-[440px] rounded-sm overflow-hidden border border-[#DCD2D8] bg-[#FAF8F7] shadow-[0_14px_34px_rgba(42,33,40,0.06)]">
+                  <div data-stylist-image className="relative aspect-[10/11] rounded-t-[45%] rounded-b-sm overflow-hidden bg-[#FAF8F7]">
                     <StudioPicture
                       mediaId={person.mediaId}
                       objectPosition={person.imagePosition}
-                      sizes="(max-width: 640px) 280px, 410px"
+                      sizes="(max-width: 640px) 78vw, 430px"
                       className="w-full h-full"
-                      imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      imgClassName="w-full h-full object-cover motion-safe:transition-transform duration-700 group-hover:scale-[1.03]"
                     />
                   </div>
 
@@ -91,9 +111,6 @@ export function ArtisansPreview() {
                       </span>
                     </div>
                     <p className="text-xs font-medium text-[#493D46]">{person.role}</p>
-                    <p className="text-xs text-[#493D46]/90 leading-relaxed line-clamp-2">
-                      “{person.quote}”
-                    </p>
                     <button
                       type="button"
                       onClick={() =>

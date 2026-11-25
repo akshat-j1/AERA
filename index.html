@@ -14,17 +14,10 @@
   </head>
   <body class="bg-[#FAF8F7] text-[#2A2128] antialiased selection:bg-[#D8ADB6]/45 selection:text-[#2A2128]">
     <dialog id="aera-entrance" aria-label="AERA Beauty Studio entrance sequence">
-      <div class="aera-entrance-surround" aria-hidden="true"></div>
-      <div class="aera-entrance-frame" aria-hidden="true">
-        <div class="aera-entrance-beam"></div>
-        <div class="aera-entrance-leaf aera-entrance-leaf-left">
-          <div class="aera-entrance-glass"></div>
-          <div class="aera-entrance-handle"></div>
-        </div>
-        <div class="aera-entrance-leaf aera-entrance-leaf-right">
-          <div class="aera-entrance-glass"></div>
-          <div class="aera-entrance-handle"></div>
-        </div>
+      <div class="aera-entrance-frame" data-entrance-facade aria-hidden="true">
+        <div class="aera-entrance-facade"></div>
+        <div class="aera-entrance-leaf aera-entrance-leaf-left"></div>
+        <div class="aera-entrance-leaf aera-entrance-leaf-right"></div>
         <div class="aera-entrance-crest">
           <span><!--entrance-brand-->AERA<!--/entrance-brand--></span>
           <small><!--entrance-subline-->Hair · Skin · Beauty<!--/entrance-subline--></small>
@@ -36,6 +29,15 @@
       (() => {
         const door = document.getElementById('aera-entrance');
         const skip = door.querySelector('button');
+        const facade = door.querySelector('[data-entrance-facade]');
+        // The first prerender carries its surface. Warm the texture for SPA arrivals and replays.
+        let texture;
+        function warmTexture() {
+          if (texture || facade.style.getPropertyValue('--aera-facade-image')) return;
+          texture = new Image();
+          texture.src = '/media/doors-closed-480.avif';
+        }
+        window.addEventListener('load', warmTexture, { once: true });
         const reduced = matchMedia('(prefers-reduced-motion: reduce)');
         const key = 'aera_entrance_seen';
         let seen = false;
@@ -63,10 +65,13 @@
             img.complete && img.currentSrc && !img.naturalWidth
           )) return;
           opener = document.activeElement === document.body ? undefined : document.activeElement;
+          if (texture?.complete && texture.naturalWidth) {
+            facade.style.setProperty('--aera-facade-image', `url("${texture.src}")`);
+          }
           try { door.showModal(); } catch { return; }
           seen = true;
           try { sessionStorage.setItem(key, '1'); } catch {}
-          deadline = setTimeout(close, 2380);
+          deadline = setTimeout(close, 2540);
           skip.focus({ preventScroll: true });
           changed();
         }

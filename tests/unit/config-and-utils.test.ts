@@ -2,12 +2,13 @@ import { describe, it, expect } from 'vitest';
 import { mirrorPillars, salonServices } from '../../src/config/services.config';
 import { artisans } from '../../src/config/team.config';
 import { lookbookEntries, transformationStages, transformationStudies } from '../../src/config/lookbook.config';
-import { motionReelsConfig } from '../../src/config/videos.config';
+import { getReelMedia, motionReelsConfig } from '../../src/config/videos.config';
 import { GENERATED_MEDIA } from '../../src/config/media.generated';
 import { formatCurrency, formatDuration } from '../../src/lib/format';
 import { buildWhatsAppMessage, buildWhatsAppUri } from '../../src/lib/whatsapp';
 import { buildSalonJsonLd, getRouteSeo } from '../../src/lib/seo';
 import { bookingErrors, eligibleArtisans, initialBooking, todayAtStudio } from '../../src/lib/booking';
+import { getProcessFrame } from '../../src/lib/processProgress';
 import { getRoutePath } from '../../src/lib/routePaths';
 
 describe('AERA configuration & helper integrity', () => {
@@ -42,14 +43,30 @@ describe('AERA configuration & helper integrity', () => {
     }
   });
 
-  it('exposes configured vertical salon video reels with local MP4, poster paths, and verified commercial provenance', () => {
-    expect(motionReelsConfig.reels.length).toBeGreaterThanOrEqual(4);
+  it('preserves source identity and provides shippable poster fallbacks for the four reels', () => {
+    expect(motionReelsConfig.reels.map((reel) => reel.assetId)).toEqual([
+      'mixkit-40592', 'mixkit-52141', 'mixkit-40583', 'mixkit-40560',
+    ]);
     for (const reel of motionReelsConfig.reels) {
-      expect(reel.videoSrc.endsWith('.mp4')).toBe(true);
-      expect(reel.posterSrc.endsWith('.jpg') || reel.posterSrc.endsWith('.webp')).toBe(true);
-      expect(reel.sourceUrl).toMatch(/^https:\/\/mixkit\.co\/free-stock-video\/.+-\d+\/$/);
+      const media = getReelMedia(reel);
+      expect(GENERATED_MEDIA[reel.posterMedia]).toBeDefined();
+      expect(media.posterSrc).toMatch(/^\/media\/.+\.(avif|webp|jpg)$/);
+      expect(media.link).toMatch(/^https:\/\/mixkit\.co\/free-stock-video\/.+-\d+\/$/);
       expect(reel.licenseName).toBe('Mixkit Stock Video Free License');
-      expect(reel.licenseUrl).toContain('mixkit.co/license');
+      expect(reel.creator).toMatch(/^@/);
+    }
+  });
+
+  it('derives stable process endpoints and a symmetric ripple around each stage boundary', () => {
+    expect(getProcessFrame(0, 3)).toEqual({ from: 0, to: 0, mix: 0, active: 0 });
+    expect(getProcessFrame(1, 3)).toEqual({ from: 2, to: 2, mix: 0, active: 2 });
+    for (const boundary of [1 / 3, 2 / 3]) {
+      const before = getProcessFrame(boundary - 0.04, 3);
+      const after = getProcessFrame(boundary + 0.04, 3);
+      expect(before.from).toBe(after.from);
+      expect(before.to).toBe(after.to);
+      expect(before.mix + after.mix).toBeCloseTo(1, 6);
+      expect(after.active).toBe(before.active + 1);
     }
   });
 

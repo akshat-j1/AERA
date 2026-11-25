@@ -1,101 +1,98 @@
+import { getMediaAsset, type MediaId } from './media.config';
+
+declare const __AERA_LOCAL_REEL_FILES__: readonly string[];
+
 export interface SalonMotionReel {
   id: string;
-  indexCode: string;
   title: string;
   category: string;
   caption: string;
   durationLabel: string;
-  /** Local fast-start MP4 path or self-hosted video URL */
-  videoSrc: string;
-  /** Crisp poster image shown before playback */
-  posterSrc: string;
-  /** Complete asset provenance & verified commercial permissions */
+  filename: string;
+  posterMedia: MediaId;
   sourceUrl: string;
   assetId: string;
   creator: string;
   licenseName: string;
   licenseUrl: string;
-  licenseNote: string;
-  /** Optional public Instagram Reel or video permalink configured per client */
   externalReelUrl?: string;
 }
 
-export const motionReelsConfig: {
-  eyebrow: string;
-  heading: string;
-  subcopy: string;
-  instagramHandleLabel?: string;
-  instagramProfileUrl?: string;
-  reels: SalonMotionReel[];
-} = {
+const localFiles = typeof __AERA_LOCAL_REEL_FILES__ === 'undefined' ? [] : __AERA_LOCAL_REEL_FILES__;
+const localRoot = '/media/local-reels/';
+const license = {
+  licenseName: 'Mixkit Stock Video Free License',
+  licenseUrl: 'https://mixkit.co/license/modal/videoFree/',
+};
+
+export function getReelMedia(reel: SalonMotionReel) {
+  const video = reel.filename + '.mp4';
+  const poster = reel.filename + '-poster.jpg';
+  const fallback = getMediaAsset(reel.posterMedia);
+  return {
+    videoSrc: localFiles.includes(video) ? localRoot + video : null,
+    posterSrc: localFiles.includes(video) && localFiles.includes(poster)
+      ? localRoot + poster
+      : fallback.avifSrcset.split(' ')[0] || fallback.fallbackSrc,
+    link: reel.externalReelUrl ?? reel.sourceUrl,
+  };
+}
+
+export const motionReelsConfig = {
   eyebrow: 'AERA in Motion',
-  heading: 'Quiet daylight rituals, straight from the styling floor.',
-  subcopy:
-    'Four short studies across soft hair setting, facial sculpting, and sunlit bridal prep—tap any frame to play.',
+  heading: 'From the styling floor.',
   reels: [
     {
       id: 'reel-hair-brushing',
-      indexCode: '01',
       title: 'Daylight Wave Styling',
       category: 'Haircuts & Styling',
-      caption: 'Gentle wave setting and serene temple framing before the mirror.',
+      caption: 'Soft waves take shape during wedding prep.',
       durationLabel: '0:06',
-      videoSrc: '/media/videos/hair-brushing.mp4',
-      posterSrc: '/media/videos/hair-brushing-poster.jpg',
+      filename: 'hair-brushing',
+      posterMedia: 'hero-craft',
       sourceUrl: 'https://mixkit.co/free-stock-video/bride-getting-her-makeup-and-hair-done-40592/',
       assetId: 'mixkit-40592',
-      creator: 'Not listed on Mixkit clip page',
-      licenseName: 'Mixkit Stock Video Free License',
-      licenseUrl: 'https://mixkit.co/license/#videoFree',
-      licenseNote: 'Verified commercial free license on Mixkit clip page (#40592); re-encoded locally to 540x960 fast-start MP4.',
+      creator: '@rubenvelasco',
+      ...license,
     },
     {
       id: 'reel-scalp-wash',
-      indexCode: '02',
-      title: 'Sculpted Facial Therapy',
+      title: 'Facial Massage',
       category: 'Skincare & Facials',
-      caption: 'Unhurried jawline lymphatic release in a bright quiet treatment room.',
+      caption: 'A close look at a facial treatment.',
       durationLabel: '0:06',
-      videoSrc: '/media/videos/scalp-wash.mp4',
-      posterSrc: '/media/videos/scalp-wash-poster.jpg',
+      filename: 'scalp-wash',
+      posterMedia: 'skincare-facial',
       sourceUrl: 'https://mixkit.co/free-stock-video/woman-receiving-a-facial-treatment-at-the-spa-52141/',
       assetId: 'mixkit-52141',
-      creator: 'Not listed on Mixkit clip page',
-      licenseName: 'Mixkit Stock Video Free License',
-      licenseUrl: 'https://mixkit.co/license/#videoFree',
-      licenseNote: 'Verified commercial free license on Mixkit clip page (#52141); re-encoded locally to 540x960 fast-start MP4.',
+      creator: '@mixkit',
+      ...license,
     },
     {
       id: 'reel-mirror-makeup',
-      indexCode: '03',
-      title: 'Brow & Dewy Balance',
+      title: 'Bridal Makeup Prep',
       category: 'Bridal & Makeup',
-      caption: 'Delicate brow grooming and natural luminous skin prep beside window light.',
+      caption: 'A makeup artist finishes the brows as the hair is set.',
       durationLabel: '0:06',
-      videoSrc: '/media/videos/mirror-makeup.mp4',
-      posterSrc: '/media/videos/mirror-makeup-poster.jpg',
+      filename: 'mirror-makeup',
+      posterMedia: 'portrait-chignon',
       sourceUrl: 'https://mixkit.co/free-stock-video/stylist-and-makeup-artist-working-on-a-bride-40583/',
       assetId: 'mixkit-40583',
-      creator: 'Not listed on Mixkit clip page',
-      licenseName: 'Mixkit Stock Video Free License',
-      licenseUrl: 'https://mixkit.co/license/#videoFree',
-      licenseNote: 'Verified commercial free license on Mixkit clip page (#40583); re-encoded locally to 540x960 fast-start MP4.',
+      creator: '@rubenvelasco',
+      ...license,
     },
     {
       id: 'reel-bridal-brush',
-      indexCode: '04',
       title: 'Chignon & Floral Finish',
       category: 'Bridal Suite',
-      caption: 'Checking low chignon poise and soft veil placement in daylight.',
+      caption: 'A bride checks the final look in the mirror.',
       durationLabel: '0:06',
-      videoSrc: '/media/videos/bridal-brush.mp4',
-      posterSrc: '/media/videos/bridal-brush-poster.jpg',
+      filename: 'bridal-brush',
+      posterMedia: 'bridal-indian',
       sourceUrl: 'https://mixkit.co/free-stock-video/bride-admiring-her-makeup-40560/',
       assetId: 'mixkit-40560',
-      creator: 'Not listed on Mixkit clip page',
-      licenseName: 'Mixkit Stock Video Free License',
-      licenseUrl: 'https://mixkit.co/license/#videoFree',
-      licenseNote: 'Verified commercial free license on Mixkit clip page (#40560); re-encoded locally to 540x960 fast-start MP4.',
+      creator: '@edgarfernandez',
+      ...license,
     },
-  ],
+  ] satisfies SalonMotionReel[],
 };
