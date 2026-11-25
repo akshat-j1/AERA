@@ -61,7 +61,7 @@ export function ArtisansPreview() {
 
       return () => mm.revert();
     },
-    { scope: stickyHostRef, dependencies: [reducedMotion] }
+    { scope: stickyHostRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   return (
@@ -70,8 +70,8 @@ export function ArtisansPreview() {
       aria-label="Meet Our Stylists"
       className="bg-[#F2EEF1] border-b border-[#DCD2D8] scroll-mt-20"
     >
-      <div ref={stickyHostRef} className="relative lg:h-[185vh]">
-        <div className="py-14 lg:py-0 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] flex items-center overflow-hidden">
+      <div ref={stickyHostRef} className="relative lg:motion-safe:enhanced:h-[185vh]">
+        <div className="py-14 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center overflow-hidden">
           <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#DCD2D8] pb-4">
               <div className="space-y-1.5">
@@ -92,14 +92,14 @@ export function ArtisansPreview() {
 
             <div
               ref={trackWrapRef}
-              className="overflow-x-auto lg:overflow-visible snap-x snap-mandatory no-scrollbar -mx-5 px-5 lg:mx-0 lg:px-0"
+              className="overflow-x-auto lg:motion-safe:enhanced:overflow-visible snap-x snap-mandatory no-scrollbar -mx-5 px-5 lg:mx-0 lg:px-0"
             >
-              <div ref={trackRef} className="flex gap-6 md:gap-8 w-max items-start pb-2">
+              <div ref={trackRef} className="flex gap-6 md:gap-8 w-max items-start pb-2 lg:motion-reduce:grid lg:motion-reduce:w-full lg:motion-reduce:grid-cols-3">
                 {artisans.map((person, idx) => (
                   <article
                     key={person.id}
                     data-stylist-card
-                    className={`group snap-start shrink-0 w-[280px] sm:w-[340px] lg:w-[410px] space-y-3 ${
+                    className={`group snap-start shrink-0 w-[280px] sm:w-[340px] lg:w-[410px] lg:motion-reduce:w-auto lg:motion-reduce:min-w-0 space-y-3 ${
                       idx % 2 === 1 ? 'lg:mt-4' : ''
                     }`}
                   >

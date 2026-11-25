@@ -9,7 +9,7 @@ export interface SalonMotionReel {
   videoSrc: string;
   /** Crisp poster image shown before playback */
   posterSrc: string;
-  /** Source attribution / commercial license verification reference */
+  /** Source and per-file license evidence must be verified before publication. */
   licenseNote: string;
   /** Optional public Instagram Reel or video permalink configured per client */
   externalReelUrl?: string;
@@ -37,7 +37,7 @@ export const motionReelsConfig: {
       durationLabel: '0:06',
       videoSrc: '/media/videos/hair-brushing.mp4',
       posterSrc: '/media/videos/hair-brushing-poster.jpg',
-      licenseNote: 'Mixkit Stock Video License · Self-hosted 9:16 MP4',
+      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
     },
     {
       id: 'reel-scalp-wash',
@@ -48,7 +48,7 @@ export const motionReelsConfig: {
       durationLabel: '0:06',
       videoSrc: '/media/videos/scalp-wash.mp4',
       posterSrc: '/media/videos/scalp-wash-poster.jpg',
-      licenseNote: 'Mixkit Stock Video License · Self-hosted 9:16 MP4',
+      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
     },
     {
       id: 'reel-mirror-makeup',
@@ -59,7 +59,7 @@ export const motionReelsConfig: {
       durationLabel: '0:06',
       videoSrc: '/media/videos/mirror-makeup.mp4',
       posterSrc: '/media/videos/mirror-makeup-poster.jpg',
-      licenseNote: 'Mixkit Stock Video License · Self-hosted 9:16 MP4',
+      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
     },
     {
       id: 'reel-bridal-brush',
@@ -70,7 +70,7 @@ export const motionReelsConfig: {
       durationLabel: '0:06',
       videoSrc: '/media/videos/bridal-brush.mp4',
       posterSrc: '/media/videos/bridal-brush-poster.jpg',
-      licenseNote: 'Mixkit Stock Video License · Self-hosted 9:16 MP4',
+      licenseNote: 'Reported Mixkit source. Original item and per-clip license are unverified.',
     },
   ],
 };

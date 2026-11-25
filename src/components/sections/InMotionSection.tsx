@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Play, Pause, ArrowRight, ExternalLink } from 'lucide-react';
 import { gsap } from 'gsap';
@@ -13,28 +13,52 @@ function ReelCard({
   reel,
   index,
   staggerClass,
+  claimPlayback,
 }: {
   reel: SalonMotionReel;
   index: number;
   staggerClass: string;
+  claimPlayback: (video: HTMLVideoElement) => void;
 }) {
   const [playing, setPlaying] = useState(false);
+  const [failed, setFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry && !entry.isIntersecting) video.pause();
+    });
+    observer.observe(video);
+
+    const pauseOnHidden = () => {
+      if (document.hidden) video.pause();
+    };
+    document.addEventListener('visibilitychange', pauseOnHidden);
+    return () => {
+      document.removeEventListener('visibilitychange', pauseOnHidden);
+      observer.disconnect();
+      video.pause();
+    };
+  }, []);
+
   const togglePlayback = async () => {
-    const vid = videoRef.current;
-    if (!vid) return;
-    if (vid.paused) {
-      try {
-        vid.muted = true;
-        await vid.play();
-        setPlaying(true);
-      } catch {
-        setPlaying(false);
-      }
-    } else {
-      vid.pause();
-      setPlaying(false);
+    const video = videoRef.current;
+    if (!video) return;
+    if (!video.paused) {
+      video.pause();
+      return;
+    }
+
+    setFailed(false);
+    if (video.error) video.load();
+    claimPlayback(video);
+    try {
+      await video.play();
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === 'AbortError')) setFailed(true);
     }
   };
 
@@ -47,6 +71,7 @@ function ReelCard({
       <div className="relative aspect-[9/16] rounded-sm overflow-hidden bg-[#F2EEF1] border border-[#DCD2D8] shadow-[0_18px_42px_rgba(42,33,40,0.09)] group">
         <video
           ref={videoRef}
+          id={reel.id}
           src={reel.videoSrc}
           poster={reel.posterSrc}
           muted
@@ -54,7 +79,13 @@ function ReelCard({
           loop
           preload="none"
           aria-label={`${reel.title}: ${reel.caption}`}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
           onEnded={() => setPlaying(false)}
+          onError={() => {
+            setPlaying(false);
+            setFailed(true);
+          }}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
         />
 
@@ -78,14 +109,14 @@ function ReelCard({
         <button
           type="button"
           onClick={togglePlayback}
-          aria-label={playing ? `Pause ${reel.title}` : `Play ${reel.title}`}
-          aria-pressed={playing}
+          aria-label={playing ? `Pause ${reel.title}` : failed ? `Retry ${reel.title}` : `Play ${reel.title}`}
+          aria-controls={reel.id}
           className="absolute inset-0 w-full h-full flex items-center justify-center cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#844D60]"
         >
           <span
             className={`w-12 h-12 rounded-full flex items-center justify-center backdrop-blur-md border transition-all duration-300 ${
               playing
-                ? 'bg-[#2A2128]/45 border-[#FAF8F7]/40 text-[#FAF8F7] opacity-0 group-hover:opacity-100 focus-visible:opacity-100'
+                ? 'bg-[#2A2128]/45 border-[#FAF8F7]/40 text-[#FAF8F7]'
                 : 'bg-[#FAF8F7]/92 border-[#DCD2D8] text-[#2A2128] shadow-md group-hover:scale-105'
             }`}
           >
@@ -112,6 +143,7 @@ function ReelCard({
           )}
         </div>
       </div>
+      {failed && <p role="status" className="text-xs text-[#844D60]">This clip could not play. Tap or press Retry to try again.</p>}
     </article>
   );
 }
@@ -119,6 +151,12 @@ function ReelCard({
 export function InMotionSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
+  const activeVideo = useRef<HTMLVideoElement | null>(null);
+
+  function claimPlayback(video: HTMLVideoElement) {
+    if (activeVideo.current !== video) activeVideo.current?.pause();
+    activeVideo.current = video;
+  }
 
   useGSAP(
     () => {
@@ -138,7 +176,7 @@ export function InMotionSection() {
         },
       });
     },
-    { scope: sectionRef, dependencies: [reducedMotion] }
+    { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   return (
@@ -175,6 +213,7 @@ export function InMotionSection() {
               key={reel.id}
               reel={reel}
               index={idx}
+              claimPlayback={claimPlayback}
               staggerClass={idx % 2 === 1 ? 'lg:mt-10' : ''}
             />
           ))}

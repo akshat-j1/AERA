@@ -1,3 +1,4 @@
+import type { MediaId } from './media.config';
 import type { PillarId } from './services.config';
 
 export type LookbookMood = 'All' | 'Haircuts' | 'Hair Colour' | 'Skincare' | 'Bridal';
@@ -23,9 +24,9 @@ export interface TransformationStudy {
   label: string;
   subtitle: string;
   mediaId: string;
-  beforeMediaId: string;
-  /** Nullable when a verified same-subject edited After photograph awaits AI generation quota */
-  afterMediaId: string | null;
+  beforeMediaId: MediaId;
+  /** Set only for a verified result with the same subject, pose, framing and light. */
+  afterMediaId: MediaId | null;
   targetSwatchMediaId: string;
   targetSwatchLabel: string;
   beforeCaption: string;
@@ -144,7 +145,7 @@ export const transformationStudies: TransformationStudy[] = [
     id: 'cut-and-gloss-study',
     label: 'Cut & Shine Gloss',
     subtitle:
-      'Same-subject studio comparison anchored on a single baseline photograph—scroll or drag inside the frame.',
+      'Drag the divider or use the arrow keys to reveal the consultation plan.',
     mediaId: 'portrait-balayage',
     beforeMediaId: 'before-hair',
     afterMediaId: null,
@@ -154,7 +155,7 @@ export const transformationStudies: TransformationStudy[] = [
     afterCaption: 'Planned Transformation · Soft Internal Layers & Gloss',
     beforeNote: 'Natural unlayered length with flat silhouette and dry mid-to-end texture.',
     afterNote:
-      'Proposed dry perimeter balance, face-framing movement, and ammonia-free bond gloss. Matched same-subject AI After render is pending quota reset—no unrelated person portrait was substituted.',
+      'Proposed dry perimeter balance, face-framing movement, and ammonia-free bond gloss.',
     proposedSteps: [
       'Shape soft shoulder-skimming layers in natural fall',
       'Apply cool-neutral espresso bond gloss for mirror shine',
@@ -168,7 +169,7 @@ export const transformationStudies: TransformationStudy[] = [
     id: 'balayage-colour-study',
     label: 'Hand-Painted Balayage',
     subtitle:
-      'Same-subject consultation overlay mapping placement from single-tone base to sunlit ribbons.',
+      'Drag the divider or use the arrow keys to reveal the consultation plan.',
     mediaId: 'portrait-balayage',
     beforeMediaId: 'before-hair',
     afterMediaId: null,
@@ -178,7 +179,7 @@ export const transformationStudies: TransformationStudy[] = [
     afterCaption: 'Planned Transformation · Seam-Free Ribbon Placement',
     beforeNote: 'Uniform dark base without subtle dimension around the temple and ends.',
     afterNote:
-      'Fine hand-painted brunette ribbons placed in natural window light for soft grow-out. Matched same-subject AI After render is pending quota reset.',
+      'Fine hand-painted brunette ribbons placed in natural window light for soft grow-out.',
     proposedSteps: [
       'Fine diagonal micro-veils placed below crown for effortless regrowth',
       'Low-ammonia pearl-bronze toning glaze seals porosity',
@@ -187,5 +188,29 @@ export const transformationStudies: TransformationStudy[] = [
     durationLabel: '3 hrs · Balayage & Bond Treatment',
     recommendedSummary: 'Includes custom tone formulation, allergy patch check, and finishing blowout.',
     serviceId: 'mineral-balayage',
+  },
+];
+
+export const transformationStages = [
+  {
+    code: '01',
+    title: 'Quiet Daylight Mapping',
+    description:
+      'Every appointment starts beside natural window light—studying your dry hair movement, density, and face framing before making the first cut.',
+    mediaId: 'stage-consultation',
+  },
+  {
+    code: '02',
+    title: 'Hand-Painted Dimension',
+    description:
+      'Custom ammonia-free shades are placed with gentle brushwork in true daylight so subtle highlights grow out seamlessly without harsh banding.',
+    mediaId: 'stage-colour',
+  },
+  {
+    code: '03',
+    title: 'Weightless Gloss Finish',
+    description:
+      'Restorative botanical moisture mist and relaxed brushwork leave hair bouncy, reflective, and naturally effortless days later.',
+    mediaId: 'stage-blowout',
   },
 ];

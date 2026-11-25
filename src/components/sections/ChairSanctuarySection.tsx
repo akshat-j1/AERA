@@ -59,7 +59,7 @@ export function ChairSanctuarySection() {
         );
       }
     },
-    { scope: sectionRef, dependencies: [reducedMotion] }
+    { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   const activeService = salonServices.find((s) => s.id === ritualId) ?? salonServices[0]!;

@@ -50,7 +50,7 @@ export function EthosSpacer() {
         );
       }
     },
-    { scope: containerRef, dependencies: [reducedMotion] }
+    { scope: containerRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   return (

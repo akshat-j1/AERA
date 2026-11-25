@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant enhanced (&:where(html[data-aera-enhanced] *));
+
 :root {
   --surface-porcelain: #FAF8F7;
   --surface-alabaster: #F2EEF1;
@@ -319,4 +321,20 @@ html:has(dialog:modal) {
   .silk-transition {
     transition: none !important;
   }
+}
+
+.aera-compare {
+  --divider: 100%;
+  touch-action: pan-y pinch-zoom;
+}
+
+.aera-compare-slider:focus-visible .aera-compare-handle {
+  outline: 3px solid var(--accent-berry-ink);
+  outline-offset: 3px;
+}
+
+.aera-compare:not([data-before-label]) .aera-before-label,
+.aera-compare:not([data-after-label]) .aera-after-label,
+.aera-compare:not([data-plan-visible]) .aera-plan-copy {
+  visibility: hidden;
 }

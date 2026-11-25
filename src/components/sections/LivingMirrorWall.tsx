@@ -39,7 +39,7 @@ export function LivingMirrorWall() {
         },
       });
     },
-    { scope: sectionRef, dependencies: [reducedMotion] }
+    { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   useEffect(() => {
@@ -53,9 +53,9 @@ export function LivingMirrorWall() {
 
     container.scrollTo({
       left: targetScroll,
-      behavior: 'smooth',
+      behavior: reducedMotion ? 'instant' : 'smooth',
     });
-  }, [activePillar, currentMirror]);
+  }, [currentMirror, reducedMotion]);
 
   const focusMirrorAt = (targetIdx: number) => {
     const target = mirrorPillars[targetIdx];
@@ -131,7 +131,7 @@ export function LivingMirrorWall() {
                       onClick={() => setActivePillar(mirror.id)}
                       onMouseEnter={() => setActivePillar(mirror.id)}
                       onKeyDown={(e) => handleMirrorKeyDown(e, idx)}
-                      className={`group absolute overflow-hidden cursor-pointer focus:outline-none border transition-all duration-500 ${
+                      className={`group absolute overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 border transition-all duration-500 ${
                         isActive
                           ? 'mirror-active border-[#844D60] ring-2 ring-[#FAF8F7]/95 shadow-[0_0_28px_rgba(183,127,145,0.48)]'
                           : 'border-transparent hover:border-[#B77F91]/70'

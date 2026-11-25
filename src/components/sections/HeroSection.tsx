@@ -56,17 +56,18 @@ export function HeroSection() {
         },
       });
     },
-    { scope: heroRef, dependencies: [reducedMotion] }
+    { scope: heroRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
 
   const scrollToMirrors = () => {
     const el = document.getElementById('living-mirrors');
-    el?.scrollIntoView({ behavior: 'smooth' });
+    el?.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth' });
   };
 
   return (
     <section
       ref={heroRef}
+      id="studio-hero"
       aria-label="AERA Beauty Studio Welcome"
       className="relative min-h-[min(100vh,880px)] pt-20 pb-14 md:pt-24 md:pb-20 bg-[#FAF8F7] overflow-hidden flex flex-col justify-between"
     >
@@ -209,7 +210,7 @@ export function HeroSection() {
                     {studioConfig.brand.name}
                   </h1>
                   <p className="text-[11px] sm:text-xs uppercase tracking-[0.34em] indent-[0.34em] font-semibold text-[#493D46]">
-                    Hair · Skin · Beauty
+                    {studioConfig.brand.entranceSubline}
                   </p>
                   <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
                     <button

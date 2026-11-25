@@ -2,6 +2,7 @@ export interface StudioConfig {
   brand: {
     name: string;
     wordmark: string;
+    entranceSubline: string;
     fullName: string;
     tagline: string;
     subline: string;
@@ -40,6 +41,7 @@ export interface StudioConfig {
     defaultTitle: string;
     defaultDescription: string;
     publishLocalBusinessSchema: boolean;
+    allowIndexing: boolean;
   };
   navigation: Array<{ label: string; to: string }>;
 }
@@ -48,6 +50,7 @@ export const studioConfig: StudioConfig = {
   brand: {
     name: 'AERA',
     wordmark: 'A E R A',
+    entranceSubline: 'Hair · Skin · Beauty',
     fullName: 'AERA Beauty Studio',
     tagline: 'Contemporary hair, luminous skin, and quiet bridal craft in Indiranagar.',
     subline:
@@ -89,6 +92,7 @@ export const studioConfig: StudioConfig = {
     defaultDescription:
       'A calm daylight beauty salon in Indiranagar, Bengaluru offering precision haircuts, ammonia-free hair colour, facials, and bridal hair & makeup.',
     publishLocalBusinessSchema: false,
+    allowIndexing: false,
   },
   navigation: [
     { label: 'Services', to: '/services' },

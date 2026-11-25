@@ -1,51 +1,35 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
+import { useGSAP } from '@gsap/react';
 import { useReducedMotion } from '../../lib/useReducedMotion';
 
 export function SilkVeilTransition() {
-  const location = useLocation();
-  const prevPath = useRef(location.pathname);
-  const veilRef = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const previousPath = useRef(pathname);
+  const veil = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
-  const [active, setActive] = useState(false);
 
-  useEffect(() => {
-    if (prevPath.current === location.pathname) return;
-    prevPath.current = location.pathname;
+  useGSAP(() => {
+    const navigated = previousPath.current !== pathname;
+    previousPath.current = pathname;
+    if (!navigated || reducedMotion || !veil.current) return;
 
-    if (reducedMotion || !veilRef.current) return;
-
-    setActive(true);
-    const el = veilRef.current;
-    const tl = gsap.timeline({
-      onComplete: () => setActive(false),
-    });
-
-    tl.fromTo(
-      el,
-      { clipPath: 'inset(100% 0% 0% 0%)', opacity: 0.94 },
-      { clipPath: 'inset(0% 0% 0% 0%)', opacity: 0.98, duration: 0.24, ease: 'power2.out' }
-    ).to(el, {
-      clipPath: 'inset(0% 0% 100% 0%)',
-      opacity: 0,
-      duration: 0.34,
-      ease: 'power3.out',
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, [location.pathname, reducedMotion]);
+    gsap.timeline()
+      .fromTo(veil.current, { clipPath: 'inset(100% 0 0 0)', autoAlpha: 0.94 }, {
+        clipPath: 'inset(0 0 0 0)', autoAlpha: 0.98, duration: 0.24, ease: 'power2.out',
+      })
+      .to(veil.current, {
+        clipPath: 'inset(0 0 100% 0)', autoAlpha: 0, duration: 0.34, ease: 'power3.out',
+      });
+  }, { scope: veil, dependencies: [pathname, reducedMotion], revertOnUpdate: true });
 
   return (
     <div
-      ref={veilRef}
+      ref={veil}
       aria-hidden="true"
-      className={`fixed inset-0 z-50 pointer-events-none ${active ? 'block' : 'hidden'}`}
-      style={{
-        background: 'linear-gradient(155deg, #FAF8F7 0%, #E7DFEB 55%, #D8ADB6 100%)',
-      }}
+      className="fixed inset-0 z-50 invisible pointer-events-none"
+      style={{ background: 'linear-gradient(155deg, #FAF8F7 0%, #E7DFEB 55%, #D8ADB6 100%)' }}
     />
   );
 }
