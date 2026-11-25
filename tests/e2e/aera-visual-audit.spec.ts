@@ -204,7 +204,7 @@ test.describe('AERA Beauty Studio V4 Phase 1 — Visual, Scroll, Video, A11y & F
       await motionSection.getByRole('button', { name: /Pause Daylight Wave Styling/i }).click();
       await expect.poll(() => videos.first().evaluate((video: HTMLVideoElement) => video.paused)).toBe(true);
     } else {
-      await expect(motionSection.getByRole('link', { name: /watch .* on mixkit/i })).toHaveCount(4);
+      await expect(motionSection.getByRole('link', { name: /^watch on mixkit/i })).toHaveCount(4);
       await page.screenshot({ path: path.join(ARTIFACT_CAPTURES, 'v4-desktop-09-in-motion.png') });
     }
 

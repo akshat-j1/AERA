@@ -20,6 +20,7 @@ function ReelCard({
   const [failed, setFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { videoSrc, posterSrc, link } = getReelMedia(reel);
+  const sourceName = reel.externalReelUrl ? 'Watch source clip' : 'Watch on Mixkit';
 
   useEffect(() => {
     const video = videoRef.current;
@@ -105,11 +106,11 @@ function ReelCard({
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`Watch ${reel.title} on Mixkit`}
+              aria-label={`${sourceName} — ${reel.title}`}
               className="absolute inset-0 size-full grid place-items-center focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-[#844D60]"
             >
               <span className="aera-reel-play inline-flex items-center gap-2 rounded-full bg-[#FAF8F7] text-[#493D46] px-3.5 py-2.5 text-xs font-semibold">
-                Watch on Mixkit <ExternalLink aria-hidden="true" className="size-3.5" />
+                {sourceName} <ExternalLink aria-hidden="true" className="size-3.5" />
               </span>
             </a>
           </>

@@ -302,7 +302,7 @@ test.describe('technical foundation desktop regressions', () => {
     await cards.first().scrollIntoViewIfNeeded();
     const videos = cards.locator('video');
     if ((await videos.count()) === 0) {
-      const links = page.locator('#aera-in-motion').getByRole('link', { name: /watch .* on mixkit/i });
+      const links = page.locator('#aera-in-motion').getByRole('link', { name: /^watch on mixkit/i });
       await expect(links).toHaveCount(4);
       for (const link of await links.all()) {
         await expect(link).toHaveAttribute('href', /^https:\/\/mixkit\.co\/free-stock-video\//);
