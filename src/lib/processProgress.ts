@@ -9,7 +9,7 @@ export function getProcessFrame(progress: number, steps: number): ProcessFrame {
   const position = Math.min(1, Math.max(0, progress)) * steps;
   const nearest = Math.round(position);
   const distance = position - nearest;
-  const halfWidth = 0.25;
+  const halfWidth = 0.39;
 
   if (nearest > 0 && nearest < steps && Math.abs(distance) < halfWidth) {
     const fraction = (distance + halfWidth) / (halfWidth * 2);

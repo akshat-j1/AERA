@@ -67,6 +67,9 @@ describe('AERA configuration & helper integrity', () => {
       expect(before.to).toBe(after.to);
       expect(before.mix + after.mix).toBeCloseTo(1, 6);
       expect(after.active).toBe(before.active + 1);
+      const shoulder = getProcessFrame(boundary + 0.11, 3);
+      expect(shoulder.from).not.toBe(shoulder.to);
+      expect(getProcessFrame(boundary + 0.14, 3)).toMatchObject({ from: after.to, to: after.to, mix: 0 });
     }
   });
 

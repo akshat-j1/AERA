@@ -288,17 +288,30 @@ test.describe('technical foundation desktop regressions', () => {
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
   });
 
-  test('stylist portraits travel horizontally without reserving a desktop scroll pin', async ({ page }) => {
+  test('vertical wheel moves the stylist rail in both directions with space to exit and manual control', async ({ page }) => {
     await openHome(page);
     const rail = page.locator('[data-stylist-rail]');
-    await rail.scrollIntoViewIfNeeded();
+    const start = await rail.evaluate((element) => element.getBoundingClientRect().top + scrollY - innerHeight * 0.88);
+    await page.evaluate((top) => scrollTo({ top, behavior: 'instant' }), start - 30);
+    await expect(rail).toHaveAttribute('data-scroll-driven', '');
     const available = await rail.evaluate((element) => element.scrollWidth - element.clientWidth);
     expect(available).toBeGreaterThan(150);
+    const scrollLeft = () => rail.evaluate((element) => element.scrollLeft);
+    await page.mouse.move(800, 410);
+    await page.mouse.wheel(0, 340);
+    await expect.poll(scrollLeft).toBeGreaterThan(55);
+    await page.mouse.wheel(0, -430);
+    await expect.poll(scrollLeft).toBeLessThan(2);
+    await rail.scrollIntoViewIfNeeded();
     await page.getByRole('button', { name: 'Next stylists' }).press('Enter');
     await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeGreaterThan(100);
     await page.getByRole('button', { name: 'Previous stylists' }).press('Enter');
     await expect.poll(() => rail.evaluate((element) => element.scrollLeft)).toBeLessThan(2);
     await expect(page.locator('#meet-stylists > div').first()).toHaveCSS('position', 'static');
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await expect(rail).not.toHaveAttribute('data-scroll-driven');
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await expect(rail).toHaveAttribute('data-scroll-driven', '');
   });
 
   test('reels pause each other and pause offscreen, and expose a retry for failed media', async ({ page }) => {

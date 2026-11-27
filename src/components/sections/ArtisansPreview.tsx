@@ -15,11 +15,42 @@ export function ArtisansPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const reducedMotion = useReducedMotion();
   const rail = useRef<HTMLDivElement>(null);
+  const manualRail = useRef(false);
   const { openEnquiry } = useStudio();
 
   useGSAP(
     () => {
       if (reducedMotion || !sectionRef.current) return;
+      const viewport = rail.current;
+      if (!viewport) return;
+
+      const media = gsap.matchMedia();
+      media.add('(min-width: 1024px) and (hover: hover) and (pointer: fine)', () => {
+        viewport.dataset.scrollDriven = '';
+        const yieldToManual = () => { manualRail.current = true; };
+        viewport.addEventListener('focusin', yieldToManual);
+        viewport.addEventListener('pointerdown', yieldToManual);
+
+        ScrollTrigger.create({
+          trigger: viewport,
+          start: 'top 88%',
+          end: 'top 22%',
+          onUpdate: ({ progress, isActive }) => {
+            if (!isActive && !sectionRef.current?.contains(document.activeElement)) {
+              manualRail.current = false;
+            }
+            if (manualRail.current || viewport.contains(document.activeElement)) return;
+            viewport.scrollLeft = progress * (viewport.scrollWidth - viewport.clientWidth);
+          },
+        });
+
+        return () => {
+          viewport.removeEventListener('focusin', yieldToManual);
+          viewport.removeEventListener('pointerdown', yieldToManual);
+          delete viewport.dataset.scrollDriven;
+          manualRail.current = false;
+        };
+      });
 
       gsap.fromTo('[data-stylist-image]', {
         y: 16,
@@ -29,6 +60,7 @@ export function ArtisansPreview() {
         ease: 'none',
         scrollTrigger: { trigger: sectionRef.current, start: 'top 90%', end: 'top 36%', scrub: 0.4 },
       });
+      return () => media.revert();
     },
     { scope: sectionRef, dependencies: [reducedMotion], revertOnUpdate: true }
   );
@@ -36,6 +68,7 @@ export function ArtisansPreview() {
   function moveRail(direction: number) {
     const first = rail.current?.querySelector('[data-stylist-card]');
     if (!first || !rail.current) return;
+    manualRail.current = true;
     const gap = parseFloat(getComputedStyle(first.parentElement!).columnGap) || 0;
     rail.current.scrollBy({
       left: (first.getBoundingClientRect().width + gap) * direction,

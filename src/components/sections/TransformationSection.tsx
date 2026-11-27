@@ -36,8 +36,8 @@ export function TransformationSection() {
   function draw(progress: number, desktop: boolean) {
     const frame = getProcessFrame(progress, steps);
     const blending = frame.from !== frame.to;
-    const bend = blending ? Math.sin(Math.PI * frame.mix) ** 1.2 : 0;
-    const scale = Math.round(bend * (desktop ? 76 : 50));
+    const bend = blending ? Math.sin(Math.PI * frame.mix) ** 1.55 : 0;
+    const scale = Math.round(bend * (desktop ? 69 : 46));
     const visible = blending ? frame.from : frame.active;
     select(frame.active);
     if (displacement.current?.getAttribute('scale') !== String(scale)) {
@@ -74,7 +74,7 @@ export function TransformationSection() {
         progress: 1,
         ease: 'none',
         onUpdate: () => draw(driver.progress, true),
-        scrollTrigger: { trigger: host.current, start: 'top top+=64', end: 'bottom bottom', scrub: 0.14 },
+        scrollTrigger: { trigger: host.current, start: 'top top+=64', end: 'bottom bottom', scrub: 0.18 },
       });
       return () => draw(stepCenter(active.current), false);
     });
@@ -111,7 +111,7 @@ export function TransformationSection() {
     tapTween.current?.kill();
     tapTween.current = gsap.to(cursor.current, {
       progress: stepCenter(index),
-      duration: 0.72,
+      duration: 0.9,
       ease: 'power2.inOut',
       onUpdate: () => draw(cursor.current.progress, false),
       onComplete: () => { tapTween.current = null; },
@@ -124,12 +124,13 @@ export function TransformationSection() {
         <defs>
           <filter id="aera-silk-refract" x="-12%" y="-12%" width="124%" height="124%" colorInterpolationFilters="sRGB">
             <feTurbulence type="fractalNoise" baseFrequency="0.010 0.017" numOctaves="2" seed="11" result="noise" />
-            <feDisplacementMap ref={displacement} in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" />
+            <feDisplacementMap ref={displacement} in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" result="warped" />
+            <feComposite in="warped" in2="SourceGraphic" operator="over" />
           </filter>
         </defs>
       </svg>
 
-      <div ref={host} className="aera-process-host relative lg:motion-safe:enhanced:h-[160vh]">
+      <div ref={host} className="aera-process-host relative lg:motion-safe:enhanced:h-[156vh]">
         <div className="py-12 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
           <div className="max-w-7xl mx-auto px-5 md:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">

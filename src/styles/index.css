@@ -568,6 +568,10 @@ html:has(dialog:modal) {
   scrollbar-color: var(--accent-berry) transparent;
 }
 
+.aera-stylist-rail[data-scroll-driven] {
+  scroll-snap-type: none;
+}
+
 @media (min-width: 768px) {
   .aera-stylist-card { width: clamp(310px, 38vw, 455px); }
   .aera-stylist-rail { scroll-padding-inline: 0; }
