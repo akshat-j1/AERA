@@ -1,5 +1,5 @@
-import { Suspense, type ComponentType } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Suspense, useEffect, type ComponentType } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { StudioProvider } from './lib/StudioContext';
 import { SmoothScrollProvider } from './lib/SmoothScrollProvider';
 import { Header } from './components/layout/Header';
@@ -11,6 +11,8 @@ import { EnquiryDrawer } from './components/interactive/EnquiryDrawer';
 import { WhatsappPreviewModal } from './components/interactive/WhatsappPreviewModal';
 import { lazyPages } from './lib/routePages';
 import { routePaths, type RoutePath } from './lib/routePaths';
+import { getRouteSeo, getSeoUrls } from './lib/seo';
+import { studioConfig } from './config/studio.config';
 
 interface AppProps {
   initialRoute: RoutePath;
@@ -18,6 +20,46 @@ interface AppProps {
 }
 
 export function App({ initialRoute, InitialPage }: AppProps) {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const seo = getRouteSeo(pathname);
+    const urls = getSeoUrls(seo);
+    const found = seo.path !== '/404';
+    const indexable = found && studioConfig.seo.siteUrl && studioConfig.seo.allowIndexing &&
+      !studioConfig.whatsapp.demoMode;
+    document.title = seo.title;
+
+    function setMeta(attribute: 'name' | 'property', key: string, content?: string) {
+      const current = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`);
+      if (content === undefined) {
+        current?.remove();
+        return;
+      }
+      const element = current ?? document.createElement('meta');
+      element.setAttribute(attribute, key);
+      element.content = content;
+      if (!current) document.head.append(element);
+    }
+
+    const canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (urls) {
+      const element = canonical ?? document.createElement('link');
+      element.rel = 'canonical';
+      element.href = urls.canonical;
+      if (!canonical) document.head.append(element);
+    } else {
+      canonical?.remove();
+    }
+    setMeta('name', 'description', seo.description);
+    setMeta('name', 'robots', indexable ? undefined : 'noindex, follow');
+    setMeta('name', 'twitter:card', found ? 'summary_large_image' : undefined);
+    setMeta('property', 'og:type', found ? 'website' : undefined);
+    setMeta('property', 'og:title', found ? seo.title : undefined);
+    setMeta('property', 'og:description', found ? seo.description : undefined);
+    setMeta('property', 'og:url', urls?.canonical);
+    setMeta('property', 'og:image', urls?.image);
+  }, [pathname]);
+
   function pageElement(path: RoutePath) {
     const Page = path === initialRoute ? InitialPage : lazyPages.get(path)!;
     return <Page />;

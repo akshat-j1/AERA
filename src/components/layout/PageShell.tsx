@@ -1,6 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
-import { useLocation } from 'react-router-dom';
-import { getRouteSeo } from '../../lib/seo';
+import type { ReactNode } from 'react';
 
 interface PageBannerProps {
   eyebrow: string;
@@ -20,14 +18,6 @@ export function PageShell({
   rightSlot,
   children,
 }: PageBannerProps & { children: ReactNode }) {
-  const { pathname } = useLocation();
-  const seo = getRouteSeo(pathname);
-
-  useEffect(() => {
-    document.title = seo.title;
-    document.querySelector('meta[name="description"]')?.setAttribute('content', seo.description);
-  }, [seo.title, seo.description]);
-
   const bgClass =
     surface === 'lilac'
       ? 'bg-[#E8DFED]/55'

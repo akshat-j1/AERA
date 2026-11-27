@@ -1,7 +1,7 @@
 import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { App } from './App';
-import { getRouteSeo, buildSalonJsonLd } from './lib/seo';
+import { getRouteSeo, getSeoUrls, buildSalonJsonLd } from './lib/seo';
 import { loadRoutePage } from './lib/routePages';
 import { getRoutePath, routePaths } from './lib/routePaths';
 import { getMediaAsset, heroRoom } from './config/media.config';
@@ -10,7 +10,7 @@ import { studioConfig } from './config/studio.config';
 export const prerenderConfig = {
   routePaths,
   siteUrl: studioConfig.seo.siteUrl,
-  allowIndexing: studioConfig.seo.allowIndexing && !studioConfig.whatsapp.demoMode,
+  allowIndexing: Boolean(studioConfig.seo.siteUrl) && studioConfig.seo.allowIndexing && !studioConfig.whatsapp.demoMode,
 };
 
 export async function renderRoute(url: string) {
@@ -23,7 +23,7 @@ export async function renderRoute(url: string) {
   );
 
   const seo = getRouteSeo(url);
-  const canonical = new URL(seo.path, prerenderConfig.siteUrl).href;
+  const urls = getSeoUrls(seo);
   const jsonLd = route === '/404' ? null : buildSalonJsonLd();
   const heroSource = getMediaAsset(heroRoom.mediaId);
   const headTags = renderToStaticMarkup(
@@ -36,12 +36,14 @@ export async function renderRoute(url: string) {
       <meta name="description" content={seo.description} />
       {(!prerenderConfig.allowIndexing || route === '/404') && <meta name="robots" content="noindex, follow" />}
       {route !== '/404' && <>
-        <link rel="canonical" href={canonical} />
+        {urls && <link rel="canonical" href={urls.canonical} />}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={seo.title} />
         <meta property="og:description" content={seo.description} />
-        <meta property="og:image" content={new URL(seo.ogImage, prerenderConfig.siteUrl).href} />
-        <meta property="og:url" content={canonical} />
+        {urls && <>
+          <meta property="og:image" content={urls.image} />
+          <meta property="og:url" content={urls.canonical} />
+        </>}
         <meta name="twitter:card" content="summary_large_image" />
       </>}
     </>

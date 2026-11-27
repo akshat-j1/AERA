@@ -71,12 +71,21 @@ export function getRouteSeo(pathname: string): RouteSeoMeta {
   return { ...meta, title: meta.title.replaceAll('AERA Beauty Studio', studioConfig.brand.fullName) };
 }
 
+export function getSeoUrls(seo: RouteSeoMeta) {
+  const siteUrl = studioConfig.seo.siteUrl;
+  if (!siteUrl || seo.path === '/404') return null;
+  return {
+    canonical: new URL(seo.path, siteUrl).href,
+    image: new URL(seo.ogImage, siteUrl).href,
+  };
+}
+
 /**
  * Generates Schema.org HairSalon/BeautySalon JSON-LD only when
  * studioConfig.seo.publishLocalBusinessSchema is enabled with verified business data.
  */
 export function buildSalonJsonLd(): Record<string, unknown> | null {
-  if (studioConfig.whatsapp.demoMode || !studioConfig.seo.publishLocalBusinessSchema) {
+  if (studioConfig.whatsapp.demoMode || !studioConfig.seo.publishLocalBusinessSchema || !studioConfig.seo.siteUrl) {
     return null;
   }
 

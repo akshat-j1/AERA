@@ -55,7 +55,7 @@ AERA Beauty Studio was built as a flagship portfolio project demonstrating inter
 - **Pinned Process** — A `160vh` desktop scroll region with a sticky composition links three treatments through an organic wipe and directional SVG refraction. Touch controls step through the treatments on mobile.
 - **Before & After** — The `146vh` desktop scroll wipe traverses the illustrative portrait pair. Pointer drag and keyboard controls hold the chosen position until the visitor resumes the wipe or scrolls away. Vertical swipes retain native scrolling.
 - **Opposing Kinetic Typography** — Scroll position moves the two lines in opposite directions between the hero and mirror room.
-- **Stylist and Reels Rails** — Stylist portraits travel horizontally on desktop and mobile through native overflow. The reels use a swipeable mobile rail. With preview footage enabled, the player loads on demand, pauses offscreen or in a background tab, and allows one active video at a time.
+- **Stylist and Reels Rails** — Desktop vertical scrolling advances the stylist portraits through their native horizontal overflow. Arrow controls remain available and touch layouts use native swipe. With preview footage enabled, the player loads on demand, pauses offscreen or in a background tab, and allows one active video at a time.
 - **Chair Sanctuary & Native Modal Enquiry (`ChairSanctuarySection.tsx`, `EnquiryDrawer.tsx`, `StudioDialog.tsx`, `WhatsappPreviewModal.tsx`)**: Accessible multi-step appointment preview drawer validated with Zod and Bengaluru (`Asia/Kolkata`) date constraints, plus a live URL-encoded WhatsApp message composition modal with nested focus restoration.
 
 ---
@@ -72,9 +72,9 @@ The Phase 3 comparison and recordings are generated locally under `audit-capture
 | :---: | :---: |
 | ![Interactive Living Mirror Wall](docs/screenshots/03-living-mirrors.jpg) | ![Matched Same-Subject Before and After Divider](docs/screenshots/04-before-after-comparison.jpg) |
 
-| Editorial Stylists Showcase | Studio Reels (`AERA in Motion`) | Mobile Hero (`390×844`) |
-| :---: | :---: | :---: |
-| ![Editorial Stylists Section](docs/screenshots/05-stylists-editorial.jpg) | ![Vertical Studio Reels in Motion](docs/screenshots/06-reels-in-motion.jpg) | ![Mobile Hero Layout](docs/screenshots/07-mobile-hero.jpg) |
+| Editorial Stylists Showcase | Mobile Hero (`390×844`) |
+| :---: | :---: |
+| ![Editorial Stylists Section](docs/screenshots/05-stylists-editorial.jpg) | ![Mobile Hero Layout](docs/screenshots/07-mobile-hero.jpg) |
 
 ---
 
@@ -198,7 +198,7 @@ Rebranding AERA for a live salon client requires editing config files rather tha
 1. **`src/config/studio.config.ts`**:
    - Set `brand`, `locale`, `location`, `hours`, and `navigation`.
    - Switch `whatsapp.demoMode` to `false` and provide real `verifiedDigits` only when authorized to dispatch client WhatsApp inquiries.
-   - Replace placeholder `seo.siteUrl` (`https://aera-beauty-studio.example`) and toggle `seo.publishLocalBusinessSchema` / `seo.allowIndexing` to `true` only once verified business identity, physical address, and hosting domain are live.
+   - Set `VITE_AERA_SITE_URL` to the approved HTTPS origin. Enable `seo.publishLocalBusinessSchema` / `seo.allowIndexing` only when the business identity and venue are verified. Demo mode keeps both disabled.
 2. **`src/config/theme.config.ts`** & **`src/styles/index.css`**: Adjust semantic tokens (`porcelain`, `alabaster`, `softLilac`, `dustyRose`, `berryInk`, `plumInk`, `aubergine`).
 3. **`src/config/services.config.ts`**, **`team.config.ts`**, **`bridal.config.ts`**, **`booking.config.ts`**, **`lookbook.config.ts`**: Update categories, ₹ INR pricing tiers, team specialties, bridal timelines, and Before/After mappings (`afterMediaId` should only be populated with a matched same-subject result).
 4. **`src/assets/media/raw/`** + **`src/config/media.config.ts`** + **`src/config/videos.config.ts`**: Drop in photography, run `npm run optimize:media`, and point video reels to client-owned MP4s and posters.

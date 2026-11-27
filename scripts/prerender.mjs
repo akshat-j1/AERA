@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
@@ -8,6 +9,13 @@ if (process.env.AERA_ENABLE_LOCAL_REELS !== '1') {
   fs.rmSync(path.join(dist, 'media/local-reels'), { recursive: true, force: true });
 }
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8');
+const manifestConfig = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+const policy = manifestConfig.headers.flatMap(({ headers }) => headers)
+  .find(({ key }) => key === 'Content-Security-Policy')?.value;
+const entranceScript = template.match(/<script>([\s\S]*?)<\/script>/)?.[1];
+if (!entranceScript || !policy?.includes(`'sha256-${createHash('sha256').update(entranceScript).digest('base64')}'`)) {
+  throw new Error('The built entrance script must match the Vercel Content-Security-Policy hash.');
+}
 const { renderRoute, prerenderConfig } = await import(pathToFileURL(entry).href);
 
 const doorPath = path.join(dist, 'media/doors-closed-480.avif');
@@ -41,8 +49,11 @@ for (const route of [...prerenderConfig.routePaths, '/404']) {
 const xmlEscape = (value) => value.replace(/[<>&'"]/g, (character) => ({
   '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;',
 })[character]);
-const sitemapUrl = new URL('/sitemap.xml', prerenderConfig.siteUrl);
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+const robots = 'User-agent: *\nAllow: /\n';
+let robotsContent = robots;
+if (prerenderConfig.allowIndexing) {
+  const sitemapUrl = new URL('/sitemap.xml', prerenderConfig.siteUrl);
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${prerenderConfig.routePaths.map(
   (route) => `  <url><loc>${xmlEscape(new URL(route, prerenderConfig.siteUrl).href)}</loc></url>`
@@ -50,10 +61,7 @@ ${prerenderConfig.routePaths.map(
 </urlset>
 `;
 
-const robots = 'User-agent: *\nAllow: /\n';
-if (prerenderConfig.allowIndexing) {
   fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap, 'utf8');
+  robotsContent += `Sitemap: ${sitemapUrl.href}\n`;
 }
-fs.writeFileSync(path.join(dist, 'robots.txt'), prerenderConfig.allowIndexing
-  ? `${robots}\nSitemap: ${sitemapUrl.href}\n`
-  : robots, 'utf8');
+fs.writeFileSync(path.join(dist, 'robots.txt'), robotsContent, 'utf8');

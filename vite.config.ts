@@ -43,7 +43,15 @@ const localReelFiles = process.env.AERA_ENABLE_LOCAL_REELS === '1' && fs.existsS
   ? fs.readdirSync(localReelDir).filter((filename) => /\.(mp4|jpg)$/.test(filename))
   : [];
 
-export default defineConfig({
+const { headers: [{ headers: documentHeaders }] } = JSON.parse(fs.readFileSync('vercel.json', 'utf8')) as {
+  headers: Array<{ headers: Array<{ key: string; value: string }> }>;
+};
+
+export default defineConfig(({ isPreview }) => ({
+  appType: isPreview ? 'mpa' : 'spa',
+  preview: {
+    headers: Object.fromEntries(documentHeaders.map(({ key, value }) => [key, value])),
+  },
   define: { __AERA_LOCAL_REEL_FILES__: JSON.stringify(localReelFiles) },
   plugins: [react(), tailwindcss(), ssgPreviewRoutesPlugin()],
   build: {
@@ -63,4 +71,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

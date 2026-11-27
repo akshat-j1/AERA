@@ -91,7 +91,7 @@ export const studioConfig: StudioConfig = {
     displayLabel: 'Message on WhatsApp',
   },
   seo: {
-    siteUrl: 'https://aera-beauty-studio.example',
+    siteUrl: import.meta.env.VITE_AERA_SITE_URL ?? '',
     defaultTitle: 'AERA Beauty Studio — Bengaluru Hair, Skin & Bridal Salon',
     defaultDescription:
       'A calm daylight beauty salon in Indiranagar, Bengaluru offering precision haircuts, ammonia-free hair colour, facials, and bridal hair & makeup.',
