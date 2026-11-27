@@ -119,7 +119,7 @@ export function TransformationSection() {
   }
 
   return (
-    <section id="transformation-section" aria-label="Our Process and Transformation Study" className="text-[#2A2128] scroll-mt-20">
+    <section id="transformation-section" aria-label="Our Process and Transformation Study" className="text-[#2A2028] scroll-mt-20">
       <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
         <defs>
           <filter id="aera-silk-refract" x="-12%" y="-12%" width="124%" height="124%" colorInterpolationFilters="sRGB">
@@ -134,33 +134,33 @@ export function TransformationSection() {
           <div className="max-w-7xl mx-auto px-5 md:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
               <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-[0.21em] font-semibold text-[#844D60]">Our Process</p>
+                <p className="text-[11px] uppercase tracking-[0.21em] font-semibold text-[#7B4A60]">Our Process</p>
                 <h2 className="font-campaign text-3xl sm:text-4xl md:text-5xl font-bold leading-[1.04]">
                   Crafted in daylight.
                 </h2>
               </div>
-              <div className="relative pl-5 border-l border-[#DCD2D8] space-y-5">
-                <div ref={bar} aria-hidden="true" className="hidden lg:motion-safe:block absolute inset-y-0 -left-px w-[2px] bg-[#844D60] origin-top scale-y-[.08]" />
+              <div className="relative pl-5 border-l border-[#DED2DA] space-y-5">
+                <div ref={bar} aria-hidden="true" className="hidden lg:motion-safe:block absolute inset-y-0 -left-px w-[2px] bg-[#7B4A60] origin-top scale-y-[.08]" />
                 <div className="flex flex-wrap items-center gap-4">
                   {transformationStages.map((item, index) => (
                     <button key={item.code} type="button" data-stage-step={index} aria-pressed={index === stageIndex}
                       onClick={() => choose(index)}
                       className={`pb-1.5 text-xs border-b-2 transition-colors cursor-pointer ${index === stageIndex
-                        ? 'border-[#844D60] text-[#2A2128] font-semibold'
-                        : 'border-transparent text-[#493D46] hover:text-[#844D60]'}`}>
+                        ? 'border-[#7B4A60] text-[#2A2028] font-semibold'
+                        : 'border-transparent text-[#40343D] hover:text-[#7B4A60]'}`}>
                       {item.shortLabel}
                     </button>
                   ))}
                 </div>
                 <div ref={stageCopy} className="space-y-2 min-h-[6.8rem]">
                   <h3 className="font-editorial text-2xl md:text-3xl font-semibold">{stage.title}</h3>
-                  <p className="text-sm md:text-base text-[#493D46] max-w-lg leading-relaxed">{stage.description}</p>
+                  <p className="text-sm md:text-base text-[#40343D] max-w-lg leading-relaxed">{stage.description}</p>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="relative max-w-[400px] mx-auto aspect-[4/5] rounded-t-[48%] rounded-b-sm overflow-hidden border border-[#EFE6E8] bg-[#F2EEF1]">
+              <div className="relative max-w-[400px] mx-auto aspect-[4/5] rounded-t-[48%] rounded-b-sm overflow-hidden border border-[#DED2DA] bg-[#F5F0F3]">
                 <div ref={glass} className="absolute -inset-5">
                   {transformationStages.map((item, index) => (
                     <div key={item.code} ref={(element) => { plates.current[index] = element; }}

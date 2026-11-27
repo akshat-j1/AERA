@@ -90,20 +90,20 @@ export function LivingMirrorWall() {
       <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-7">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
           <div className="md:col-span-7 space-y-2">
-            <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
+            <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#7B4A60]">
               The Mirror Room
             </p>
-            <h2 className="font-campaign text-3xl sm:text-4xl md:text-5xl font-bold text-[#2A2128] leading-[1.04]">
+            <h2 className="font-campaign text-3xl sm:text-4xl md:text-5xl font-bold text-[#2A2028] leading-[1.04]">
               Find your ritual.
             </h2>
           </div>
-          <p className="md:col-span-5 text-sm text-[#493D46] md:text-right leading-relaxed">
+          <p className="md:col-span-5 text-sm text-[#40343D] md:text-right leading-relaxed">
             Select a mirror for treatments, timing and prices.
           </p>
         </div>
 
         <div
-          className="rounded-sm overflow-hidden border border-[#DCD2D8] bg-[#F2EEF1]"
+          className="rounded-sm overflow-hidden border border-[#DED2DA] bg-[#F5F0F3]"
         >
           <div data-mirror-reveal ref={wallScrollRef} className="overflow-x-auto no-scrollbar">
             <div className="relative min-w-[700px] w-full aspect-[1376/768]">
@@ -165,8 +165,8 @@ export function LivingMirrorWall() {
                         aria-hidden="true"
                         className={`absolute bottom-2.5 inset-x-2 py-1 px-2 text-[9px] md:text-[10px] uppercase tracking-[0.14em] rounded-xs text-center whitespace-nowrap transition-all ${
                           isActive
-                            ? 'bg-[#2A2128]/88 text-[#FAF8F7] font-medium backdrop-blur-xs'
-                            : 'bg-[#FAF8F7]/82 text-[#493D46] backdrop-blur-xs'
+                            ? 'bg-[#2A2028]/88 text-[#FCFAFA] font-medium backdrop-blur-xs'
+                            : 'bg-[#FCFAFA]/82 text-[#40343D] backdrop-blur-xs'
                         }`}
                       >
                         {mirror.mirrorIndex} · {mirror.shortLabel}
@@ -178,17 +178,17 @@ export function LivingMirrorWall() {
             </div>
           </div>
 
-          <div className="flex md:hidden border-t border-[#DCD2D8] bg-[#E7DFEB]/55 overflow-x-auto no-scrollbar">
+          <div className="flex md:hidden border-t border-[#DED2DA] bg-[#E8DFED]/55 overflow-x-auto no-scrollbar">
             {mirrorPillars.map((m) => (
               <button
                 key={m.id}
                 type="button"
                 onClick={() => setActivePillar(m.id)}
                 aria-pressed={m.id === activePillar}
-                className={`px-4 py-3 text-[11px] whitespace-nowrap border-r border-[#DCD2D8] cursor-pointer ${
+                className={`px-4 py-3 text-[11px] whitespace-nowrap border-r border-[#DED2DA] cursor-pointer ${
                   m.id === activePillar
-                    ? 'bg-[#493D46] text-[#FAF8F7] font-medium'
-                    : 'text-[#493D46]'
+                    ? 'bg-[#40343D] text-[#FCFAFA] font-medium'
+                    : 'text-[#40343D]'
                 }`}
               >
                 {m.mirrorIndex} · {m.title}
@@ -200,30 +200,30 @@ export function LivingMirrorWall() {
             id="mirror-console-ledger"
             role="tabpanel"
             aria-labelledby={`mirror-tab-${activePillar}`}
-            className="p-6 md:p-8 bg-[#FAF8F7] border-t border-[#DCD2D8] grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
+            className="p-6 md:p-8 bg-[#FCFAFA] border-t border-[#DED2DA] grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"
           >
             <div key={activePillar} className="aera-ledger-copy lg:col-span-5 space-y-2">
-              <p className="text-[11px] uppercase tracking-[0.18em] font-semibold text-[#844D60]">
+              <p className="text-[11px] uppercase tracking-[0.18em] font-semibold text-[#7B4A60]">
                 Mirror {currentMirror.mirrorIndex} · {currentMirror.startingLabel}
               </p>
-              <h3 className="font-campaign text-2xl font-bold text-[#2A2128]">
+              <h3 className="font-campaign text-2xl font-bold text-[#2A2028]">
                 {currentMirror.title}
               </h3>
-              <p className="text-xs md:text-sm text-[#493D46] leading-relaxed">
+              <p className="text-xs md:text-sm text-[#40343D] leading-relaxed">
                 {currentMirror.subtitle}
               </p>
             </div>
 
-            <div className="lg:col-span-4 space-y-3 border-y lg:border-y-0 lg:border-x border-[#DCD2D8] py-4 lg:py-0 lg:px-6">
+            <div className="lg:col-span-4 space-y-3 border-y lg:border-y-0 lg:border-x border-[#DED2DA] py-4 lg:py-0 lg:px-6">
               {pillarServices.map((svc) => (
                 <div key={svc.id} className="flex items-baseline justify-between gap-3 text-xs">
                   <div>
-                    <p className="font-medium text-[#2A2128]">{svc.name}</p>
-                    <p className="text-[11px] text-[#493D46]/80">
+                    <p className="font-medium text-[#2A2028]">{svc.name}</p>
+                    <p className="text-[11px] text-[#40343D]/80">
                       {formatDuration(svc.durationMinutes)}
                     </p>
                   </div>
-                  <span className="font-semibold text-[#2A2128] tabular shrink-0">
+                  <span className="font-semibold text-[#2A2028] tabular shrink-0">
                     From {formatCurrency(svc.startingPriceInr)}
                   </span>
                 </div>
@@ -239,13 +239,13 @@ export function LivingMirrorWall() {
                     sourceLabel: `${currentMirror.title} Inquiry`,
                   })
                 }
-                className="flex-1 py-3 px-4 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.14em] hover:bg-[#844D60] transition-colors cursor-pointer text-center"
+                className="flex-1 py-3 px-4 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.14em] hover:bg-[#7B4A60] transition-colors cursor-pointer text-center"
               >
                 Book Service
               </button>
               <Link
                 to={`/services?pillar=${currentMirror.id}`}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-xs uppercase tracking-[0.12em] text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-sm border border-[#DED2DA] bg-[#FCFAFA] text-xs uppercase tracking-[0.12em] text-[#2A2028] hover:border-[#7B4A60]/55 hover:bg-[#F5F0F3] transition-colors"
               >
                 Full Menu <ArrowRight className="w-3.5 h-3.5" />
               </Link>

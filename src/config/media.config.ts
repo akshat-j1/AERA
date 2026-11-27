@@ -72,12 +72,12 @@ export const mediaMeta: Record<MediaId, MediaMetadata> = {
     objectPosition: '50% 24%',
   },
   'before-hair': {
-    alt: 'Baseline studio portrait before styling showing unlayered dry shoulder-length hair',
-    objectPosition: '48% 30%',
+    alt: 'Baseline studio portrait before styling showing straight unlayered shoulder-length hair in a silk ivory blouse',
+    objectPosition: '50% 24%',
   },
   'after-hair-matched': {
-    alt: 'Matched same-subject transformation showing soft precision layers and dimensional espresso-caramel gloss',
-    objectPosition: '48% 30%',
+    alt: 'Matched same-subject transformation showing soft curved layers, airy volume, and espresso shine ribbons',
+    objectPosition: '50% 24%',
   },
   'look-chestnut-layers': {
     alt: 'Three-quarter beauty study highlighting soft chestnut waves beside natural window drape',

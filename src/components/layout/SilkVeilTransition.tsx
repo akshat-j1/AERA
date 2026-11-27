@@ -32,7 +32,7 @@ export function SilkVeilTransition() {
       data-route-veil
       aria-hidden="true"
       className="fixed inset-0 z-50 invisible pointer-events-none"
-      style={{ background: 'linear-gradient(155deg, #FAF8F7 0%, #E7DFEB 55%, #D8ADB6 100%)' }}
+      style={{ background: 'linear-gradient(155deg, #FCFAFA 0%, #E8DFED 55%, #DDBBC7 100%)' }}
     />
   );
 }

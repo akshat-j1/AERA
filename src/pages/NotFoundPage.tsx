@@ -10,7 +10,7 @@ export function NotFoundPage() {
       surface="porcelain"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-10 py-12 flex flex-wrap items-center gap-5">
-        <Link to="/" className="px-5 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.15em]">
+        <Link to="/" className="px-5 py-3 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.15em]">
           Studio Homepage
         </Link>
         <Link to="/services" className="underline underline-offset-4 text-sm">

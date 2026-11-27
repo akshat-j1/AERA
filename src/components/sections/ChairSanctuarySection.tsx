@@ -69,20 +69,20 @@ export function ChairSanctuarySection() {
     <section
       ref={sectionRef}
       aria-label="Book Your Chair"
-      className="py-14 md:py-18 bg-[#E7DFEB]/50 text-[#2A2128] scroll-mt-20"
+      className="py-14 md:py-18 bg-[#E8DFED]/50 text-[#2A2028] scroll-mt-20"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-10">
-        <div className="relative rounded-sm overflow-hidden border border-[#DCD2D8] shadow-[0_24px_65px_rgba(42,33,40,0.09)] bg-[#FAF8F7]">
+        <div className="relative rounded-sm overflow-hidden border border-[#DED2DA] shadow-[0_24px_65px_rgba(42,32,40,0.09)] bg-[#FCFAFA]">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Empty Bouclé Salon Chair Facing Illuminating Arched Mirror */}
-            <div className="lg:col-span-7 relative min-h-[300px] lg:min-h-[540px] overflow-hidden bg-[#F2EEF1]">
+            <div className="lg:col-span-7 relative min-h-[300px] lg:min-h-[540px] overflow-hidden bg-[#F5F0F3]">
               <div
                 ref={haloRef}
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-10"
                 style={{
                   background:
-                    'radial-gradient(circle at 48% 36%, rgba(250,248,247,0.34), rgba(216,173,182,0.16) 44%, transparent 72%)',
+                    'radial-gradient(circle at 48% 36%, rgba(252,250,250,0.34), rgba(221,187,199,0.22) 44%, transparent 72%)',
                 }}
               />
               <div ref={photoRef} className="w-full h-full">
@@ -94,38 +94,38 @@ export function ChairSanctuarySection() {
               </div>
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-[#2A2128]/35 via-transparent to-transparent pointer-events-none"
+                className="absolute inset-0 bg-gradient-to-t from-[#2A2028]/35 via-transparent to-transparent pointer-events-none"
               />
-              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-2 text-xs text-[#FAF8F7] z-10">
-                <span className="px-3.5 py-1.5 rounded-full bg-[#2A2128]/65 backdrop-blur-md">
+              <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-2 text-xs text-[#FCFAFA] z-10">
+                <span className="px-3.5 py-1.5 rounded-full bg-[#2A2028]/65 backdrop-blur-md">
                   {studioConfig.locale.neighborhood} Studio · Styling Floor
                 </span>
               </div>
             </div>
 
             {/* Clean Booking Finale Card */}
-            <div className="lg:col-span-5 bg-[#FAF8F7] p-7 md:p-10 lg:p-12 flex flex-col justify-center space-y-6">
+            <div className="lg:col-span-5 bg-[#FCFAFA] p-7 md:p-10 lg:p-12 flex flex-col justify-center space-y-6">
               <div className="space-y-2">
-                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
+                <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#7B4A60]">
                   06 · Booking Finale
                 </p>
-                <h2 className="font-campaign text-3xl md:text-4xl font-bold leading-[1.04] text-[#2A2128]">
+                <h2 className="font-campaign text-3xl md:text-4xl font-bold leading-[1.04] text-[#2A2028]">
                   A quiet chair held just for your visit.
                 </h2>
-                <p className="text-xs md:text-sm text-[#493D46] leading-relaxed">
+                <p className="text-xs md:text-sm text-[#40343D] leading-relaxed">
                   Select a service and time window below—our team matches the right specialist and unhurried consultation time.
                 </p>
               </div>
 
               <div className="space-y-3.5 text-xs">
                 <label className="block space-y-1">
-                  <span className="uppercase tracking-[0.14em] text-[10px] font-medium text-[#493D46]">
+                  <span className="uppercase tracking-[0.14em] text-[10px] font-medium text-[#40343D]">
                     Service
                   </span>
                   <select
                     value={ritualId}
                     onChange={(e) => setRitualId(e.target.value)}
-                    className="w-full p-3 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
+                    className="w-full p-3 rounded-sm border border-[#DED2DA] bg-[#FCFAFA] text-[#2A2028]"
                   >
                     {salonServices.map((s) => (
                       <option key={s.id} value={s.id}>
@@ -136,13 +136,13 @@ export function ChairSanctuarySection() {
                 </label>
 
                 <label className="block space-y-1">
-                  <span className="uppercase tracking-[0.14em] text-[10px] font-medium text-[#493D46]">
+                  <span className="uppercase tracking-[0.14em] text-[10px] font-medium text-[#40343D]">
                     Preferred Time
                   </span>
                   <select
                     value={windowChoice}
                     onChange={(e) => setWindowChoice(e.target.value)}
-                    className="w-full p-3 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128]"
+                    className="w-full p-3 rounded-sm border border-[#DED2DA] bg-[#FCFAFA] text-[#2A2028]"
                   >
                     <option>Weekday Morning (10:30 – 13:30)</option>
                     <option>Weekday Afternoon (14:00 – 17:30)</option>
@@ -161,7 +161,7 @@ export function ChairSanctuarySection() {
                       sourceLabel: 'Homepage Booking Section',
                     })
                   }
-                  className="w-full py-3.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#844D60] transition-colors cursor-pointer"
+                  className="w-full py-3.5 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.16em] font-medium hover:bg-[#7B4A60] transition-colors cursor-pointer"
                 >
                   Book a Visit →
                 </button>
@@ -174,7 +174,7 @@ export function ChairSanctuarySection() {
                       preferredWindow: windowChoice,
                     })
                   }
-                  className="w-full py-3 rounded-full border border-[#493D46]/35 text-xs text-[#2A2128] hover:bg-[#E7DFEB] transition-colors cursor-pointer"
+                  className="w-full py-3 rounded-full border border-[#40343D]/35 text-xs text-[#2A2028] hover:bg-[#E8DFED] transition-colors cursor-pointer"
                 >
                   Message on WhatsApp
                 </button>

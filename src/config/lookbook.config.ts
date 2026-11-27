@@ -153,9 +153,9 @@ export const transformationStudies: TransformationStudy[] = [
     targetSwatchLabel: 'Layered Gloss Transformation',
     beforeCaption: 'Before · Unshaped Baseline Length',
     afterCaption: 'After · Precision Layers & Espresso-Caramel Gloss',
-    beforeNote: 'A straighter perimeter with a natural, even length.',
+    beforeNote: 'Straighter unlayered length sitting uniformly around the shoulders.',
     afterNote:
-      'Soft shoulder layers, curved ends and a dimensional espresso gloss.',
+      'Airy crown lift, softly feathered curved layers and warm espresso shine.',
     proposedSteps: [
       'Shape soft shoulder-skimming layers in natural fall',
       'Apply cool-neutral espresso bond gloss for mirror shine',

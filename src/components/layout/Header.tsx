@@ -30,14 +30,14 @@ export function Header() {
           entranceActive ? 'opacity-0 -translate-y-2 pointer-events-none' : 'opacity-100 translate-y-0'
         } ${
           scrolled
-            ? 'bg-[#FAF8F7]/94 backdrop-blur-md border-b border-[#DCD2D8]'
-            : 'bg-[#FAF8F7]/80 backdrop-blur-sm border-b border-[#DCD2D8]/45'
+            ? 'bg-[#FCFAFA]/94 backdrop-blur-md border-b border-[#DED2DA]'
+            : 'bg-[#FCFAFA]/80 backdrop-blur-sm border-b border-[#DED2DA]/45'
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 md:px-10 h-16 flex items-center justify-between gap-4">
           <Link
             to="/"
-            className="font-campaign text-sm md:text-base font-bold tracking-[0.34em] text-[#2A2128] hover:text-[#844D60] transition-colors"
+            className="font-campaign text-sm md:text-base font-bold tracking-[0.34em] text-[#2A2028] hover:text-[#7B4A60] transition-colors"
             aria-label="AERA Beauty Studio Home"
           >
             {studioConfig.brand.name}
@@ -51,8 +51,8 @@ export function Header() {
                 className={({ isActive }) =>
                   `text-[11px] uppercase tracking-[0.18em] transition-colors relative py-1 whitespace-nowrap ${
                     isActive
-                      ? 'text-[#844D60] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#844D60]'
-                      : 'text-[#493D46] hover:text-[#2A2128]'
+                      ? 'text-[#7B4A60] font-semibold after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-[#7B4A60]'
+                      : 'text-[#40343D] hover:text-[#2A2028]'
                   }`
                 }
               >
@@ -62,7 +62,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => openEnquiry({ sourceLabel: 'Header Booking' })}
-              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#493D46] text-[#FAF8F7] hover:bg-[#844D60] transition-colors cursor-pointer whitespace-nowrap"
+              className="px-4 py-2 text-[11px] uppercase tracking-[0.16em] rounded-full bg-[#40343D] text-[#FCFAFA] hover:bg-[#7B4A60] transition-colors cursor-pointer whitespace-nowrap"
             >
               Book a Visit
             </button>
@@ -75,7 +75,7 @@ export function Header() {
               onClick={() => setMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={menuOpen}
-              className="p-2 rounded-sm border border-[#DCD2D8] text-[#2A2128]"
+              className="p-2 rounded-sm border border-[#DED2DA] text-[#2A2028]"
             >
               <Menu className="w-4 h-4" />
             </button>
@@ -88,9 +88,9 @@ export function Header() {
         <StudioDialog
           label="Mobile Navigation"
           onDismiss={() => setMenuOpen(false)}
-          className="bg-[#FAF8F7] flex flex-col justify-between overflow-y-auto p-6!"
+          className="bg-[#FCFAFA] flex flex-col justify-between overflow-y-auto p-6!"
         >
-          <div className="flex items-center justify-between border-b border-[#DCD2D8] pb-4">
+          <div className="flex items-center justify-between border-b border-[#DED2DA] pb-4">
             <span className="font-campaign text-sm font-bold tracking-[0.28em]">
               {studioConfig.brand.wordmark}
             </span>
@@ -99,7 +99,7 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
               aria-label="Close navigation menu"
               data-dialog-initial-focus
-              className="p-2 rounded-sm border border-[#DCD2D8]"
+              className="p-2 rounded-sm border border-[#DED2DA]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -109,31 +109,31 @@ export function Header() {
             <Link
               to="/"
               onClick={() => setMenuOpen(false)}
-              className="font-editorial text-2xl text-[#2A2128] border-b border-[#DCD2D8]/60 pb-3 flex items-baseline justify-between"
+              className="font-editorial text-2xl text-[#2A2028] border-b border-[#DED2DA]/60 pb-3 flex items-baseline justify-between"
             >
               <span>Home</span>
-              <span className="text-xs text-[#844D60] font-semibold">00</span>
+              <span className="text-xs text-[#7B4A60] font-semibold">00</span>
             </Link>
             {studioConfig.navigation.map((item, idx) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setMenuOpen(false)}
-                className="font-editorial text-2xl text-[#2A2128] border-b border-[#DCD2D8]/60 pb-3 flex items-baseline justify-between"
+                className="font-editorial text-2xl text-[#2A2028] border-b border-[#DED2DA]/60 pb-3 flex items-baseline justify-between"
               >
                 <span>{item.label}</span>
-                <span className="text-xs text-[#844D60] font-semibold">0{idx + 1}</span>
+                <span className="text-xs text-[#7B4A60] font-semibold">0{idx + 1}</span>
               </Link>
             ))}
           </nav>
 
-          <div className="space-y-3 pt-4 border-t border-[#DCD2D8]">
+          <div className="space-y-3 pt-4 border-t border-[#DED2DA]">
             <button
               type="button"
               onClick={() => {
                 openEnquiry({ sourceLabel: 'Mobile Menu Drawer' });
               }}
-              className="w-full py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.18em]"
+              className="w-full py-3 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.18em]"
             >
               Book a Visit
             </button>

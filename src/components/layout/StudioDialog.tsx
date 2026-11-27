@@ -44,7 +44,7 @@ export function StudioDialog({
       ref={ref}
       aria-label={label}
       aria-labelledby={labelledBy}
-      className={`aera-dialog fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 p-0 text-[#2A2128] ${className}`}
+      className={`aera-dialog fixed inset-0 m-0 h-dvh max-h-none w-full max-w-none border-0 p-0 text-[#2A2028] ${className}`}
       onCancel={(event) => {
         event.preventDefault();
         onDismiss();

@@ -3,15 +3,15 @@
 @custom-variant enhanced (&:where(html[data-aera-enhanced] *));
 
 :root {
-  --surface-porcelain: #FAF8F7;
-  --surface-alabaster: #F2EEF1;
-  --surface-lilac: #E7DFEB;
-  --border-mist: #DCD2D8;
-  --accent-rose: #D8ADB6;
-  --accent-berry: #B77F91;
-  --accent-berry-ink: #844D60;
-  --ink-plum: #493D46;
-  --ink-aubergine: #2A2128;
+  --surface-porcelain: #FCFAFA;
+  --surface-alabaster: #F5F0F3;
+  --surface-lilac: #E8DFED;
+  --border-mist: #DED2DA;
+  --accent-rose: #DDBBC7;
+  --accent-berry: #98647A;
+  --accent-berry-ink: #7B4A60;
+  --ink-plum: #40343D;
+  --ink-aubergine: #2A2028;
 
   --font-campaign: "Syne Variable", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
@@ -67,7 +67,7 @@ body {
 
 /* The frame shadow stays in place as the frosted reflection clears. */
 .mirror-veil {
-  background: linear-gradient(143deg, rgb(253 246 243 / 73%), rgb(223 211 221 / 48%) 74%, rgb(184 161 166 / 27%));
+  background: linear-gradient(143deg, rgb(252 250 250 / 74%), rgb(232 223 237 / 52%) 74%, rgb(221 187 199 / 28%));
   backdrop-filter: blur(3px);
   transition: opacity 480ms var(--silk-ease), clip-path 530ms var(--silk-ease);
   clip-path: inset(0);
@@ -341,8 +341,8 @@ html:has(dialog:modal) {
   isolation: isolate;
   overflow: clip;
   background:
-    radial-gradient(ellipse 62% 26% at 86% 17%, #eddfdf 0%, transparent 88%),
-    linear-gradient(180deg, var(--surface-porcelain) 8%, #f0e7ec 45%, var(--surface-porcelain) 92%);
+    radial-gradient(ellipse 62% 28% at 84% 16%, rgb(221 187 199 / 28%) 0%, transparent 86%),
+    linear-gradient(180deg, var(--surface-porcelain) 10%, #F1E9F2 46%, var(--surface-porcelain) 92%);
 }
 
 .aera-hero {
@@ -361,7 +361,7 @@ html:has(dialog:modal) {
   flex-wrap: wrap;
   gap: .6rem 1rem;
   padding-block-end: .8rem;
-  border-bottom: 1px solid #dcd2d8;
+  border-bottom: 1px solid var(--border-mist);
   font-size: .6875rem;
   letter-spacing: .15em;
   text-transform: uppercase;
@@ -388,7 +388,7 @@ html:has(dialog:modal) {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 25%, rgb(250 248 247 / 10%) 42%, #f7f1f2 57%, transparent 82%);
+  background: linear-gradient(180deg, transparent 25%, rgb(252 250 250 / 14%) 42%, #FAF3F6 57%, transparent 82%);
 }
 
 .aera-hero-copy {
@@ -459,8 +459,8 @@ html:has(dialog:modal) {
 
   .aera-hero-wash {
     background:
-      linear-gradient(90deg, #faf8f7 6%, rgb(250 248 247 / 97%) 16%, rgb(250 248 247 / 80%) 30%, transparent 61%),
-      linear-gradient(0deg, rgb(248 239 237 / 45%), transparent 28%);
+      linear-gradient(90deg, #FCFAFA 6%, rgb(252 250 250 / 97%) 16%, rgb(252 250 250 / 82%) 30%, transparent 61%),
+      linear-gradient(0deg, rgb(246 237 241 / 46%), transparent 28%);
     mask-image: linear-gradient(180deg, transparent 5%, #000 30% 80%, transparent 100%);
   }
 
@@ -492,7 +492,7 @@ html:has(dialog:modal) {
     bottom: -3.1rem;
     width: 1px;
     height: 4.8rem;
-    background: #9d7683;
+    background: var(--accent-berry);
     transform-origin: top;
   }
 }
@@ -504,8 +504,8 @@ html:has(dialog:modal) {
 
 .aera-ethos {
   position: relative;
-  border-block: 1px solid rgb(144 104 125 / 17%);
-  background: rgb(231 221 230 / 25%);
+  border-block: 1px solid rgb(152 100 122 / 24%);
+  background: rgb(232 223 237 / 36%);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -555,7 +555,7 @@ html:has(dialog:modal) {
 
 
 .aera-stylist-section {
-  background: linear-gradient(180deg, var(--surface-porcelain), #f1e8ed 30%, var(--surface-porcelain));
+  background: linear-gradient(180deg, var(--surface-porcelain), #F3ECF1 34%, var(--surface-porcelain));
 }
 
 .aera-stylist-card {
@@ -565,7 +565,7 @@ html:has(dialog:modal) {
 .aera-stylist-rail {
   scroll-padding-inline: 20px;
   scrollbar-width: thin;
-  scrollbar-color: #b89aa7 transparent;
+  scrollbar-color: var(--accent-berry) transparent;
 }
 
 @media (min-width: 768px) {
@@ -581,7 +581,9 @@ html:has(dialog:modal) {
 
 
 .aera-process-host {
-  background: linear-gradient(180deg, var(--surface-porcelain), #eee5ee 22% 76%, #f5efef);
+  background:
+    radial-gradient(ellipse 48% 58% at 72% 46%, rgb(232 223 237 / 42%) 0%, transparent 74%),
+    linear-gradient(180deg, var(--surface-porcelain), #F5F0F4 44%, var(--surface-porcelain));
 }
 
 .aera-process-image[aria-hidden="true"] {
@@ -589,7 +591,7 @@ html:has(dialog:modal) {
 }
 
 .aera-motion-section {
-  background: linear-gradient(180deg, var(--surface-porcelain), #f2e9ee 78%, #f2e9ee);
+  background: linear-gradient(180deg, var(--surface-porcelain) 14%, #F4ECF0 78%, #F4ECF0);
 }
 
 .aera-reel-card {
@@ -603,7 +605,7 @@ html:has(dialog:modal) {
 .aera-reel-rail {
   scroll-padding-inline: 20px;
   scrollbar-width: thin;
-  scrollbar-color: #b89aa7 transparent;
+  scrollbar-color: var(--accent-berry) transparent;
 }
 
 @media (min-width: 640px) {
@@ -618,9 +620,9 @@ html:has(dialog:modal) {
 
 
 .aera-compare-section {
-  background: linear-gradient(180deg, #f5efef, var(--surface-porcelain) 32%);
+  background: var(--surface-porcelain);
 }
 
 .aera-page-banner {
-  background-image: radial-gradient(ellipse 70% 125% at 96% 1%, #eee3e9, transparent);
+  background-image: radial-gradient(ellipse 72% 125% at 96% 1%, rgb(221 187 199 / 34%), transparent);
 }

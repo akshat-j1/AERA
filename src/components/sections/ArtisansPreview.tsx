@@ -51,29 +51,29 @@ export function ArtisansPreview() {
     >
       <div ref={sectionRef} className="py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-7">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#DCD2D8] pb-5">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#DED2DA] pb-5">
             <div className="space-y-1.5">
-              <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#844D60]">
+              <p className="text-[11px] uppercase tracking-[0.22em] font-semibold text-[#7B4A60]">
                 Meet Our Stylists
               </p>
-              <h2 className="font-campaign text-3xl sm:text-4xl font-bold text-[#2A2128]">
+              <h2 className="font-campaign text-3xl sm:text-4xl font-bold text-[#2A2028]">
                 A chair with your name on it.
               </h2>
             </div>
             <div className="flex items-center gap-3">
               <div className="aera-stylist-controls flex items-center gap-2" role="group" aria-label="Stylist rail controls">
                 <button type="button" aria-label="Previous stylists" aria-controls="studio-stylist-rail"
-                  className="rounded-full border border-[#b896a2] p-2 hover:bg-[#E7DFEB] cursor-pointer" onClick={() => moveRail(-1)}>
+                  className="rounded-full border border-[#98647A] p-2 hover:bg-[#E8DFED] cursor-pointer" onClick={() => moveRail(-1)}>
                   <ArrowLeft aria-hidden="true" className="size-4" />
                 </button>
                 <button type="button" aria-label="Next stylists" aria-controls="studio-stylist-rail"
-                  className="rounded-full border border-[#b896a2] p-2 hover:bg-[#E7DFEB] cursor-pointer" onClick={() => moveRail(1)}>
+                  className="rounded-full border border-[#98647A] p-2 hover:bg-[#E8DFED] cursor-pointer" onClick={() => moveRail(1)}>
                   <ArrowRight aria-hidden="true" className="size-4" />
                 </button>
               </div>
               <Link
                 to="/team"
-                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#2A2128] hover:text-[#844D60] transition-colors shrink-0"
+                className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-[#2A2028] hover:text-[#7B4A60] transition-colors shrink-0"
               >
                 All Stylists <ArrowRight aria-hidden="true" className="w-3.5 h-3.5" />
               </Link>
@@ -91,7 +91,7 @@ export function ArtisansPreview() {
                     idx % 2 === 1 ? 'lg:mt-6' : ''
                   }`}
                 >
-                  <div data-stylist-image className="relative aspect-[10/11] rounded-t-[45%] rounded-b-sm overflow-hidden bg-[#FAF8F7]">
+                  <div data-stylist-image className="relative aspect-[10/11] rounded-t-[45%] rounded-b-sm overflow-hidden bg-[#FCFAFA]">
                     <StudioPicture
                       mediaId={person.mediaId}
                       objectPosition={person.imagePosition}
@@ -103,14 +103,14 @@ export function ArtisansPreview() {
 
                   <div className="space-y-1.5">
                     <div className="flex items-baseline justify-between gap-2">
-                      <h3 className="font-campaign text-xl font-bold text-[#2A2128]">
+                      <h3 className="font-campaign text-xl font-bold text-[#2A2028]">
                         {person.name}
                       </h3>
-                      <span className="text-[11px] uppercase tracking-[0.12em] text-[#844D60] font-semibold">
+                      <span className="text-[11px] uppercase tracking-[0.12em] text-[#7B4A60] font-semibold">
                         {person.experienceYears} yrs
                       </span>
                     </div>
-                    <p className="text-xs font-medium text-[#493D46]">{person.role}</p>
+                    <p className="text-xs font-medium text-[#40343D]">{person.role}</p>
                     <button
                       type="button"
                       onClick={() =>
@@ -119,7 +119,7 @@ export function ArtisansPreview() {
                           sourceLabel: `Stylist Request — ${person.name}`,
                         })
                       }
-                      className="pt-1 inline-flex items-center gap-1.5 text-xs font-medium text-[#2A2128] underline underline-offset-4 hover:text-[#844D60] cursor-pointer"
+                      className="pt-1 inline-flex items-center gap-1.5 text-xs font-medium text-[#2A2028] underline underline-offset-4 hover:text-[#7B4A60] cursor-pointer"
                     >
                       Book with {person.name.split(' ')[0]} →
                     </button>

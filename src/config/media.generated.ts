@@ -19,7 +19,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/after-hair-matched-896.webp",
     "avifSrcset": "/media/after-hair-matched-480.avif 480w, /media/after-hair-matched-896.avif 896w",
     "webpSrcset": "/media/after-hair-matched-480.webp 480w, /media/after-hair-matched-896.webp 896w",
-    "lqip": "data:image/webp;base64,UklGRrgAAABXRUJQVlA4IKwAAABQBQCdASoYACAAPt1ep0yopSOiMBgMARAbiWUAxkA0cAYhkNj4biME0Z5V08yrLk+5BSgA/u+3h/CbWQIpZMEtWdNKRLM/3QESru6AZPUpfJaU77+asiQ+aLuWNsBEALg/4sZbD0V8MeXkI0Ed3xSOXSZULtklBsS34xNAFqxOwxxUtoQITAtlhUakQGkuI8HP8ba9/RKoLgfT1LzpqgRcOzPe7WRIPAZUAAAA"
+    "lqip": "data:image/webp;base64,UklGRsIAAABXRUJQVlA4ILYAAADQBQCdASoYACAAPtlWpEyoJKOiN/VYAQAbCWUAw+hFXvlimHbJ18Uxr6D4PF7ufrSXROO5Zk+gAP7xy75/phQf2EbtQDXliQe5GtDAe0Yn6w0/tRqYn5WFGmw3ehfydSgekecUM77L/AD7AyenqOEdf1NiWRuugp/7ldr1GW0ZtPmzE5iYer2lj25iESdtn2Wm3g4pEDIRGQ9XarsiVGylzlb7Qu4XmE67I/20n9m6FoXUs7XgAA=="
   },
   "before-hair": {
     "id": "before-hair",
@@ -29,7 +29,7 @@ export const GENERATED_MEDIA: Record<string, MediaAssetEntry> = {
     "fallbackSrc": "/media/before-hair-896.webp",
     "avifSrcset": "/media/before-hair-480.avif 480w, /media/before-hair-896.avif 896w",
     "webpSrcset": "/media/before-hair-480.webp 480w, /media/before-hair-896.webp 896w",
-    "lqip": "data:image/webp;base64,UklGRrwAAABXRUJQVlA4ILAAAACQBQCdASoYACAAPt1YpU0opKOiMBgMARAbiWcAthcsAqH+dj9aHzBDHdVEQnrBNKnnPr9tiAD+83PldFuTk6ucgGWX1QK7mCbwQBgqf9nQLhIYJEGPR9fk/7HX3bXMC8i+t/ozre6W1PToYFriiDm2/f7ckQSH0Xenx7Y0TPyhGmo9KhBKJ/EEY2AykCX+tC4txpFFp2/Jt9CfCb4Lb2ZQjyZzpqP6IhLgIHsHOgAAAA=="
+    "lqip": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABQBQCdASoYACAAPt1apE0opKMiMBgMARAbiWUAwoA0b+5QLpH2w7xahYIT0CtWqeKoO5gA/u++PX9ZXDV413/nXFtIPi7XNXxoxOtMXaAJJXgHMT4BYG3+jIJwOjC4bJtDG0GrblR8wXQfmEHQvr1y9lph5NZsVBvX+ypZnEbGLLhA9N1PnU42qMqXJR5Al8eUdlxGnD21xXgQOcpIUCyWoFcncc+a1O745d8dBeaqkQAA"
   },
   "booking-station": {
     "id": "booking-station",

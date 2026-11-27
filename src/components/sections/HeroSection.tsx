@@ -36,7 +36,7 @@ export function HeroSection() {
           <button
             type="button"
             onClick={triggerEntranceReplay}
-            className="inline-flex items-center gap-2 hover:text-[#844D60] motion-reduce:hidden cursor-pointer"
+            className="inline-flex items-center gap-2 hover:text-[#7B4A60] motion-reduce:hidden cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" /> Replay Entrance
           </button>
@@ -65,7 +65,7 @@ export function HeroSection() {
             </Link>
           </div>
           <div className="aera-hero-copy">
-            <p className="text-[11px] uppercase tracking-[0.23em] font-semibold text-[#844D60]">
+            <p className="text-[11px] uppercase tracking-[0.23em] font-semibold text-[#7B4A60]">
               {studioConfig.brand.entranceSubline}
             </p>
             <h1 className="aera-hero-wordmark font-campaign">{studioConfig.brand.name}</h1>
@@ -75,7 +75,7 @@ export function HeroSection() {
               <button
                 type="button"
                 onClick={() => openEnquiry({ sourceLabel: 'Homepage Hero CTA' })}
-                className="px-6 py-3.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-[11px] uppercase tracking-[0.16em] font-semibold hover:bg-[#844D60] transition-colors cursor-pointer"
+                className="px-6 py-3.5 rounded-full bg-[#40343D] text-[#FCFAFA] text-[11px] uppercase tracking-[0.16em] font-semibold hover:bg-[#7B4A60] transition-colors cursor-pointer"
               >
                 Book a Visit
               </button>
@@ -88,9 +88,9 @@ export function HeroSection() {
                   target.scrollIntoView({ behavior: reducedMotion ? 'instant' : 'smooth' });
                   target.focus({ preventScroll: true });
                 }}
-                className="inline-flex items-center gap-1.5 py-2 text-[11px] uppercase tracking-[0.14em] font-semibold border-b border-[#B77F91] hover:text-[#844D60] transition-colors"
+                className="inline-flex items-center gap-1.5 py-2 text-[11px] uppercase tracking-[0.14em] font-semibold border-b border-[#98647A] hover:text-[#7B4A60] transition-colors"
               >
-                Explore Mirrors <ArrowDown aria-hidden="true" className="w-3.5 h-3.5 text-[#844D60]" />
+                Explore Mirrors <ArrowDown aria-hidden="true" className="w-3.5 h-3.5 text-[#7B4A60]" />
               </a>
             </div>
           </div>

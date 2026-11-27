@@ -14,9 +14,9 @@ const steps = [
   { label: 'Your Details', fields: ['guestName', 'contactHandle', 'notes', 'companyWebsite'] },
 ] as const satisfies ReadonlyArray<{ label: string; fields: readonly BookingField[] }>;
 
-const inputClass = 'w-full p-2.5 rounded-sm border border-[#DCD2D8] bg-[#FAF8F7] text-[#2A2128] aria-invalid:border-[#844D60]';
-const nextClass = 'flex-1 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.16em] hover:bg-[#844D60] cursor-pointer';
-const backClass = 'px-4 py-2.5 rounded-full border border-[#DCD2D8] text-xs cursor-pointer';
+const inputClass = 'w-full p-2.5 rounded-sm border border-[#DED2DA] bg-[#FCFAFA] text-[#2A2028] aria-invalid:border-[#7B4A60]';
+const nextClass = 'flex-1 py-3 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.16em] hover:bg-[#7B4A60] cursor-pointer';
+const backClass = 'px-4 py-2.5 rounded-full border border-[#DED2DA] text-xs cursor-pointer';
 
 export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
   const { openWhatsappPreview } = useStudio();
@@ -61,7 +61,7 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
   });
 
   const error = (name: BookingField) => errors[name] && (
-    <span id={`${id}-${name}-error`} className="block text-[#844D60] text-xs" role="alert">
+    <span id={`${id}-${name}-error`} className="block text-[#7B4A60] text-xs" role="alert">
       {errors[name]}
     </span>
   );
@@ -102,15 +102,15 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
   return (
     <div ref={region}>
       {preview ? (
-        <div className="space-y-5 p-6 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8]">
+        <div className="space-y-5 p-6 rounded-sm bg-[#E8DFED]/55 border border-[#DED2DA]">
           <div className="space-y-1.5">
-            <h3 id={`${id}-preview`} tabIndex={-1} className="font-campaign text-xl font-bold text-[#2A2128]">
+            <h3 id={`${id}-preview`} tabIndex={-1} className="font-campaign text-xl font-bold text-[#2A2028]">
               Your appointment preview
             </h3>
-            <p className="text-xs text-[#493D46] leading-relaxed">{studioConfig.brand.submissionNotice}</p>
+            <p className="text-xs text-[#40343D] leading-relaxed">{studioConfig.brand.submissionNotice}</p>
           </div>
 
-          <div className="p-4 rounded-sm bg-[#FAF8F7] border border-[#DCD2D8] text-xs space-y-1.5">
+          <div className="p-4 rounded-sm bg-[#FCFAFA] border border-[#DED2DA] text-xs space-y-1.5">
             <p><strong>{selectedService.name}</strong></p>
             <p>Length / Focus: {booking.hairLength}</p>
             <p>Stylist: {selectedArtisan?.name ?? 'No preference'}</p>
@@ -130,7 +130,7 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
                 guestName: booking.guestName.trim(),
                 notes: booking.notes,
               })}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs hover:bg-[#844D60] cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs hover:bg-[#7B4A60] cursor-pointer"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               Preview WhatsApp Message
@@ -153,11 +153,11 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
       ) : (
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           {selectedLook && (
-            <p className="px-3.5 py-2.5 rounded-sm bg-[#E7DFEB]/55 border border-[#DCD2D8] text-xs">
+            <p className="px-3.5 py-2.5 rounded-sm bg-[#E8DFED]/55 border border-[#DED2DA] text-xs">
               Selected look: <strong>{selectedLook.title}</strong>
             </p>
           )}
-          <p className="text-xs text-[#493D46]">{studioConfig.brand.submissionNotice}</p>
+          <p className="text-xs text-[#40343D]">{studioConfig.brand.submissionNotice}</p>
 
           <div className="grid grid-cols-3 gap-2 text-[11px]">
             {steps.map(({ label }, index) => (
@@ -168,8 +168,8 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
                 onClick={() => goTo(index)}
                 className={`py-2 px-2.5 rounded-sm border text-left transition-colors cursor-pointer ${
                   step === index
-                    ? 'border-[#493D46] bg-[#493D46] text-[#FAF8F7] font-medium'
-                    : 'border-[#DCD2D8] bg-[#FAF8F7] text-[#493D46]'
+                    ? 'border-[#40343D] bg-[#40343D] text-[#FCFAFA] font-medium'
+                    : 'border-[#DED2DA] bg-[#FCFAFA] text-[#40343D]'
                 }`}
               >
                 {index + 1} · {label}
@@ -180,7 +180,7 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
           {step === 0 && (
             <div className="space-y-4">
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Select Service</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Select Service</span>
                 <select {...field('serviceId')}>
                   {salonServices.map((service) => (
                     <option key={service.id} value={service.id}>
@@ -191,14 +191,14 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
               </label>
               {error('serviceId')}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Hair Length / Focus</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Hair Length / Focus</span>
                 <select {...field('hairLength')}>
                   {hairProfiles.map((profile) => <option key={profile}>{profile}</option>)}
                 </select>
               </label>
               {error('hairLength')}
-              <div className="p-3.5 rounded-sm bg-[#F2EEF1] text-xs text-[#493D46] space-y-1">
-                <p className="font-medium text-[#2A2128]">{selectedService.name}</p>
+              <div className="p-3.5 rounded-sm bg-[#F5F0F3] text-xs text-[#40343D] space-y-1">
+                <p className="font-medium text-[#2A2028]">{selectedService.name}</p>
                 <p>{selectedService.consultationNote}</p>
               </div>
               <button type="button" onClick={() => goTo(1)} className={`w-full ${nextClass}`}>
@@ -210,7 +210,7 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
           {step === 1 && (
             <div className="space-y-4">
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Stylist</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Preferred Stylist</span>
                 <select {...field('artisanId')}>
                   <option value="">No preference</option>
                   {availableArtisans.map((artisan) => (
@@ -220,14 +220,14 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
               </label>
               {error('artisanId')}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Time Window</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Preferred Time Window</span>
                 <select {...field('preferredWindow')}>
                   {bookingWindows.map((window) => <option key={window}>{window}</option>)}
                 </select>
               </label>
               {error('preferredWindow')}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Preferred Date (Optional)</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Preferred Date (Optional)</span>
                 <input type="date" min={todayAtStudio()} {...field('preferredDate')} />
               </label>
               {error('preferredDate')}
@@ -243,24 +243,24 @@ export function EnquiryForm({ draft }: { draft?: EnquiryDraft }) {
           {step === 2 && (
             <div className="space-y-4">
               <input type="hidden" {...field('companyWebsite')} />
-              {errors.companyWebsite && <p role="alert" className="text-xs text-[#844D60]">Please review the form.</p>}
+              {errors.companyWebsite && <p role="alert" className="text-xs text-[#7B4A60]">Please review the form.</p>}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Full Name *</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Full Name *</span>
                 <input type="text" required autoComplete="name" placeholder="e.g., Aditi Sharma" {...field('guestName')} />
               </label>
               {error('guestName')}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Email or Phone Number *</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Email or Phone Number *</span>
                 <input type="text" required placeholder="e.g., aditi@example.com" {...field('contactHandle')} />
               </label>
               {error('contactHandle')}
               <label className="block space-y-1.5 text-xs">
-                <span className="uppercase tracking-[0.14em] text-[#493D46]">Notes</span>
+                <span className="uppercase tracking-[0.14em] text-[#40343D]">Notes</span>
                 <textarea rows={3} placeholder="Share anything helpful for your stylist." {...field('notes')} />
               </label>
               {error('notes')}
-              <p className="flex items-start gap-2 text-xs text-[#493D46]">
-                <Info aria-hidden="true" className="w-3.5 h-3.5 text-[#844D60] shrink-0 mt-0.5" />
+              <p className="flex items-start gap-2 text-xs text-[#40343D]">
+                <Info aria-hidden="true" className="w-3.5 h-3.5 text-[#7B4A60] shrink-0 mt-0.5" />
                 Use sample contact details for this portfolio preview.
               </p>
               <div className="flex flex-col sm:flex-row gap-2">

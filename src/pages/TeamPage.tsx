@@ -17,7 +17,7 @@ export function TeamPage() {
       description={`Every ${studioConfig.brand.name} specialist works unhurriedly by window light—pairing technical precision with thoughtful listening.`}
       surface="porcelain"
     >
-      <section className="py-14 md:py-20 bg-[#FAF8F7]">
+      <section className="py-14 md:py-20 bg-[#FCFAFA]">
         <div className="max-w-7xl mx-auto px-5 md:px-10 space-y-16">
           {artisans.map((artisan, idx) => {
             const pillar = mirrorPillars.find((m) => m.id === artisan.pillarId);
@@ -25,11 +25,11 @@ export function TeamPage() {
             return (
               <article
                 key={artisan.id}
-                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-14 border-b border-[#DCD2D8] last:border-b-0"
+                className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-14 border-b border-[#DED2DA] last:border-b-0"
               >
                 <div className={`lg:col-span-5 ${reverse ? 'lg:order-2' : ''}`}>
                   <div className="relative max-w-md mx-auto">
-                    <div className="aspect-[3/4] rounded-sm overflow-hidden border border-[#DCD2D8] shadow-sm bg-[#F2EEF1]">
+                    <div className="aspect-[3/4] rounded-sm overflow-hidden border border-[#DED2DA] shadow-sm bg-[#F5F0F3]">
                       <StudioPicture
                         mediaId={artisan.mediaId}
                         objectPosition={artisan.imagePosition}
@@ -41,23 +41,23 @@ export function TeamPage() {
                 </div>
 
                 <div className={`lg:col-span-7 space-y-5 ${reverse ? 'lg:order-1' : ''}`}>
-                  <div className="flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-[#844D60] font-semibold">
+                  <div className="flex flex-wrap items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-[#7B4A60] font-semibold">
                     <span>
                       0{idx + 1} · {pillar?.title}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-[#E7DFEB] text-[#493D46]">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#E8DFED] text-[#40343D]">
                       {artisan.experienceYears} Years Experience
                     </span>
                   </div>
 
                   <div>
-                    <h2 className="font-campaign text-3xl md:text-4xl font-bold text-[#2A2128]">
+                    <h2 className="font-campaign text-3xl md:text-4xl font-bold text-[#2A2028]">
                       {artisan.name}
                     </h2>
-                    <p className="text-sm font-medium text-[#493D46] mt-1">{artisan.role}</p>
+                    <p className="text-sm font-medium text-[#40343D] mt-1">{artisan.role}</p>
                   </div>
 
-                  <blockquote className="font-whisper text-xl md:text-2xl text-[#2A2128] leading-relaxed border-l-2 border-[#B77F91] pl-4">
+                  <blockquote className="font-whisper text-xl md:text-2xl text-[#2A2028] leading-relaxed border-l-2 border-[#98647A] pl-4">
                     “{artisan.quote}”
                   </blockquote>
 
@@ -65,7 +65,7 @@ export function TeamPage() {
                     {artisan.specialties.map((sp) => (
                       <span
                         key={sp}
-                        className="px-3.5 py-1 rounded-full bg-[#F2EEF1] text-xs text-[#2A2128]"
+                        className="px-3.5 py-1 rounded-full bg-[#F5F0F3] text-xs text-[#2A2028]"
                       >
                         {sp}
                       </span>
@@ -81,7 +81,7 @@ export function TeamPage() {
                           sourceLabel: `Stylist Profile — ${artisan.name}`,
                         })
                       }
-                      className="px-6 py-3 rounded-full bg-[#493D46] text-[#FAF8F7] text-xs uppercase tracking-[0.15em] hover:bg-[#844D60] transition-colors cursor-pointer"
+                      className="px-6 py-3 rounded-full bg-[#40343D] text-[#FCFAFA] text-xs uppercase tracking-[0.15em] hover:bg-[#7B4A60] transition-colors cursor-pointer"
                     >
                       Book with {artisan.name.split(' ')[0]} →
                     </button>
@@ -93,11 +93,11 @@ export function TeamPage() {
                           artisanName: artisan.name,
                         })
                       }
-                      className="px-4 py-3 rounded-sm border border-[#DCD2D8] text-xs text-[#2A2128] hover:border-[#844D60]/55 hover:bg-[#F2EEF1] cursor-pointer"
+                      className="px-4 py-3 rounded-sm border border-[#DED2DA] text-xs text-[#2A2028] hover:border-[#7B4A60]/55 hover:bg-[#F5F0F3] cursor-pointer"
                     >
                       Message on WhatsApp
                     </button>
-                    <span className="text-xs text-[#493D46] tabular">
+                    <span className="text-xs text-[#40343D] tabular">
                       Appointments from {formatCurrency(artisan.consultationTierInr)}
                     </span>
                   </div>

@@ -14,31 +14,31 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-[#F2EEF1] text-[#2A2128] border-t border-[#DCD2D8] pb-20 md:pb-0">
+    <footer className="bg-[#F5F0F3] text-[#2A2028] border-t border-[#DED2DA] pb-20 md:pb-0">
       <div className="max-w-7xl mx-auto px-5 md:px-10 py-14 space-y-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           {/* Salon Identity */}
           <div className="md:col-span-4 space-y-4">
-            <Link to="/" className="font-campaign text-base font-bold tracking-[0.28em] text-[#2A2128]">
+            <Link to="/" className="font-campaign text-base font-bold tracking-[0.28em] text-[#2A2028]">
               {studioConfig.brand.wordmark}
             </Link>
-            <p className="text-sm text-[#493D46] leading-relaxed max-w-sm">
+            <p className="text-sm text-[#40343D] leading-relaxed max-w-sm">
               {studioConfig.brand.tagline}
             </p>
             <button
               type="button"
               onClick={handleReplayEntrance}
-              className="inline-flex items-center gap-2 px-4 py-2 text-[11px] uppercase tracking-[0.15em] rounded-full border border-[#493D46]/35 bg-[#FAF8F7] text-[#2A2128] hover:border-[#844D60] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-[11px] uppercase tracking-[0.15em] rounded-full border border-[#40343D]/35 bg-[#FCFAFA] text-[#2A2028] hover:border-[#7B4A60] transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-[#844D60]" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#7B4A60]" />
               Replay Salon Entrance
             </button>
           </div>
 
           {/* Navigation Links */}
           <div className="md:col-span-2 space-y-3">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">Explore</p>
-            <ul className="space-y-2 text-xs text-[#2A2128]">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#7B4A60]">Explore</p>
+            <ul className="space-y-2 text-xs text-[#2A2028]">
               <li>
                 <Link to="/" className="hover:underline underline-offset-4">Home</Link>
               </li>
@@ -57,9 +57,9 @@ export function Footer() {
 
           {/* Salon Address & Hours */}
           <div className="md:col-span-3 space-y-3">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">Salon &amp; Hours</p>
-            <div className="text-xs text-[#493D46] space-y-1 leading-relaxed">
-              <p className="font-medium text-[#2A2128]">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#7B4A60]">Salon &amp; Hours</p>
+            <div className="text-xs text-[#40343D] space-y-1 leading-relaxed">
+              <p className="font-medium text-[#2A2028]">
                 {studioConfig.locale.neighborhood}, {studioConfig.locale.city}
               </p>
               <p>{studioConfig.location.addressLine1}</p>
@@ -67,10 +67,10 @@ export function Footer() {
                 {studioConfig.location.addressLine2} {studioConfig.location.postalCode}
               </p>
             </div>
-            <div className="pt-2 space-y-1 text-xs text-[#493D46]">
+            <div className="pt-2 space-y-1 text-xs text-[#40343D]">
               {studioConfig.location.hours.map((h) => (
                 <p key={h.days}>
-                  <span className="text-[#2A2128] font-medium">{h.days}:</span> {h.hours}
+                  <span className="text-[#2A2028] font-medium">{h.days}:</span> {h.hours}
                 </p>
               ))}
             </div>
@@ -78,15 +78,15 @@ export function Footer() {
 
           {/* Direct Booking & WhatsApp */}
           <div className="md:col-span-3 space-y-3">
-            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#844D60]">Appointments</p>
-            <p className="text-xs text-[#493D46] leading-relaxed">
+            <p className="text-[10px] uppercase tracking-[0.2em] font-semibold text-[#7B4A60]">Appointments</p>
+            <p className="text-xs text-[#40343D] leading-relaxed">
               Schedule your consultation online or compose a formatted WhatsApp inquiry directly.
             </p>
             <div className="flex flex-col gap-2 pt-1">
               <button
                 type="button"
                 onClick={() => openEnquiry({ sourceLabel: 'Footer Booking' })}
-                className="px-4 py-2.5 text-xs rounded-full bg-[#493D46] text-[#FAF8F7] text-center hover:bg-[#844D60] transition-colors cursor-pointer"
+                className="px-4 py-2.5 text-xs rounded-full bg-[#40343D] text-[#FCFAFA] text-center hover:bg-[#7B4A60] transition-colors cursor-pointer"
               >
                 Book a Visit →
               </button>
@@ -98,7 +98,7 @@ export function Footer() {
                     preferredWindow: 'Weekday Morning (10:30 – 13:30)',
                   })
                 }
-                className="px-4 py-2.5 text-xs rounded-full border border-[#493D46]/35 bg-[#FAF8F7]/80 text-[#2A2128] text-center hover:bg-[#FAF8F7] transition-colors cursor-pointer"
+                className="px-4 py-2.5 text-xs rounded-full border border-[#40343D]/35 bg-[#FCFAFA]/80 text-[#2A2028] text-center hover:bg-[#FCFAFA] transition-colors cursor-pointer"
               >
                 Message on WhatsApp
               </button>
@@ -107,7 +107,7 @@ export function Footer() {
         </div>
 
         {/* Single Discreet Portfolio Showcase Disclosure */}
-        <div className="pt-6 border-t border-[#DCD2D8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] text-[#493D46]">
+        <div className="pt-6 border-t border-[#DED2DA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] text-[#40343D]">
           <p>{studioConfig.brand.footerDisclosure}</p>
           <p className="shrink-0">{studioConfig.brand.fullName} · {studioConfig.locale.city}</p>
         </div>
