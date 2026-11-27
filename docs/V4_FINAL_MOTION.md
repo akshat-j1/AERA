@@ -2,7 +2,7 @@
 
 The motion branch starts from approved visual commit `40006f8`. The independently audited `58641ed` remains available through the local `v4-motion-craftsmanship-baseline` tag.
 
-## Motion
+## Motion at the initial polish checkpoint
 
 - The Process shares the same scroll position for both photo plates, the liquid displacement and the active copy. Each boundary spans 0.78 of a stage interval, up from 0.50. The desktop maximum displacement drops from 76 to 69 and the touch maximum from 50 to 46. The original plate fills transparent edges during the wave. Desktop scrub settles over 180 ms and touch selection over 900 ms.
 - The Process and comparison hosts use 156vh and 138vh on motion-enabled desktop. The comparison retains its full endpoints, keyboard controls, native vertical touch panning and the disclosure beside the approved illustrative pair. Minor facial contour differences remain in the pair.
@@ -34,3 +34,7 @@ Keep the existing public repository decision with its owner. Seek the required p
 5. Check actual iOS and Android hardware, screen-reader announcements and the eventual public origin's field performance. Gather consented or otherwise cleared photographs and releases before a real salon handoff.
 
 Local comparison evidence is under `audit-captures/v4-final-motion-polish/`. The rollout remains a local preview until the owner approves the public media decision and the Vercel verification.
+
+## Scroll pacing follow-up
+
+Desktop Process and Before & After now use 176vh and 152vh. At 1440×900 that adds 180 px to the Process pin and 126 px to the comparison wipe. Desktop and tablet scroll select the Process stage, and each neighboring-stage transition then plays for about 0.8 s, even if scrolling stops. Crossing a threshold in reverse retargets the same ripple without stacking animations. Tablets keep a natural vertical layout, and the comparison uses a wider viewport range below the desktop breakpoint. Phones retain the Process stage controls.

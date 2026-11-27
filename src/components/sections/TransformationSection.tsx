@@ -22,8 +22,9 @@ export function TransformationSection() {
   const displacement = useRef<SVGFEDisplacementMapElement>(null);
   const plates = useRef<(HTMLDivElement | null)[]>([]);
   const active = useRef(0);
-  const cursor = useRef({ progress: 0 });
-  const tapTween = useRef<gsap.core.Tween | null>(null);
+  const cursor = useRef({ progress: stepCenter(0) });
+  const target = useRef(0);
+  const ripple = useRef<gsap.core.Tween | null>(null);
   const reducedMotion = useReducedMotion();
   const stage = transformationStages[stageIndex]!;
 
@@ -63,26 +64,55 @@ export function TransformationSection() {
     }
   }
 
+  function animateStage(index: number, desktop: boolean) {
+    if (index === target.current) return;
+    target.current = index;
+    ripple.current?.kill();
+    ripple.current = gsap.to(cursor.current, {
+      progress: stepCenter(index),
+      duration: Math.abs(cursor.current.progress - stepCenter(index)) > 1 / steps + 0.01 ? 1.05 : 0.78,
+      ease: 'power1.inOut',
+      onUpdate: () => draw(cursor.current.progress, desktop),
+      onComplete: () => { ripple.current = null; },
+    });
+  }
+
   useGSAP(() => {
     if (reducedMotion || !host.current) return;
+    const panel = host.current;
+    const photo = glass.current?.parentElement;
     const media = gsap.matchMedia();
-    media.add('(min-width: 1024px)', () => {
-      tapTween.current?.kill();
-      tapTween.current = null;
-      const driver = { progress: 0 };
-      gsap.to(driver, {
-        progress: 1,
-        ease: 'none',
-        onUpdate: () => draw(driver.progress, true),
-        scrollTrigger: { trigger: host.current, start: 'top top+=64', end: 'bottom bottom', scrub: 0.18 },
+    target.current = active.current;
+    cursor.current.progress = stepCenter(active.current);
+    media.add({ desktop: '(min-width: 1024px)', tablet: '(768px <= width < 1024px)' }, ({ conditions }) => {
+      const desktop = !!conditions?.desktop;
+      let scrollStage = -1;
+      function sync({ progress }: ScrollTrigger) {
+        const index = Math.min(steps - 1, Math.floor(progress * steps));
+        if (index === scrollStage) return;
+        scrollStage = index;
+        animateStage(index, desktop);
+      }
+      ScrollTrigger.create({
+        trigger: desktop ? panel : photo,
+        start: desktop ? 'top top+=64' : 'top 85%',
+        end: desktop ? 'bottom bottom' : 'bottom 22%',
+        onUpdate: sync,
+        onRefresh: sync,
       });
-      return () => draw(stepCenter(active.current), false);
+      return () => {
+        ripple.current?.kill();
+        ripple.current = null;
+        target.current = active.current;
+        cursor.current.progress = stepCenter(active.current);
+        draw(cursor.current.progress, false);
+      };
     });
 
     return () => {
-      tapTween.current?.kill();
-      tapTween.current = null;
       media.revert();
+      ripple.current?.kill();
+      ripple.current = null;
       for (const plate of plates.current) {
         plate?.style.removeProperty('visibility');
         plate?.style.removeProperty('z-index');
@@ -107,15 +137,7 @@ export function TransformationSection() {
       return;
     }
 
-    if (!tapTween.current) cursor.current.progress = stepCenter(active.current);
-    tapTween.current?.kill();
-    tapTween.current = gsap.to(cursor.current, {
-      progress: stepCenter(index),
-      duration: 0.9,
-      ease: 'power2.inOut',
-      onUpdate: () => draw(cursor.current.progress, false),
-      onComplete: () => { tapTween.current = null; },
-    });
+    animateStage(index, false);
   }
 
   return (
@@ -130,7 +152,7 @@ export function TransformationSection() {
         </defs>
       </svg>
 
-      <div ref={host} className="aera-process-host relative lg:motion-safe:enhanced:h-[156vh]">
+      <div ref={host} className="aera-process-host relative lg:motion-safe:enhanced:h-[176vh]">
         <div className="py-12 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
           <div className="max-w-7xl mx-auto px-5 md:px-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-6 space-y-6">
@@ -153,7 +175,7 @@ export function TransformationSection() {
                     </button>
                   ))}
                 </div>
-                <div ref={stageCopy} className="space-y-2 min-h-[6.8rem]">
+                <div ref={stageCopy} className="space-y-2 min-h-[6.8rem] md:max-lg:min-h-32">
                   <h3 className="font-editorial text-2xl md:text-3xl font-semibold">{stage.title}</h3>
                   <p className="text-sm md:text-base text-[#40343D] max-w-lg leading-relaxed">{stage.description}</p>
                 </div>

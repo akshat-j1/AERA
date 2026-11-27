@@ -76,8 +76,8 @@ export function TransformationComparison() {
       };
       ScrollTrigger.create({
         trigger: desktop ? host.current : frame.current,
-        start: desktop ? 'top top+=64' : 'top 62%',
-        end: desktop ? 'bottom bottom' : 'bottom 34%',
+        start: desktop ? 'top top+=64' : 'top 75%',
+        end: desktop ? 'bottom bottom' : 'bottom 22%',
         onUpdate: sync,
         onRefresh: sync,
       });
@@ -155,7 +155,7 @@ export function TransformationComparison() {
   }
 
   return (
-    <div ref={host} className="relative lg:motion-safe:enhanced:h-[138vh] aera-compare-section">
+    <div ref={host} className="relative lg:motion-safe:enhanced:h-[152vh] aera-compare-section">
       <div className="py-14 lg:motion-safe:enhanced:py-0 lg:motion-safe:enhanced:sticky lg:motion-safe:enhanced:top-16 lg:motion-safe:enhanced:h-[calc(100vh-4rem)] flex items-center">
         <div className="max-w-7xl mx-auto px-5 md:px-10 w-full space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">

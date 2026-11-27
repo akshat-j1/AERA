@@ -288,6 +288,23 @@ test.describe('technical foundation desktop regressions', () => {
     await expect(page.locator('feDisplacementMap')).toHaveAttribute('scale', '0');
   });
 
+  test('the desktop Process finishes its ripple after scrolling stops', async ({ page }) => {
+    await openHome(page);
+    const panel = page.locator('.aera-process-host');
+    const displacement = page.locator('feDisplacementMap');
+    const stop = await panel.evaluate((element) => {
+      const start = element.getBoundingClientRect().top + scrollY - 64;
+      const travel = element.clientHeight - innerHeight + 64;
+      const stop = Math.round(start + travel * 0.39);
+      scrollTo({ top: stop, behavior: 'instant' });
+      return stop;
+    });
+    await expect(displacement).not.toHaveAttribute('scale', '0');
+    await expect(panel.getByRole('heading', { name: 'Hand-Painted Dimension' })).toBeVisible();
+    await expect(displacement).toHaveAttribute('scale', '0');
+    expect(await page.evaluate(() => scrollY)).toBe(stop);
+  });
+
   test('vertical wheel moves the stylist rail in both directions with space to exit and manual control', async ({ page }) => {
     await openHome(page);
     const rail = page.locator('[data-stylist-rail]');
