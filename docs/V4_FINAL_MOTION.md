@@ -11,7 +11,7 @@ The motion branch starts from approved visual commit `40006f8`. The independentl
 
 ## Media and release decision
 
-The recorded public refs still place `main` and the Phase 2 tag at `7861d30`. They expose four MP4 files and four derived posters at `public/media/videos/`. The public V3 branch and tag expose different files at the same paths. This branch removes the stock-derived Phase 2 screenshot from its current tree. The latest production output serves the existing AERA stills and directs visitors to the Mixkit source pages. The opt-in local player remains available for authorized footage.
+The pre-cleanup public refs placed `main` and the Phase 2 tag at `7861d30`. Those refs exposed four MP4 files and four derived posters at `public/media/videos/`. The V3 branch and tag held different files at the same paths. This branch removes the stock-derived Phase 2 screenshot from its current tree. The latest production output serves the existing AERA stills and directs visitors to the Mixkit source pages. The opt-in local player remains available for authorized footage.
 
 Mixkit's free item licence permits commercial and non-commercial project use. The provider's terms restrict supplying items to third parties except as expressly permitted. Those terms and the item pages do not establish rights to publish standalone clips or posters through a public repository or reusable client package. The earlier V3 sources and asset-level handoff rights for the generated concept photos remain open. [Mixkit Stock Video Free License](https://mixkit.co/license/modal/videoFree/) · [Mixkit terms](https://mixkit.co/terms/)
 
@@ -33,7 +33,7 @@ Keep the existing public repository decision with its owner. Seek the required p
 4. Verify the deployed security headers, redirects, HTTPS, runtime CSP and caching under the actual hostname. The preview enforces the same document CSP locally. The production build checks the entrance bootstrap against the CSP hash. Retest the entrance, fonts, route transition, mirror, SVG, comparison and booking against the deployed policy. Check immutable assets separately from default HTML and media caching.
 5. Check actual iOS and Android hardware, screen-reader announcements and the eventual public origin's field performance. Gather consented or otherwise cleared photographs and releases before a real salon handoff.
 
-Local comparison evidence is under `audit-captures/v4-final-motion-polish/`. The rollout remains a local preview until the owner approves the public media decision and the Vercel verification.
+Local comparison evidence is under `audit-captures/v4-final-motion-polish/`. The repository configuration disables Git-triggered Vercel deployments. The owner handles the manual deployment and hosted verification.
 
 ## Scroll pacing follow-up
 

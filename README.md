@@ -11,7 +11,7 @@
 - [Project Objectives & Creative Vision](#project-objectives--creative-vision)
 - [Current Status & Milestone History](#current-status--milestone-history)
 - [Signature Animations & Interactive Experiences](#signature-animations--interactive-experiences)
-- [Screenshots (V4 Phase 2)](#screenshots-v4-phase-2)
+- [Screenshots](#screenshots)
 - [Supported Routes & Features](#supported-routes--features)
 - [Technology Stack](#technology-stack)
 - [Architecture Overview](#architecture-overview)
@@ -20,7 +20,7 @@
 - [Testing & Accessibility Verification](#testing--accessibility-verification)
 - [Commercial Customization (`src/config/*`)](#commercial-customization-srcconfig)
 - [Media Licensing & Portfolio Disclosure](#media-licensing--portfolio-disclosure)
-- [Known Limitations & Roadmap](#known-limitations--roadmap)
+- [Release verification](#release-verification)
 
 ---
 
@@ -28,7 +28,7 @@
 
 AERA Beauty Studio was built as a flagship portfolio project demonstrating interactive craft alongside maintainable, white-label commercial architecture:
 
-1. **Quiet Soft-Luxury Editorial Aesthetic**: Porcelain (`#FAF8F7`) and alabaster (`#F2EEF1`) breathing room paired with soft lilac (`#E7DFEB`), dusty rose (`#D8ADB6`), muted berry accents (`#844D60` / `#B77F91`), and plum ink typography (`#493D46` / `#2A2128`), intentionally distinct from heavy gold/burgundy retail templates.
+1. **Quiet Soft-Luxury Editorial Aesthetic**: Alternative A pairs Porcelain (`#FCFAFA`), Soft Lilac (`#E8DFED`) and Dusty Rose (`#DDBBC7`) with Rich Mauve (`#98647A`) and Plum Ink (`#40343D`). Darker berry ink supports small labels and focus indicators.
 2. **Typography Pairing**: Geometric sculptural display (`Syne Variable`) balanced with restrained `Fraunces Variable` italic accents and clean `Plus Jakarta Sans Variable` UI copy with `tabular-nums` currency alignment (`₹ INR`).
 3. **Environmental Storytelling (~70% calm layout / ~20% refined motion / ~10% signature moments)**: Architectural salon doors open straight into the sunlit salon hero; studio services live behind frosted mirror veils rather than monotonous boxes.
 4. **White-Label Configurability & Engineering Rigor**: All brand copy, studio coordinates, services, lookbook plates, team artisans, bridal packages, media metadata, and commercial video provenance live cleanly inside `src/config/*`, backed by unit tests, static SSR prerendering, native modal focus management, and automated Playwright + axe audits.
@@ -37,14 +37,14 @@ AERA Beauty Studio was built as a flagship portfolio project demonstrating inter
 
 ## Current Status & Milestone History
 
-- **Current Milestone** — **V4 Phase 3** on `feat/v4-motion-craftsmanship`. [Phase 3 implementation and verification](docs/V4_PHASE3.md).
+- **Current milestone** — Final V4 portfolio release candidate on `main`. [Visual handoff](docs/V4_FINAL_POLISH.md) · [Motion and release handoff](docs/V4_FINAL_MOTION.md).
 - **Milestone Progression Preserved in Git**:
   - **V1 (`v1-initial-baseline`)**: Core multi-route application scaffold, initial closed-door entrance, living mirror room, responsive `sharp` media pipeline, and Vitest/Playwright suite.
   - **V2 (`feat/visual-refinement-v2` / `v2-baseline`)**: Pinned split transformation comparison, extended studio imagery, and subpage editorial polish.
   - **V3 (`feat/visual-refinement-v3` / `v3-audited-baseline`)**: Shift to contemporary `Syne` + `Plus Jakarta Sans` + Porcelain/Lilac palette, vertical reels strip, and independent Codex audit baseline (`6.1/10`).
   - **V4 Phase 1 (`fix/v4-technical-foundation`)**: Codex technical remediation resolving SSR route hydration, `/404` status handling, fail-open `#aera-entrance` resilience, native modal stacking (`StudioDialog`), single-reel playback arbitration, touch-friendly comparison sliders, and Web Vitals / axe baseline.
   - **V4 Phase 2 (`v4-phase2-baseline`)** — Architectural entrance, matched illustrative Before/After pair, shorter homepage, and mobile reels rail.
-  - **V4 Phase 3 (`feat/v4-motion-craftsmanship`)** — Opaque photographic door leaves, a layered daylight hero, tighter scroll choreography, reversible Process refraction, a native stylist rail and default reel cards that link to the source clips.
+  - **V4 Phase 3 (`v4-motion-craftsmanship-baseline`, local checkpoint)** — Opaque photographic door leaves, a layered daylight hero, tighter scroll choreography, reversible Process refraction, a native stylist rail and default reel cards that link to the source clips.
 
 ---
 
@@ -52,17 +52,17 @@ AERA Beauty Studio was built as a flagship portfolio project demonstrating inter
 
 - **Closed-to-Open Architectural Entrance** — The prerendered scene crops the façade and both opaque leaves from `doors-closed`. A 3D hinge swing and forward push reveal the live homepage in about 2.44 seconds. The native dialog supports Escape, Skip Entrance, once-per-session playback, explicit replay and reduced-motion bypass.
 - **Interactive Living Mirror Room (`LivingMirrorWall.tsx`)**: Four architectural mirror hotspots embedded across the plastered salon wall (`Haircuts`, `Colour`, `Skincare`, `Bridal`). Selecting or activating a mirror clears its frosted veil to display tailored treatment highlights, duration, and starting `₹ INR` pricing.
-- **Pinned Process** — A `160vh` desktop scroll region with a sticky composition links three treatments through an organic wipe and directional SVG refraction. Touch controls step through the treatments on mobile.
-- **Before & After** — The `146vh` desktop scroll wipe traverses the illustrative portrait pair. Pointer drag and keyboard controls hold the chosen position until the visitor resumes the wipe or scrolls away. Vertical swipes retain native scrolling.
+- **Pinned Process** — A `176vh` desktop scroll region holds the composition while scroll thresholds select three treatments. The ripple finishes after scrolling stops. Tablet scroll triggers the same transition in the natural page flow, and phones use stage controls.
+- **Before & After** — The `152vh` desktop scroll region traverses the illustrative portrait pair. Pointer drag and keyboard controls hold the chosen position until the visitor resumes the wipe or scrolls away. Vertical swipes retain native scrolling.
 - **Opposing Kinetic Typography** — Scroll position moves the two lines in opposite directions between the hero and mirror room.
 - **Stylist and Reels Rails** — Desktop vertical scrolling advances the stylist portraits through their native horizontal overflow. Arrow controls remain available and touch layouts use native swipe. With preview footage enabled, the player loads on demand, pauses offscreen or in a background tab, and allows one active video at a time.
 - **Chair Sanctuary & Native Modal Enquiry (`ChairSanctuarySection.tsx`, `EnquiryDrawer.tsx`, `StudioDialog.tsx`, `WhatsappPreviewModal.tsx`)**: Accessible multi-step appointment preview drawer validated with Zod and Bengaluru (`Asia/Kolkata`) date constraints, plus a live URL-encoded WhatsApp message composition modal with nested focus restoration.
 
 ---
 
-## Screenshots (V4 Phase 2)
+## Screenshots
 
-The Phase 3 comparison and recordings are generated locally under `audit-captures/v4-phase3/`. The images below document the Phase 2 checkpoint.
+Captured from the approved final production build. The Before & After study is illustrative.
 
 | Entrance (Closed Fluted Glass) | Desktop Hero (`1440×900`) |
 | :---: | :---: |
@@ -170,7 +170,7 @@ npm run build
 npm run preview -- --host 127.0.0.1 --port 4173 --strictPort
 ```
 
-For production static hosting, serve `dist/` directory indexes directly and configure the host to serve `dist/404.html` with HTTP `404` on unknown routes rather than rewriting every path to `/index.html` with `200`. Review CSP hashes (`#aera-entrance` inline bootstrap in `index.html`) before enforcing strict Content-Security-Policy headers.
+For a manual Vercel deployment, use the checked-in [Vite build, output and header settings](vercel.json). The build explicitly disables local reel packaging and emits `dist/`, including the route documents and custom `404.html`. Set `VITE_AERA_SITE_URL` to the approved HTTPS origin, and follow the [deployment checklist](docs/V4_FINAL_MOTION.md#vercel-checklist) on the deployed hostname. Git-triggered deployments are disabled for this project configuration.
 
 ---
 
@@ -213,13 +213,8 @@ Rebranding AERA for a live salon client requires editing config files rather tha
 
 ---
 
-## Known Limitations & Roadmap
+## Release verification
 
-### Current Limitations
-- **Specialist Team Photography**: Server image-generation capacity (`HTTP 503 UNAVAILABLE`) prevented adding a distinct fourth portrait for `Rhea Deshmukh`; the verified team currently presents 3 artisans (`Meera Rao`, `Kavya Nair`, `Ananya Krishnan` covering `bridal-suite` and `barrier-sculpt-facial`). Three stylist/stage pairs (`stylist-cut`/`stage-consultation`, `stylist-colour`/`stage-colour`, `stylist-styling`/`hero-craft`) plus unused `stylist-skin`/`skincare-facial` reflect tighter vs. wider crops of shared generative shoots.
-- **Verification Scope** — Phase 3 measurements come from local Chromium. Physical iOS and Android, assistive speech output, and field Web Vitals remain outside that coverage.
+The default production build keeps booking and WhatsApp local, retains the fictional-business disclosure, and packages no stock footage. The source links point to the original clips. Generated concept photography requires its own provenance and permissions review before any commercial handoff.
 
-### Next Roadmap Milestones
-- [ ] **Final Independent V4 Audit** — Review the Phase 3 branch against the Phase 2 checkpoint.
-- [ ] **Production Assets & Photography Swap**: Replace AI showcase visuals with verified real client/photographer shoots.
-- [ ] **Live Booking Transport & Security Hardening**: Add authenticated API endpoint or webhook transport for appointments, rate limiting, and host CSP header testing prior to public launch.
+Checks covered Chromium at desktop, laptop, tablet and mobile sizes. Production Vercel routing and headers, physical-device coverage, screen-reader behavior and field metrics remain for the owner's post-deployment verification. [Verification and release checklist](docs/V4_FINAL_MOTION.md)
